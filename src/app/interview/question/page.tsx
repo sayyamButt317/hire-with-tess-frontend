@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+
 import useStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import NoQuestion from "../component/emptycard";
@@ -10,9 +10,7 @@ import GenerateQuestionResponse from "@/hooks/generateQuestiion.hook";
 import Question from "../component/question";
 
 export default function Questionaire() {
-    const searchParams = useSearchParams();
-    const storeJobId = useStore((state) => state.jobId);
-    const jobId = searchParams.get("job_id") || storeJobId;
+    const jobId = useStore((state) => state.jobId); 
 
     const questionmutation = GenerateQuestionResponse();
     const response = questionmutation.data || [];
@@ -55,7 +53,7 @@ export default function Questionaire() {
 
             <div className="flex flex-row justify-end gap-1.5 mr-6">
                 <Button variant="secondary" type="button">Cancel</Button>
-                <Link href={`/interview/review?job_id=${jobId}`}>
+                <Link href="/interview/review">
                     <Button type="submit" disabled={!jobId}>Next Step</Button>
                 </Link>
             </div>

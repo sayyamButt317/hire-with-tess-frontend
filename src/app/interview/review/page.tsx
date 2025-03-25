@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+
 import useStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import CustomForm from "../component/customform";
@@ -12,14 +12,30 @@ import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
 
 export default function InterviewReview() {
-    const searchParams = useSearchParams();
-    const storeJobId = useStore((state) => state.jobId);
-    const jobId = searchParams.get("job_id") || storeJobId;
+    const jobId = useStore((state) => state.jobId);
+
+    // Redirect or show a message if jobId is missing
+    if (!jobId) {
+        return (
+            <InterviewLayout
+                subtitle="Missing Job ID"
+                description="Please go back and enter job details."
+                showStepper={true}
+                currentStep={3}
+            >
+                <div className="w-full p-6 text-center">
+                    <p className="text-gray-500">No Job ID found. Please start the process again.</p>
+                    <Link href="/">
+                        <Button className="mt-4">Go Back</Button>
+                    </Link>
+                </div>
+            </InterviewLayout>
+        );
+    }
 
     // Fetch job details
     const jobDetailsQuery = FetchJobDetails(jobId);
-    const responseData = jobDetailsQuery.data || {};    
-    console.log(responseData)
+    const responseData = jobDetailsQuery.data || {};
 
     // Fetch AI-generated questions
     const questionQuery = FetchQuestions(jobId);
@@ -50,11 +66,11 @@ export default function InterviewReview() {
                 {/* Navigation Buttons */}
                 <div className="flex float-right gap-2 mt-4">
                     <Button variant="secondary">Back</Button>
-                    <Link href="/interview/signup">
+                    {/* <Link href="/interview/signup"> */}
                         <Button className="w-40" type="submit">
                             Sign up to Continue
                         </Button>
-                    </Link>
+                    {/* </Link> */}
                 </div>
             </div>
         </InterviewLayout>
