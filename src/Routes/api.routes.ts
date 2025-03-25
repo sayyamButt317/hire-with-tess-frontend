@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://13.60.186.127:8000/",
+  baseURL: "http://13.60.186.127:8000/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -16,7 +16,7 @@ export const Generate = async (data: {
   salary: string;
 }) => {
   try {
-    const response = await api.post("api/v1/generate-job-details/", data);
+    const response = await api.post(`api/v1/generate-job-details/`, data);
     return response.data;
   } catch (error) {
     console.error("Error generating job details:", error);

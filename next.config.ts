@@ -7,7 +7,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-   
+  images: {
+    domains: ['13.60.186.127'],
+  },
 };
 
 export default nextConfig;
