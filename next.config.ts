@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['13.60.186.127'],
+    remotePatterns: [
+     {
+      protocol:'https',
+      hostname: "13.60.186.127",
+     }
+    ],
   },
 };
 
