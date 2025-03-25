@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://13.60.186.127:8000/",
+  baseURL: "https://13.60.186.127:8000/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -25,7 +25,7 @@ export const Generate = async (data: {
 };
 
 export const GenerateQuestion = async (job_id: string) => {
-    const response = await api.post(`/api/v1/generate-questions/${job_id}`, {
+    const response = await api.post(`api/v1/generate-questions/${job_id}`, {
         job_id
     });
     return response.data.questions; 
@@ -33,7 +33,7 @@ export const GenerateQuestion = async (job_id: string) => {
 
 
 export const GetJobDetails = async (job_id: string) => {
-    const response = await api.get(`/api/v1/generate-job-details/${job_id}`);
+    const response = await api.get(`api/v1/generate-job-details/${job_id}`);
     return response.data; 
 
 };
