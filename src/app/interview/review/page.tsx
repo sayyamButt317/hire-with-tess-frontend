@@ -14,7 +14,6 @@ import FetchQuestions from "@/hooks/FetchQuestions.hook";
 export default function InterviewReview() {
     const jobId = useStore((state) => state.jobId);
 
-    // Redirect or show a message if jobId is missing
     if (!jobId) {
         return (
             <InterviewLayout
