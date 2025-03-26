@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
      {
       protocol:'https',
-      hostname: "13.60.186.127",
+      hostname: "backend.hirewithtess.com",
      }
     ],
   },

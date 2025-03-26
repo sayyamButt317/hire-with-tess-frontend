@@ -1,6 +1,5 @@
 "use client"
 import { Card } from "@/components/ui/card"
-import Stepper from "./component/stepper"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,6 +16,7 @@ import OutputCard from "./component/outputCard"
 import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
 import { LoaderCircle } from "lucide-react"
+import InterviewLayout from "@/components/layout/InterviewLayout";
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
 
@@ -32,10 +32,10 @@ export default function InterviewForm() {
     },
   })
   const ref = useRef<HTMLFormElement>(null)
-  const generatemutation = GenerateResponse();
+  const generateMutation = GenerateResponse();
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    generatemutation.mutate({
+    generateMutation.mutate({
       job_description: data.jobDescription,
       job_title: data.jobTitle,
       job_type: data.jobType,
@@ -46,20 +46,12 @@ export default function InterviewForm() {
   }
 
   // Extract response data
-  const responseData = generatemutation.data || null;
+  const responseData = generateMutation.data || null;
 
   return (
-    <div className="text-center pt-10 pb-10">
-      <h1 className="text-xl text-center font-extralight text-black">Hirewithtess</h1>
-      <h1 className="text-[34px] font-bold">Create an AI-Powered Interview in Second</h1>
-      <p className="mt-4 mb-8 text-gray-600">
-        Enter the job details, and let AI generate tailored interview question for you
-      </p>
-
-      <Card className="mt-4 mx-6 p-4 relative">
-        <div className="flex justify-center w-full mb-8">
-          <Stepper currentStep={1} />
-        </div>
+        <InterviewLayout>
+            <div className=" text-center pt-10 pb-10 w-full">
+      <Card className="flex w-full mt-4 mx-6 p-4 relative">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8">
             <FormField
@@ -152,10 +144,10 @@ export default function InterviewForm() {
               )}
             />
             <Button 
-              disabled={generatemutation.isPending}
+              disabled={generateMutation.isPending}
             className="bg-[#f7941D] hover:bg-[#e88b19]" type="submit">
               <Image src="/images/Vector.png" alt="alt" width={20} height={20} />
-              {generatemutation.isPending && <LoaderCircle className="animate-spin"/>}
+              {generateMutation.isPending && <LoaderCircle className="animate-spin"/>}
                Generate
             </Button>
           </form>
@@ -171,11 +163,11 @@ export default function InterviewForm() {
           : <NoQuestion />}
         <div className="my-2"> 
         <Button 
-  disabled={generatemutation.isPending}
+  disabled={generateMutation.isPending}
   onClick={() => onSubmit(form.getValues())} 
   className="bg-transparent text-black hover:text-white rounded-2xl"
 >
-  {generatemutation.isPending ? "Regenerating....." : "Regenerate response"}
+  {generateMutation.isPending ? "Regenerating....." : "Regenerate response"}
 </Button>
 
             </div>
@@ -189,8 +181,9 @@ export default function InterviewForm() {
           <Button type="submit">Next Step</Button>
         </Link>
       </div>
+            </div>
+            </InterviewLayout>
 
-    </div>
   )
 }
 
