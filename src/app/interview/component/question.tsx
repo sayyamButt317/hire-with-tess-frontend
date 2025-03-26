@@ -3,9 +3,10 @@ import { Input } from "@/components/ui/input";
 
 interface QuestionProps {
     questions: string[];
+    showImage?: boolean;
 }
 
-export default function Question({ questions }: QuestionProps) {
+export default function Question({ questions, showImage = true }: QuestionProps) {
     if (questions.length === 0) {
         return <p className="text-gray-500">No questions available.</p>;
     }
@@ -16,11 +17,12 @@ export default function Question({ questions }: QuestionProps) {
             <ul className="space-y-4 w-full">
                 {questions.map((question, index) => (
                     <div key={index} className="flex items-center gap-4 w-full">
-                        <Image src="/images/AIAvatar.png" alt="bot" width={40} height={40} />
+                        {showImage && (
+                            <Image src="/images/AIAvatar.png" alt="bot" width={40} height={40} />
+                        )}
                         <Input
                             placeholder={question}
                             className="w-full"
-                            
                         />
                     </div>
                 ))}
