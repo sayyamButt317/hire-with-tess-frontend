@@ -33,7 +33,9 @@ export const GenerateQuestion = async (job_id: string) => {
 
 
 export const GetJobDetails = async (job_id: string) => {
-    const response = await api.get(`api/v1/generate-job-details/${job_id}`);
+    const response = await api.get(`api/v1/job/${job_id}`);
     return response.data; 
 
 };
+
+
