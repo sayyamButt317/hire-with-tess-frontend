@@ -22,7 +22,7 @@ export default function OutputCard({
 }: OutputCardProps) {
     return (
         <div className="space-y-4 px-4 sm:px-6 md:px-8">
-            {/* Responsibilities, Requirements, and Skills Section */}
+
             <Card className="p-4 sm:p-6">
                 <div className="text-left">
                     {res.length > 0 && (
@@ -49,7 +49,7 @@ export default function OutputCard({
                 </div>
             </Card>
 
-            {/* Skills Section */}
+
             {skill.length > 0 && (
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                     <Image src={avatarSrc} alt="bot" width={40} height={40} className="shrink-0" />
