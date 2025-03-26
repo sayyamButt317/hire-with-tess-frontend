@@ -9,20 +9,21 @@ import Link from "next/link";
 import GenerateQuestionResponse from "@/hooks/generateQuestiion.hook";
 import Question from "../component/question";
 
-export default function Questionaire() {
+export default function Questionnaire() {
     const jobId = useStore((state) => state.jobId); 
 
-    const questionmutation = GenerateQuestionResponse();
-    const response = questionmutation.data || [];
+    const questionMutation = GenerateQuestionResponse();
+    const response = questionMutation.data || [];
+
 
     const onSubmit = () => {
         if (!jobId) return;
-        questionmutation.mutate({ job_id: jobId });
+        questionMutation.mutate({ job_id: jobId });
     };
 
     return (
         <div>
-            <InterviewLayout showStepper={true} currentStep={2}>
+            <InterviewLayout showStepper={true} currentStep={2} showGoogleLogin={false}>
                 <div className="flex flex-col w-full h-full items-center text-center space-y-4">
 
                     {response.length > 0 ? <Question questions={response} /> : <NoQuestion />}
@@ -32,19 +33,19 @@ export default function Questionaire() {
                             <Button
                                 onClick={onSubmit}
                                 className="bg-transparent text-black mt-8 border  hover:border-white hover:text-white rounded-2xl"
-                                disabled={questionmutation.isPending}
+                                disabled={questionMutation.isPending}
                             >
-                                {questionmutation.isPending ? "Regenerating..." : "Regenerate Response"}
+                                {questionMutation.isPending ? "Regenerating..." : "Regenerate Response"}
                             </Button>
                         ) : (
                             <Button
                                 className="flex items-center gap-2"
                                 type="button"
                                 onClick={onSubmit}
-                                disabled={!jobId || questionmutation.isPending}
+                                disabled={!jobId || questionMutation.isPending}
                             >
                                 <Image src="/images/Vector.png" alt="alt" width={20} height={20} />
-                                {questionmutation.isPending ? "Generating..." : "Generate"}
+                                {questionMutation.isPending ? "Generating..." : "Generate"}
                             </Button>
                         )}
                     </div>
