@@ -11,17 +11,16 @@ export default function Signup() {
             showGoogleLogin={true}
             useCard={false}
         >
-
-            <div className="w-full items-center">
-                <SignupForm />
-                <div className="flex justify-center mt-8">
-
-                    <Button className="w-60"  type="submit">
-                        Sign Up to Continue
-                    </Button>
-    </div>
+            <div className="w-full flex justify-center">
+                <div className="w-full">
+                    <SignupForm />
+                    <div className="flex justify-center mt-8">
+                        <Button className="w-60" type="submit">
+                            Sign Up to Continue
+                        </Button>
+                    </div>
+                </div>
             </div>
         </InterviewLayout>
     )
 }
-
