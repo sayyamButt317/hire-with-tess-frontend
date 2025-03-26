@@ -28,7 +28,7 @@ export default function SignupForm() {
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8 items-center justify-center">
                 <div className="flex gap-4 items-start">
                     <FormField
                         control={form.control}
