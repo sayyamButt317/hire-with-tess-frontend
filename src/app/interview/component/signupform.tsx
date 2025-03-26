@@ -28,15 +28,19 @@ export default function SignupForm() {
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8 items-center justify-center">
-                <div className="flex gap-4 items-start">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                ref={ref}
+                className="space-y-8 flex flex-col items-center"
+            >
+                <div className="flex gap-4 items-start w-full ">
                     <FormField
                         control={form.control}
                         name="firstname"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormLabel>First Name</FormLabel>
-                                <FormControl className="w-xl">
+                                <FormControl>
                                     <Input placeholder="John" type="text" {...field} />
                                 </FormControl>
                                 <FormMessage />
@@ -47,9 +51,9 @@ export default function SignupForm() {
                         control={form.control}
                         name="lastname"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Job Type</FormLabel>
-                                <FormControl className="w-xl">
+                            <FormItem className="w-full">
+                                <FormLabel>Last Name</FormLabel>
+                                <FormControl>
                                     <Input placeholder="Doe" type="text" {...field} />
                                 </FormControl>
                                 <FormMessage />
@@ -57,15 +61,15 @@ export default function SignupForm() {
                         )}
                     />
                 </div>
-                <div className="flex gap-4 items-start">
 
+                <div className="flex gap-4 items-start w-full ">
                     <FormField
                         control={form.control}
                         name="organization"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormLabel>Organization Name</FormLabel>
-                                <FormControl className="w-xl">
+                                <FormControl>
                                     <Input placeholder="King Palm" type="text" {...field} />
                                 </FormControl>
                                 <FormMessage />
@@ -76,10 +80,10 @@ export default function SignupForm() {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormLabel>Email</FormLabel>
-                                <FormControl className="w-xl">
-                                    <Input placeholder="john.doe@gmail.com" type="text" {...field} />
+                                <FormControl>
+                                    <Input placeholder="john.doe@gmail.com" type="email" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -87,16 +91,15 @@ export default function SignupForm() {
                     />
                 </div>
 
-                <div className="flex gap-4 items-start">
-
+                <div className="flex gap-4 items-start w-full ">
                     <FormField
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormLabel>Password</FormLabel>
-                                <FormControl className="w-xl">
-                                    <Input placeholder="******" type="text" {...field} />
+                                <FormControl>
+                                    <Input placeholder="******" type="password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -106,26 +109,28 @@ export default function SignupForm() {
                         control={form.control}
                         name="confirmpassword"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormLabel>Confirm Password</FormLabel>
-                                <FormControl className="w-xl">
-                                    <Input placeholder="******" type="text" {...field} />
+                                <FormControl>
+                                    <Input placeholder="******" type="password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                 </div>
-                <div className="flex items-center space-x-2">
+
+                <div className="flex items-start w-full ">
                     <Checkbox id="terms" />
                     <label
                         htmlFor="terms"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                        I agree to the Terms of Service and acknowledge you have read our Privacy Policy
+                         I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>
                 </div>
             </form>
         </Form>
+
     )
 }
