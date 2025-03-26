@@ -17,6 +17,7 @@ import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
 import { LoaderCircle } from "lucide-react"
 import InterviewLayout from "@/components/layout/InterviewLayout";
+
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
 
@@ -49,141 +50,146 @@ export default function InterviewForm() {
   const responseData = generateMutation.data || null;
 
   return (
-        <InterviewLayout>
-            <div className=" text-center pt-10 pb-10 w-full">
-      <Card className="flex w-full mt-4 mx-6 p-4 relative">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="jobDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Position Overview</FormLabel>
-                  <FormControl>
-                    <Input placeholder="write details here" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="jobTitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Job Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="write details here" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="jobType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Job Type</FormLabel>
-                  <FormControl>
-                    <Input placeholder="write details here" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="write details here" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input placeholder="write details here" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="salary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Salary</FormLabel>
-                  <div className="flex gap-4 items-start">
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Currency" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="USD">USD</SelectItem>
-                        <SelectItem value="AED">AED</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormControl>
-                      <Input placeholder="write details here" type="text" {...field} />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button 
-              disabled={generateMutation.isPending}
-            className="bg-[#f7941D] hover:bg-[#e88b19]" type="submit">
-              <Image src="/images/Vector.png" alt="alt" width={20} height={20} />
-              {generateMutation.isPending && <LoaderCircle className="animate-spin"/>}
-               Generate
-            </Button>
-          </form>
-        </Form>
-      </Card>
+      <><InterviewLayout
+          showGoogleLogin={false}
 
-      <Card className="mt-4 mx-6 p-4 relative">
-        {responseData ?
-          <OutputCard
-            req={responseData.requirements || []}
-            res={responseData.responsibilities || []}
-            skill={responseData.skills || []} />
-          : <NoQuestion />}
-        <div className="my-2"> 
-        <Button 
-  disabled={generateMutation.isPending}
-  onClick={() => onSubmit(form.getValues())} 
-  className="bg-transparent text-black hover:text-white rounded-2xl"
->
-  {generateMutation.isPending ? "Regenerating....." : "Regenerate response"}
-</Button>
+      >
+          <div className=" text-center pt-10 pb-10 w-full">
 
-            </div>
-      </Card>
+              <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8">
+                      <FormField
+                          control={form.control}
+                          name="jobDescription"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Position Overview</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="write details here" {...field} />
+                                  </FormControl>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <FormField
+                          control={form.control}
+                          name="jobTitle"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Job Title</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="write details here" type="text" {...field} />
+                                  </FormControl>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <FormField
+                          control={form.control}
+                          name="jobType"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Job Type</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="write details here" type="text" {...field} />
+                                  </FormControl>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <FormField
+                          control={form.control}
+                          name="companyName"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Company Name</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="write details here" type="text" {...field} />
+                                  </FormControl>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <FormField
+                          control={form.control}
+                          name="location"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Location</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="write details here" type="text" {...field} />
+                                  </FormControl>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <FormField
+                          control={form.control}
+                          name="salary"
+                          render={({field}) => (
+                              <FormItem>
+                                  <FormLabel>Salary</FormLabel>
+                                  <div className="flex gap-4 items-start">
+                                      <Select>
+                                          <SelectTrigger className="w-[180px]">
+                                              <SelectValue placeholder="Currency"/>
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                              <SelectItem value="USD">USD</SelectItem>
+                                              <SelectItem value="AED">AED</SelectItem>
+                                          </SelectContent>
+                                      </Select>
+                                      <FormControl>
+                                          <Input placeholder="write details here" type="text" {...field} />
+                                      </FormControl>
+                                  </div>
+                                  <FormMessage/>
+                              </FormItem>
+                          )}/>
+                      <Button
+                          disabled={generateMutation.isPending}
+                           type="submit">
+                          <Image src="/images/Vector.png" alt="alt" width={20} height={20}/>
+                          {generateMutation.isPending && <LoaderCircle className="animate-spin"/>}
+                          Generate
+                      </Button>
+                  </form>
+              </Form>
 
-      <div className="flex justify-end items-end mt-4 mr-10 gap-4">
-        <Button variant={"secondary"} type="button">
-          Cancel
-        </Button>
-        <Link href="/interview/question">
-          <Button type="submit">Next Step</Button>
-        </Link>
-      </div>
-            </div>
-            </InterviewLayout>
+          </div>
+      </InterviewLayout>
+          <div className="px-4 sm:px-12">
+              <Card className="mt-4 mx-6 p-4 relative items-center">
+                  {responseData ? (
+                      <>
+                          <OutputCard
+                              req={responseData.requirements || []}
+                              res={responseData.responsibilities || []}
+                              skill={responseData.skills || []}
+                          />
 
+                          {/* Regenerate Button */}
+                          <div className="my-2 flex justify-center">
+                              <Button
+                                  disabled={generateMutation.isPending}
+                                  onClick={() => onSubmit(form.getValues())}
+                                  className="bg-transparent text-black hover:text-white  border border-gray-400 hover:border-none rounded-2xl flex items-center justify-center"
+                              >
+                                  {generateMutation.isPending ? "Regenerating....." : "Regenerate response"}
+                              </Button>
+                          </div>
+                      </>
+                  ) : (
+                      <NoQuestion />
+                  )}
+
+              </Card>
+          </div>
+
+          <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-16 gap-4">
+              <Button variant={"secondary"} className=" sm:w-auto" type="button">
+                  Cancel
+              </Button>
+              <Link href="/interview/question">
+                  <Button type="submit" className="w-full sm:w-auto">Next Step</Button>
+              </Link>
+          </div>
+      </>
   )
 }
 
