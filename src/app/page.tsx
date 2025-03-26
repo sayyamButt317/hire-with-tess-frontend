@@ -4,6 +4,7 @@ import EmployerLayout from "@/components/layout/EmployerLayout";
 import useStore from "@/store/home.store";
 import { useRouter } from "next/navigation";
 import Placeholder from "./interview/component/placeholder";
+import React from "react";
 
 export default function Home() {
   const { jobDescription, setJobDescription } = useStore();
