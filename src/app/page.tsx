@@ -31,7 +31,7 @@ export default function Home() {
           </div>
 
           {/* Paragraph */}
-          <p className="text-black font-normal text-center mb-12 mt-8 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
+          <p className="text-black font-thin text-center mb-12 mt-8 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
             Easily generate a shareable link for candidates to complete their
             AI-powered interview anytime, anywhere. No scheduling required.
           </p>
