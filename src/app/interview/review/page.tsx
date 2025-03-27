@@ -7,7 +7,6 @@ import OutputCard from "../component/outputCard";
 import Question from "../component/question";
 import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
-import Link from "next/link";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -16,6 +15,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {useEffect, useRef} from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {Dialog, DialogClose, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import Signup from "@/app/signup/page";
+import {XIcon} from "lucide-react";
 export default function InterviewReview() {
 
     const { jobId } = useStore();
@@ -157,11 +159,33 @@ export default function InterviewReview() {
 
                 <div className="flex float-right gap-2 mt-4">
                     <Button variant="secondary">Back</Button>
-                    <Link href={"/signup"}>
-                        <Button className="w-40" type="submit">
-                            Sign up to Continue
-                        </Button>
-                    </Link>
+
+
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className="w-40">Sign up to Continue</Button>
+                        </DialogTrigger>
+
+
+                        <DialogContent className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                            <div className="bg-white w-full p-6 rounded-lg shadow-lg relative animate-fadeIn">
+
+
+                                <DialogClose asChild>
+                                    <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                                        <XIcon className="w-6 h-6" />
+                                    </button>
+                                </DialogClose>
+
+
+                                <h2 className="text-xl font-semibold mb-4 text-center">Sign Up to Continue</h2>
+                                <Signup />
+
+
+
+                            </div>
+                        </DialogContent>
+                    </Dialog>
 
                 </div>
             </div>
