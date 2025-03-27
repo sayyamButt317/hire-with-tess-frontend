@@ -63,14 +63,14 @@ export default function OutputCard({
                 </Card>
             </div>
 
-            {/* ✅ Show skills with remove option */}
+
             {skills.length > 0 && (
                 <div className="flex items-start gap-4">
                     {showAvatar && (
                         <Image src={avatarSrc} alt="bot" width={40} height={40} className="shrink-0" />
                     )}
                     <Card className="p-4 sm:p-6 w-full">
-                        <InputWrapper items={skills} onRemove={removeSkill} /> {/* ✅ Pass remove function */}
+                        <InputWrapper items={skills} onRemove={removeSkill} />
                     </Card>
                 </div>
             )}
