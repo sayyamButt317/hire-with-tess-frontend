@@ -51,6 +51,6 @@ export const GoogleLoginIn = async (data:{accessToken:string}) =>{
 }
 
 export const GenerateIntrviewLink = async(job_id: string) => {
-    const response = await api.get(`api/v1/interview/${job_id}`);
+    const response = await api.get(`/api/v1/generate-interview-link/${job_id}`);
     return response.data;
 }
