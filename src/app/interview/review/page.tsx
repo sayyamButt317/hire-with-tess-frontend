@@ -2,25 +2,26 @@
 
 import useStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import OutputCard from "../component/outputCard";
 import Question from "../component/question";
 import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { formSchema } from "@/schema/formschema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {formSchema} from "@/schema/formschema";
+import {zodResolver} from "@hookform/resolvers/zod";
 import {useEffect, useRef} from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
 import {Dialog, DialogClose, DialogContent, DialogTrigger} from "@/components/ui/dialog";
 import Signup from "@/app/signup/page";
 import {XIcon} from "lucide-react";
+
 export default function InterviewReview() {
 
-    const { jobId } = useStore();
+    const {jobId} = useStore();
 
     const jobDetailsQuery = FetchJobDetails(jobId);
     const jobData = jobDetailsQuery.data || {};
@@ -40,7 +41,7 @@ export default function InterviewReview() {
     });
 
     const ref = useRef<HTMLFormElement>(null)
-    const { setValue } = form;
+    const {setValue} = form;
 
 
     useEffect(() => {
@@ -66,65 +67,65 @@ export default function InterviewReview() {
                         <FormField
                             control={form.control}
                             name="jobTitle"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Job Title</FormLabel>
                                     <FormControl>
                                         <Input placeholder="write details here"  {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="jobType"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Job Type</FormLabel>
                                     <FormControl>
                                         <Input placeholder="write details here"  {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="companyName"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Company Name</FormLabel>
                                     <FormControl>
                                         <Input placeholder="write details here"  {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="location"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Location</FormLabel>
                                     <FormControl>
                                         <Input placeholder="write details here"  {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="salary"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Salary</FormLabel>
                                     <div className="flex gap-4 items-start">
                                         <Select>
                                             <SelectTrigger className="w-[180px]">
-                                                <SelectValue placeholder="Currency" />
+                                                <SelectValue placeholder="Currency"/>
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="USD">USD</SelectItem>
@@ -135,7 +136,7 @@ export default function InterviewReview() {
                                             <Input placeholder="write details here" type="text" {...field} />
                                         </FormControl>
                                     </div>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
@@ -155,7 +156,7 @@ export default function InterviewReview() {
                 )}
 
 
-                <Question questions={questions} showImage={false} />
+                <Question questions={questions} showImage={false}/>
 
                 <div className="flex float-right gap-2 mt-4">
                     <Button variant="secondary">Back</Button>
@@ -173,13 +174,12 @@ export default function InterviewReview() {
 
                                 <DialogClose asChild>
                                     <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                                        <XIcon className="w-6 h-6" />
+                                        <XIcon className="w-6 h-6"/>
                                     </button>
                                 </DialogClose>
 
 
-                                <Signup />
-
+                                <Signup/>
 
 
                             </div>
