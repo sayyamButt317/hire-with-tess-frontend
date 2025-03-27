@@ -2,9 +2,7 @@
 
 import useStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
-import CustomForm from "../component/customform";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import OutputCard from "../component/outputCard";
 import Question from "../component/question";
 import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
@@ -159,7 +157,7 @@ export default function InterviewReview() {
 
                 <div className="flex float-right gap-2 mt-4">
                     <Button variant="secondary">Back</Button>
-                    <Link href={"/interview/signup"}>
+                    <Link href={"/signup"}>
                         <Button className="w-40" type="submit">
                             Sign up to Continue
                         </Button>
