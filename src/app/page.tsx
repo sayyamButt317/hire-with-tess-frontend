@@ -23,20 +23,18 @@ export default function Home() {
   return (
       <EmployerLayout>
         <div className="max-w-3xl w-full px-4 md:px-6 lg:px-0 text-center">
-          <div className="max-w-5xl mx-auto"> {/* Ensures Centering */}
-            {/* Title */}
+          <div className="max-w-5xl mx-auto">
+
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[60px] font-bold text-white mb-4 sm:mb-6 leading-tight text-center">
               Effortless Hiring with AI-Powered Assessments
             </h2>
           </div>
 
-          {/* Paragraph */}
           <p className="text-black font-thin text-center mb-12 mt-8 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
             Easily generate a shareable link for candidates to complete their
             AI-powered interview anytime, anywhere. No scheduling required.
           </p>
 
-          {/* Placeholder */}
           <div className="w-full text-gray-700 mt-12">
             <Placeholder onChange={handleChange} onSubmit={onSubmit} />
           </div>
