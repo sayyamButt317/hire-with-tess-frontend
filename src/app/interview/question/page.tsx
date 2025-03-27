@@ -26,7 +26,7 @@ export default function Questionnaire() {
             <InterviewLayout showStepper={true} currentStep={2} showGoogleLogin={false}>
                 <div className="flex flex-col w-full h-full items-center text-center space-y-4">
 
-                    {response.length > 0 ? <Question questions={response} /> : <NoQuestion />}
+                    {response.length > 0 ? <Question questions={response}  /> : <NoQuestion title="No Questions Available" description="Kindly Click on the Generae Button below to generate Interview questions" />}
 
                     <div className="mt-auto flex justify-center w-full">
                         {response.length > 0 ? (
