@@ -38,7 +38,7 @@ export default function SignupForm() {
 
 
         signupMutation.mutate(payload);
-        // form.reset()
+        form.reset()
     };
 
     return (
@@ -135,17 +135,17 @@ export default function SignupForm() {
                     />
                 </div>
 
-                <div className="flex items-start w-full gap-4">
+                <div className="flex items-start w-full gap-x-0.5">
                     <Checkbox id="terms" />
                     <label
                         htmlFor="terms"
-                        className="text-sm text-[#1B2559] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-sm font-[Open Sans] text-[16px] font-medium text-[#1B2559]  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                          I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>
                 </div>
-                <Button type="submit" className="w-[528px] h-[64px] cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
-                    {signupMutation.isPending ? "Signing Up..." : "Sign Up"}
+                <Button type="submit" className="w-[528px] h-[64px] font-[roboto] cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
+                    {signupMutation.isPending ? "Signing Up..." : "Sign Up to Continue"}
                 </Button>
             </form>
         </Form>
