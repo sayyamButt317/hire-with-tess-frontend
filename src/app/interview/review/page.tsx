@@ -178,7 +178,6 @@ export default function InterviewReview() {
                                 </DialogClose>
 
 
-                                <h2 className="text-xl font-semibold mb-4 text-center">Sign Up to Continue</h2>
                                 <Signup />
 
 
