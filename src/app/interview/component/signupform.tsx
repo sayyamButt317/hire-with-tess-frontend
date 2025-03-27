@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import useSignupMutation from "@/hooks/SignUP.hook";
+import {Button} from "@/components/ui/button";
 
 export default function SignupForm() {
     const form = useForm<z.infer<typeof signupFormSchema>>({
@@ -21,11 +23,23 @@ export default function SignupForm() {
         },
     })
     const ref = useRef<HTMLFormElement>(null)
+    const signupMutation = useSignupMutation();
 
     const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
-        console.log("SUCCESS", data)
+        const payload = {
+            first_name: data.firstname,
+            last_name: data.lastname,
+            organization_name: data.organization,
+            email: data.email,
+            password: data.password,
+            confirm_password: data.confirmpassword,
+            role: "admin",
+        };
+
+        signupMutation.mutate(payload);
         form.reset()
-    }
+    };
+
     return (
         <Form {...form}>
             <form
@@ -120,15 +134,18 @@ export default function SignupForm() {
                     />
                 </div>
 
-                <div className="flex items-start w-full ">
+                <div className="flex items-start w-full gap-4">
                     <Checkbox id="terms" />
                     <label
                         htmlFor="terms"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-sm text-[#1B2559] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                          I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>
                 </div>
+                <Button type="submit" className="w-[528px] h-[64px] cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
+                    {signupMutation.isPending ? "Signing Up..." : "Sign Up"}
+                </Button>
             </form>
         </Form>
 
