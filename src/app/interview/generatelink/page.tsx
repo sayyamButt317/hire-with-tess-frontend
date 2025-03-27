@@ -22,7 +22,7 @@ export default function GenerateLink(){
                    <h1 className="font-roboto text-[24px] font-bold">Interview Link</h1>
                </div>
 
-               <p className='font-normal text-[16px] '>Copy and share the ink with Candidates</p>
+               <p className='font-normal text-[16px] '>Copy and share the Lnk with Candidates</p>
                <div className="items-center max-w-[483px] mx-auto mt-8">
                    <Input
                        className=""></Input>
