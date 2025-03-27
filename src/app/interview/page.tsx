@@ -15,7 +15,6 @@ import Link from "next/link"
 import OutputCard from "./component/outputCard"
 import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
-import { LoaderCircle } from "lucide-react"
 import InterviewLayout from "@/components/layout/InterviewLayout";
 
 export default function InterviewForm() {
