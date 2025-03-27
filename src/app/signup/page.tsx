@@ -19,18 +19,18 @@ export default function Signup() {
             subtitleClassName="font-roboto font-medium text-[30px] mt-6"
             descriptionClassName="font-roboto font-medium text-[24px] text-[#606778] mt-4"
         >
-            <div className="flex justify-center">
-                <Button
-                    onClick={() => GoogleLoginMutation.mutate(
-                        {accessToken:""}
-                    )}
-                    className="w-[528px] h-[64px] font-normal bg-transparent rounded-2xl mt-10 text-black
-                               hover:bg-transparent border-2 border-solid border-gray-500 flex items-center justify-center gap-2"
-                >
-                    <Image src="/images/google.png" alt="Google Icon" width={20} height={20} />
-                    Continue with Google
-                </Button>
-            </div>
+            {/*<div className="flex justify-center">*/}
+            {/*    <Button*/}
+            {/*        onClick={() => GoogleLoginMutation.mutate(*/}
+            {/*            {accessToken:""}*/}
+            {/*        )}*/}
+            {/*        className="w-[528px] h-[64px] font-normal bg-transparent rounded-2xl mt-10 text-black*/}
+            {/*                   hover:bg-transparent border-2 border-solid border-gray-500 flex items-center justify-center gap-2"*/}
+            {/*    >*/}
+            {/*        <Image src="/images/google.png" alt="Google Icon" width={20} height={20} />*/}
+            {/*        Continue with Google*/}
+            {/*    </Button>*/}
+            {/*</div>*/}
 
             <div className="w-full flex justify-center">
                 <div className="w-full mt-4 mb-8">
