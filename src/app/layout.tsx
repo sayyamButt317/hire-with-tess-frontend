@@ -7,7 +7,7 @@ import React from "react";
 const inter = Roboto({
   subsets: ["latin"],
   weight: ['300', '400', '500', '600', '700'],
-  variable: "--font-roboto", // Optional CSS variable
+  variable: "--font-roboto",
   display: 'swap'
 });
 export const metadata: Metadata = {
