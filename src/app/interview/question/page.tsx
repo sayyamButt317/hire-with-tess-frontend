@@ -23,7 +23,8 @@ export default function Questionnaire() {
 
     return (
         <div>
-            <InterviewLayout showStepper={true} currentStep={2} showGoogleLogin={false}>
+            <InterviewLayout showStepper={true} currentStep={2} showGoogleLogin={false}
+                             description="Review,edit, or regenerate questions before finalizing your interview">
                 <div className="flex flex-col w-full h-full items-center text-center space-y-4">
 
                     {response.length > 0 ? <Question questions={response}  /> : <NoQuestion title="No Questions Available" description="Kindly Click on the Generae Button below to generate Interview questions" />}
@@ -52,12 +53,14 @@ export default function Questionnaire() {
                 </div>
             </InterviewLayout>
 
-            <div className="flex flex-row justify-end gap-1.5 mr-6">
+            <div className="flex flex-wrap justify-end gap-2 mr-4 mb-4 sm:gap-1.5 sm:flex-nowrap sm:mr-18">
                 <Button variant="secondary" type="button">Cancel</Button>
                 <Link href="/interview/review">
                     <Button type="submit" disabled={!jobId}>Next Step</Button>
                 </Link>
             </div>
+
+
         </div>
     );
 }
