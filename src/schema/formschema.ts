@@ -1,12 +1,12 @@
-import {z} from "zod"
+import { z } from "zod";
 
-export const formSchema= z.object({
-    jobDescription: z.string().min(3,{message:"write descriptive message"}),
-    jobTitle: z.string().min(1,{message:'write Job Title here'}),
-    jobType: z.string().min(1,{message:"Write Job Type here"}),
-    companyName: z.string().min(2,{message:"Company name here"}),
-    location:z.string().min(3,{message:'enter valid location'}),
-    salary:z.string().min(1,{message:"must be a valid salary"})
-})
+export const formSchema = z.object({
+    jobDescription: z.string().min(3, { message: "Please provide a detailed job description (at least 3 characters)." }),
+    jobTitle: z.string().min(1, { message: "Job title is required." }),
+    jobType: z.string().min(1, { message: "Please specify the job type (e.g., Full-time, Part-time)." }),
+    companyName: z.string().min(2, { message: "Company name must be at least 2 characters long." }),
+    location: z.string().min(3, { message: "Please enter a valid location (at least 3 characters)." }),
+    salary: z.string().min(1, { message: "Please enter a valid salary amount." })
+});
 
 export type FormValidator = z.infer<typeof formSchema>;
