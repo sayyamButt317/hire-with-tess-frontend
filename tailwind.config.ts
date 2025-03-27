@@ -28,6 +28,7 @@ module.exports = {
                 "input-height": "4rem", 
             },
             fontFamily: {
+                roboto:['var(--font-family-roboto)'],
                 sans: ["Inter", "Helvetica Neue", "Arial", "sans-serif"],
             },
         },
