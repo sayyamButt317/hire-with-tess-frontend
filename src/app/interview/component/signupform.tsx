@@ -36,8 +36,9 @@ export default function SignupForm() {
             role: "admin",
         };
 
+
         signupMutation.mutate(payload);
-        form.reset()
+        // form.reset()
     };
 
     return (
