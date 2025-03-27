@@ -17,10 +17,10 @@ export default function NoQuestion({
 }: NoQuestionProps) {
     return (
       
-            <div className="flex flex-col items-center text-center space-y-4">
-                <Image src={imageSrc} alt={title} width={200} height={200} />
-                <h1 className="text-xl font-semibold">{title}</h1>
-                <p className="text-gray-500">{description}</p>
+            <div className="flex flex-col items-center ">
+                <Image src={imageSrc} alt={title} width={184} height={184}  />
+                <h1 className="text-[24px] text-[#170F49]  leading-[46px] font-bold font-[roboto]">{title}</h1>
+                <p className="font-[Open Sans] font-normal text-[16px] leading-[30px] text-[#6F6C90]">{description}</p>
                 {children}
             </div>
       

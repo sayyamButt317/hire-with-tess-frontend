@@ -144,7 +144,7 @@ export default function SignupForm() {
                          I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>
                 </div>
-                <Button type="submit" className="w-[528px] h-[64px] font-[roboto] cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
+                <Button type="submit" className="w-[528px] h-[64px] leading-[20px] font-[roboto]  cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
                     {signupMutation.isPending ? "Signing Up..." : "Sign Up to Continue"}
                 </Button>
             </form>

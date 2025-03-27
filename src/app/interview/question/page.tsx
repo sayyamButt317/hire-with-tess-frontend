@@ -23,7 +23,9 @@ export default function Questionnaire() {
 
     return (
         <div>
-            <InterviewLayout showStepper={true} currentStep={2} showGoogleLogin={false}
+            <InterviewLayout showStepper={true}
+                             currentStep={2}
+                             showGoogleLogin={false}
                              description="Review,edit, or regenerate questions before finalizing your interview">
                 <div className="flex flex-col w-full h-full items-center text-center space-y-4">
 
