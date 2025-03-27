@@ -152,8 +152,8 @@ export default function InterviewForm() {
 
           </div>
       </InterviewLayout>
-          <div className="px-4 sm:px-12">
-              <Card className="mt-4 mx-6 p-4 relative items-center">
+          <div className=" sm:px-18">
+              <Card className="mt-4 p-4  w-full">
                   {responseData ? (
                       <>
                           <OutputCard
