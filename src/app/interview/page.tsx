@@ -46,7 +46,6 @@ export default function InterviewForm() {
     });
   }
 
-  // Extract response data
   const responseData = generateMutation.data || null;
 
   return (
@@ -163,7 +162,7 @@ export default function InterviewForm() {
                               skill={responseData.skills || []}
                           />
 
-                          {/* Regenerate Button */}
+
                           <div className="my-2 flex justify-center">
                               <Button
                                   disabled={generateMutation.isPending}
