@@ -17,6 +17,7 @@ import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 
+
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
 
@@ -63,11 +64,12 @@ export default function InterviewForm() {
                               <FormItem>
                                   <FormLabel>Position Overview</FormLabel>
                                   <FormControl>
-                                      <Input placeholder="write details here" {...field} />
+                                      <Input placeholder="write details here" className="font-normal text-[16px]" {...field} />
                                   </FormControl>
                                   <FormMessage/>
                               </FormItem>
                           )}/>
+
                       <FormField
                           control={form.control}
                           name="jobTitle"
@@ -137,7 +139,7 @@ export default function InterviewForm() {
                                           </SelectContent>
                                       </Select>
                                       <FormControl>
-                                          <Input placeholder="write details here" type="text" {...field} />
+                                          <Input placeholder="write details here" type="number" {...field} />
                                       </FormControl>
                                   </div>
                                   <FormMessage/>
