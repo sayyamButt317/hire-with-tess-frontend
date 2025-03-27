@@ -141,11 +141,11 @@ export default function InterviewForm() {
                               </FormItem>
                           )}/>
                       <Button
+                          className="cursor-pointer"
                           disabled={generateMutation.isPending}
                            type="submit">
                           <Image src="/images/Vector.png" alt="alt" width={20} height={20}/>
-                          {generateMutation.isPending && <LoaderCircle className="animate-spin"/>}
-                          Generate
+                          {generateMutation.isPending ? "Generating....." : "Generate"}
                       </Button>
                   </form>
               </Form>
@@ -153,9 +153,12 @@ export default function InterviewForm() {
           </div>
       </InterviewLayout>
           <div className=" sm:px-18">
-              <Card className="mt-4 p-4  w-full">
+              <Card className="mt-4 p-12  w-full">
+
                   {responseData ? (
+
                       <>
+                          <h1 className="font-bold text-2xl">AI Powered Description</h1>
                           <OutputCard
                               req={responseData.requirements || []}
                               res={responseData.responsibilities || []}
@@ -165,6 +168,7 @@ export default function InterviewForm() {
 
                           <div className="my-2 flex justify-center">
                               <Button
+
                                   disabled={generateMutation.isPending}
                                   onClick={() => onSubmit(form.getValues())}
                                   className="bg-transparent text-black hover:text-white  border border-gray-400 hover:border-none rounded-2xl flex items-center justify-center"
@@ -180,12 +184,12 @@ export default function InterviewForm() {
               </Card>
           </div>
 
-          <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-16 gap-4">
-              <Button variant={"secondary"} className=" sm:w-auto" type="button">
+          <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
+              <Button variant={"secondary"} className=" sm:w-auto cursor-pointer" type="button">
                   Cancel
               </Button>
               <Link href="/interview/question">
-                  <Button type="submit" className="w-full sm:w-auto">Next Step</Button>
+                  <Button type="submit" className="w-full sm:w-auto cursor-pointer">Next Step</Button>
               </Link>
           </div>
       </>

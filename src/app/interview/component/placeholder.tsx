@@ -19,7 +19,7 @@ export default function Placeholder({
                 />
                 <Button
                     type="submit"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 bg-orange-400 text-white px-4 sm:px-5 py-2 rounded-full text-sm sm:text-base"
+                    className="absolute cursor-pointer right-2 top-1/2 transform -translate-y-1/2 h-12 bg-orange-400 text-white px-4 sm:px-5 py-2 rounded-full text-sm sm:text-base"
                 >
                     Generate
                 </Button>
