@@ -54,7 +54,7 @@ export default function InterviewLayout({
     );
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 md:px-20 py-10 text-center">
+        <div className="flex flex-col items-center justify-center px-6 md:px-20 py-4 text-center">
             <h1 className="text-2xl font-semibold text-black">{title}</h1>
             <h2 className="text-3xl md:text-4xl font-bold mt-6">{subtitle}</h2>
             <p className="mt-4 text-gray-600 max-w-lg">{description}</p>
@@ -66,7 +66,6 @@ export default function InterviewLayout({
                 </Button>
             )}
 
-            {/* Conditionally Wrap Content in Card */}
             {useCard ? <Card className="w-full mt-8">{Content}</Card> : Content}
         </div>
     );
