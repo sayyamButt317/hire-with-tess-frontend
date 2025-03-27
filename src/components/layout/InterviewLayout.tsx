@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Roboto } from "next/font/google";
+
 
 
 interface InterviewLayoutProps {
@@ -32,7 +32,7 @@ export default function InterviewLayout({
     const Content = (
         <div className="w-full p-6 md:p-8 flex flex-col items-center">
             {showStepper && (
-                <div className="flex flex-col items-center w-full mt-6">
+                <div className="flex flex-col items-center w-full mt-2">
                     <div className="flex justify-center w-full max-w-3xl">
                         <Stepper currentStep={currentStep} />
                     </div>

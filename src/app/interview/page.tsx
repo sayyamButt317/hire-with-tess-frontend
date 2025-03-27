@@ -83,15 +83,19 @@ export default function InterviewForm() {
                       <FormField
                           control={form.control}
                           name="jobType"
-                          render={({field}) => (
-                              <FormItem>
-                                  <FormLabel>Job Type</FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="write details here" type="text" {...field} />
-                                  </FormControl>
-                                  <FormMessage/>
-                              </FormItem>
-                          )}/>
+                          render={({ field }) => (
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <SelectTrigger className="w-full">
+                                      <SelectValue placeholder="Job Type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                      <SelectItem value="Onsite">Onsite</SelectItem>
+                                      <SelectItem value="Remote">Remote</SelectItem>
+                                  </SelectContent>
+                              </Select>
+                          )}
+                      />
+
                       <FormField
                           control={form.control}
                           name="companyName"
@@ -111,7 +115,7 @@ export default function InterviewForm() {
                               <FormItem>
                                   <FormLabel>Location</FormLabel>
                                   <FormControl>
-                                      <Input placeholder="write details here" type="text" {...field} />
+                                      <Input  placeholder="write details here" type="text" {...field} />
                                   </FormControl>
                                   <FormMessage/>
                               </FormItem>
