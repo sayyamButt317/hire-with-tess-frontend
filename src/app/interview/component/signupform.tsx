@@ -2,15 +2,15 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignupformSchema } from "@/schema/signup.schema";
+import { signupFormSchema } from "@/schema/signup.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function SignupForm() {
-    const form = useForm<z.infer<typeof SignupformSchema>>({
-        resolver: zodResolver(SignupformSchema),
+    const form = useForm<z.infer<typeof signupFormSchema>>({
+        resolver: zodResolver(signupFormSchema),
         defaultValues: {
             firstname: "",
             lastname: "",
@@ -22,7 +22,7 @@ export default function SignupForm() {
     })
     const ref = useRef<HTMLFormElement>(null)
 
-    const onSubmit = async (data: z.infer<typeof SignupformSchema>) => {
+    const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
         console.log("SUCCESS", data)
         form.reset()
     }
