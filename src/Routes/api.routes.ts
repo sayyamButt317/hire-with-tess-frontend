@@ -15,13 +15,8 @@ export const Generate = async (data: {
   location: string;
   salary: string;
 }) => {
-  try {
     const response = await api.post(`api/v1/generate-job-details/`, data);
     return response.data;
-  } catch (error) {
-    console.error("Error generating job details:", error);
-    throw error;
-  }
 };
 
 export const GenerateQuestion = async (job_id: string) => {
@@ -38,4 +33,24 @@ export const GetJobDetails = async (job_id: string) => {
 
 };
 
+export const SignUp = async (data: {
+    first_name: string;
+    last_name: string;
+    organization_name: string;
+    email: string;
+    password: string;
+    confirm_password: string;
+}) => {
+    const response = await api.post(`api/v1/auth/signup`, data);
+    return response.data;
+};
 
+export const GoogleLoginIn = async (data:{accessToken:string}) =>{
+    const response = await api.post(`api/v1/auth/google-login`,data )
+    return response.data;
+}
+
+export const GenerateIntrviewLink = async(job_id: string) => {
+    const response = await api.get(`api/v1/interview/${job_id}`);
+    return response.data;
+}
