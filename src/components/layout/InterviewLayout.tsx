@@ -1,9 +1,8 @@
 import Stepper from "@/app/interview/component/stepper";
-import { Card } from "../ui/card";
+import {Card} from "../ui/card";
 import React from "react";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import Image from "next/image";
-
 
 
 interface InterviewLayoutProps {
@@ -34,9 +33,9 @@ export default function InterviewLayout({
             {showStepper && (
                 <div className="flex flex-col items-center w-full mt-2">
                     <div className="flex justify-center w-full max-w-3xl">
-                        <Stepper currentStep={currentStep} />
+                        <Stepper currentStep={currentStep}/>
                     </div>
-                    <hr className="w-full border-t border-gray-300 mt-4" />
+                    <hr className="w-full border-t border-gray-300 mt-4"/>
                 </div>
             )}
 
@@ -62,8 +61,9 @@ export default function InterviewLayout({
             <p className="mt-4 text-[18px] font-normal text-[#6F6C90] max-w-2xl">{description}</p>
 
             {showGoogleLogin && (
-                <Button className="w-80 bg-transparent mt-6 text-black hover:bg-transparent border-2 border-solid border-gray-500 flex items-center justify-center gap-2">
-                    <Image src="/images/google.png" alt="Google Icon" width={20} height={20} />
+                <Button
+                    className="w-80 bg-transparent mt-6 text-black hover:bg-transparent border-2 border-solid border-gray-500 flex items-center justify-center gap-2">
+                    <Image src="/images/google.png" alt="Google Icon" width={20} height={20}/>
                     Continue with Google
                 </Button>
             )}
