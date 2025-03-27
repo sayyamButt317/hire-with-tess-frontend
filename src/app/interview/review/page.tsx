@@ -143,13 +143,15 @@ export default function InterviewReview() {
                     </form>
                 </Form>
                 {Object.keys(jobData).length > 0 && (
-                    <Card className="mt-4 p-4 w-full relative">
+                    <div className="mt-4 w-full ">
                         <OutputCard
+                            showAvatar={false}
+
                             req={jobData.requirements || []}
                             res={jobData.responsibilities || []}
                             skill={jobData.skills || []}
                         />
-                    </Card>
+                    </div>
                 )}
 
 
