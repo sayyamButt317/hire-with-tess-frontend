@@ -16,8 +16,8 @@ export default function Signup() {
             showStepper={false}
             showGoogleLogin={false}
             useCard={false}
-            subtitleClassName="font-[Roboto] font-medium text-[30px] mt-6"
-            descriptionClassName="font-[Roboto] font-medium text-[24px] text-[#606778] mt-4"
+            subtitleClassName="font-[roboto] font-medium text-[30px] mt-6 w-[607px]"
+            descriptionClassName="font-[roboto] font-medium text-[24px] leading-[24px] text-[#606778] mt-4 w-[642px]"
         >
             <div className="flex justify-center">
                 <Button
