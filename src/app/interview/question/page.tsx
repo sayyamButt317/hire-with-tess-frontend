@@ -26,23 +26,28 @@ export default function Questionnaire() {
             <InterviewLayout showStepper={true}
                              currentStep={2}
                              showGoogleLogin={false}
-                             description="Review,edit, or regenerate questions before finalizing your interview">
+                             useCard={false}
+                             description="Review,edit, or regenerate questions before finalizing your interview"
+                           >
+
                 <div className="flex flex-col w-full h-full items-center text-center space-y-4">
 
-                    {response.length > 0 ? <Question questions={response}  /> : <NoQuestion title="No Questions Available" description="Kindly Click on the Generae Button below to generate Interview questions" />}
+                    {response.length > 0 ? <Question questions={response}  /> : <NoQuestion title="No Questions Available" description="Kindly Click on the Generae Button below to generate Interview questions"
 
-                    <div className="mt-auto flex justify-center w-full">
+                    />}
+
+                    <div className="mt-auto flex justify-center ">
                         {response.length > 0 ? (
                             <Button
                                 onClick={onSubmit}
-                                className="bg-transparent text-black mt-8 border  hover:border-white hover:text-white rounded-2xl"
+                                className="w-[201px] h-[45px] mt-11 rounded-[9px] bg-transparent text-black border  hover:border-white hover:text-white "
                                 disabled={questionMutation.isPending}
                             >
                                 {questionMutation.isPending ? "Regenerating..." : "Regenerate Response"}
                             </Button>
                         ) : (
                             <Button
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 w-[201px] h-[45px] mt-11 rounded-[9px]"
                                 type="button"
                                 onClick={onSubmit}
                                 disabled={!jobId || questionMutation.isPending}
@@ -52,6 +57,7 @@ export default function Questionnaire() {
                             </Button>
                         )}
                     </div>
+
                 </div>
             </InterviewLayout>
 

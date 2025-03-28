@@ -7,10 +7,6 @@ interface QuestionProps {
 }
 
 export default function Question({ questions, showImage = true }: QuestionProps) {
-    if (questions.length === 0) {
-        return <p className="text-gray-500">No questions available.</p>;
-    }
-
     return (
         <div className="text-left space-y-2 w-full">
             <h2 className="text-lg font-semibold mt-4 mb-6">AI Powered Questions:</h2>
@@ -21,8 +17,9 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                             <Image src="/images/AIAvatar.png" alt="bot" width={40} height={40} />
                         )}
                         <Input
-                            placeholder={question}
-                            className="w-full"
+                            value={question}
+                            readOnly
+                            className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white"
                         />
                     </div>
                 ))}

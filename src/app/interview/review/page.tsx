@@ -59,6 +59,7 @@ export default function InterviewReview() {
             showStepper={true}
             currentStep={3}
             showGoogleLogin={false}
+            useCard={false}
         >
             <div className="w-full p-6">
                 <Form {...form}>

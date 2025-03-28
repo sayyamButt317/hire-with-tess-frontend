@@ -11,16 +11,16 @@ interface NoQuestionProps {
 
 export default function NoQuestion({
     imageSrc = "/images/Frame.png",
-    title = "No Job Description Available",
+    title = "No Job Description Available!",
     description = "Kindly Check on the Generate below to generate Job Description",
     children
 }: NoQuestionProps) {
     return (
       
             <div className="flex flex-col items-center text-center space-y-4">
-                <Image src={imageSrc} alt={title} width={200} height={200} />
-                <h1 className="text-xl font-semibold font-[Roboto]">{title}</h1>
-                <p className="text-gray-500 font-[Open_Sans] ">{description}</p>
+                <Image className="mt-17" src={imageSrc} alt={title} width={157} height={171} />
+                <h1 className="text-[24px] leading-[24px] font-bold font-[roboto]">{title}</h1>
+                <p className="text-gray-600 text-[16px] leading-[30px] font-normal font-[Open Sans] ">{description}</p>
                 {children}
             </div>
       
