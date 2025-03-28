@@ -1,6 +1,6 @@
 "use client"
 import { Card } from "@/components/ui/card"
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { Form, FormField, FormItem } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form"
 import {customformSchema, FormValidator} from "@/schema/customform.schema"
 import Image from "next/image";
 import useStore from "@/store/home.store"
-import Link from "next/link"
 import OutputCard from "./component/outputCard"
 import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
@@ -65,7 +64,7 @@ export default function InterviewForm() {
                           render={({field}) => (
                               <FormItem>
                                   <CustomInputForm {...field} name="jobDescription" label="Position Overview" placeholder="Position Overview here" />
-                                  <FormMessage />
+
                               </FormItem>
                           )}/>
 
@@ -77,7 +76,7 @@ export default function InterviewForm() {
 
 
                                   <CustomInputForm {...field} name="jobTitle" label="Job Title" placeholder="Job Title here" />
-                                  <FormMessage/>
+
                               </FormItem>
                           )}/>
 
@@ -97,7 +96,7 @@ export default function InterviewForm() {
                           render={({ field }) => (
                               <FormItem>
                                   <CustomInputForm {...field} name="companyName" label="Company Name" placeholder="Company Name here" />
-                                  <FormMessage />
+
                               </FormItem>
                           )}
                       />
@@ -111,7 +110,7 @@ export default function InterviewForm() {
                               <FormItem>
 
                                   <CustomInputForm {...field} name="location" label="Location " placeholder="Location here" />
-                                  <FormMessage/>
+
                               </FormItem>
                           )}/>
                       <FormField
@@ -126,7 +125,7 @@ export default function InterviewForm() {
                                       placeholder="Enter salary here"
                                       type="number"
                                   />
-                                  <FormMessage />
+
                               </FormItem>
                           )}
                       />
@@ -157,6 +156,14 @@ export default function InterviewForm() {
                               res={responseData.responsibilities || []}
                               skill={responseData.skills || []}
                           />
+                          {/*<div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">*/}
+                          {/*    <Button variant={"secondary"} className=" sm:w-auto cursor-pointer" type="button">*/}
+                          {/*        Cancel*/}
+                          {/*    </Button>*/}
+                          {/*    <Link href="/interview/question">*/}
+                          {/*        <Button type="submit" className="w-full sm:w-auto cursor-pointer">Next Step</Button>*/}
+                          {/*    </Link>*/}
+                          {/*</div>*/}
 
 
                           <div className="my-2 flex justify-center">
@@ -177,14 +184,7 @@ export default function InterviewForm() {
               </Card>
           </div>
 
-          <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
-              <Button variant={"secondary"} className=" sm:w-auto cursor-pointer" type="button">
-                  Cancel
-              </Button>
-              <Link href="/interview/question">
-                  <Button type="submit" className="w-full sm:w-auto cursor-pointer">Next Step</Button>
-              </Link>
-          </div>
+
       </>
   )
 }
