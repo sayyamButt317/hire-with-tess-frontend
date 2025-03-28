@@ -62,7 +62,7 @@ function DialogContent({
             )}
             {...props}
         >
-          <div className="w-4xl h-full max-w-screen max-h-screen bg-white rounded-lg shadow-lg overflow-auto p-8">
+          <div className="w-[1412px] h-[1007px] max-w-screen max-h-screen bg-white rounded-lg shadow-lg overflow-auto p-8">
             {children}
           </div>
           <DialogPrimitive.Close className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
