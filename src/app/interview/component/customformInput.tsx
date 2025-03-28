@@ -3,7 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Import shadcn Select
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import FormControl from "@mui/material/FormControl";
 
 interface CustomInputProps {
@@ -13,10 +13,12 @@ interface CustomInputProps {
     type?: string;
     currencyName?: string;
     jobTypeName?: string;
+    icon?:string
+    children?: React.ReactNode;
 }
 
 const CustomInputForm: React.FC<CustomInputProps> = ({
-                                                         name, label, placeholder, type = "text", currencyName, jobTypeName
+                                                         name, label, placeholder, type = "text", currencyName, jobTypeName, children
                                                      }) => {
     const { control } = useFormContext();
 
@@ -41,10 +43,11 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                             "& .MuiOutlinedInput-root": {
                                 height: "60px",
                                 borderRadius: "14px",
+                                fontSize: "16px",
+                                fontWeight: 400,
                             },
                             "& .MuiInputBase-input::placeholder": {
-                                fontFamily: "Open Sans",
-                                fontSize: "10px",
+                                fontSize: "14px",
                                 fontWeight: 400,
                             },
                         }}
@@ -54,10 +57,10 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                     <Controller
                                         name={jobTypeName}
                                         control={control}
-                                        defaultValue=""
+                                        defaultValue="Onsite"
                                         render={({ field }) => (
                                             <FormControl sx={{ minWidth: 140 }}>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <Select onValueChange={field.onChange} value={field.value}>
                                                     <SelectTrigger className="w-[140px] text-black">
                                                         <SelectValue placeholder="Job Type" />
                                                     </SelectTrigger>
@@ -78,10 +81,9 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                         defaultValue="USD"
                                         render={({ field }) => (
                                             <FormControl>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-
-                                                    <SelectTrigger className="w-[100px] text-black text-[16px] font-normal font-[Open Sans]">
-                                                        <SelectValue placeholder="currency" />
+                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                    <SelectTrigger className="w-[100px] text-black text-[16px] font-normal">
+                                                        <SelectValue placeholder="USD" />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         <SelectItem value="USD" className="text-black">USD</SelectItem>
@@ -95,6 +97,8 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                             ) : null,
                         }}
                     />
+                    {/* Render additional children if provided */}
+                    {children && <Box mt={2}>{children}</Box>}
                 </Box>
             )}
         />
