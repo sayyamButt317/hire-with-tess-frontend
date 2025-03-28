@@ -47,32 +47,30 @@ function DialogOverlay({
 }
 
 function DialogContent({
-                         className,
-                         children,
-                         ...props
+                           className,
+                           children,
+                           ...props
                        }: React.ComponentProps<typeof DialogPrimitive.Content>) {
-  return (
-      <DialogPortal data-slot="dialog-portal">
-        <DialogOverlay />
-        <DialogPrimitive.Content
-            data-slot="dialog-content"
-            className={cn(
-                "bg-background fixed inset-0 z-50 flex items-center justify-center w-full h-full p-6",
-                className
-            )}
-            {...props}
-        >
-          <div className="w-[1412px] h-[1007px] max-w-screen max-h-screen bg-white rounded-lg shadow-lg overflow-auto p-8">
-            {children}
-          </div>
-          <DialogPrimitive.Close className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        </DialogPrimitive.Content>
-      </DialogPortal>
-  )
+    return (
+        <DialogPortal>
+            <DialogOverlay />
+            <DialogPrimitive.Content
+                className={cn(
+                    "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[1412px] max-h-[90vh] rounded-lg shadow-lg overflow-auto p-8",
+                    className ? `${className} bg-white` : "bg-white"
+                )}
+                {...props}
+            >
+                {children}
+                <DialogPrimitive.Close className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                    <XIcon />
+                    <span className="sr-only">Close</span>
+                </DialogPrimitive.Close>
+            </DialogPrimitive.Content>
+        </DialogPortal>
+    );
 }
+
 
 
 function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
