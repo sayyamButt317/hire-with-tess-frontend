@@ -58,7 +58,7 @@ export default function SignupForm() {
                             <FormItem className="w-full">
 
                                 <FormControl>
-                                    <CustomInputForm {...field} name="firstname" label="First Name" placeholder="John " />
+                                    <CustomInputForm {...field} name="firstname" type="text" label="First Name" placeholder="John " />
                                 </FormControl>
 
                             </FormItem>
@@ -72,7 +72,7 @@ export default function SignupForm() {
 
                                 <FormControl>
 
-                                    <CustomInputForm {...field} name="lastname" label="Last Namee" placeholder="Doe " />
+                                    <CustomInputForm {...field} name="lastname" type="text" label="Last Namee" placeholder="Doe " />
                                 </FormControl>
 
                             </FormItem>
@@ -102,7 +102,7 @@ export default function SignupForm() {
                             <FormItem className="w-full">
 
                                 <FormControl>
-                                    <CustomInputForm {...field} name="email" label="Email" placeholder="john.doe@gmail.com" />
+                                    <CustomInputForm {...field} name="email" type="email" label="Email" placeholder="john.doe@gmail.com" />
                                 </FormControl>
 
                             </FormItem>
@@ -119,7 +119,7 @@ export default function SignupForm() {
 
                                 <FormControl>
 
-                                    <CustomInputForm {...field} name="password" label="Password" placeholder="******" />
+                                    <CustomInputForm {...field} name="password" type="password" label="Password" placeholder="******" />
                                 </FormControl>
 
                             </FormItem>
@@ -133,7 +133,7 @@ export default function SignupForm() {
 
                                 <FormControl>
 
-                                    <CustomInputForm {...field} name="confirmpassword" label="Confirm Password" placeholder="******" />
+                                    <CustomInputForm {...field} name="confirmpassword" type="password" label="Confirm Password" placeholder="******" />
                                 </FormControl>
 
                             </FormItem>
