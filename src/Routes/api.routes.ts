@@ -7,13 +7,14 @@ const api = axios.create({
   },
 });
 
-export const Generate = async (data: {
+export const GenerateJobDetails = async (data: {
   job_description: string;
   job_title: string;
   job_type: string;
   company_name: string;
   location: string;
   salary: string;
+    currency:string;
 }) => {
     const response = await api.post(`api/v1/generate-job-details/`, data);
     return response.data;
