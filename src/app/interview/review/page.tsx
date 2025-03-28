@@ -13,7 +13,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {Dialog, DialogContent, DialogHeader, DialogTrigger} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
 import Signup from "@/app/signup/page";
 import CustomInputForm from "@/app/interview/component/customformInput";
 
@@ -164,9 +164,8 @@ export default function InterviewReview() {
                             <Button className="w-40">Sign up to Continue</Button>
                         </DialogTrigger>
 
-                        <DialogContent className="items-center bg-white/50 p-6 rounded-lg shadow-lg w-[90vw] max-w-[1412px]">
-                            <DialogHeader>
-                            </DialogHeader>
+                        <DialogContent className="items-center bg-white/50 p-6 rounded-lg max-w-[1412px]">
+
                             <Signup/>
                         </DialogContent>
                     </Dialog>
