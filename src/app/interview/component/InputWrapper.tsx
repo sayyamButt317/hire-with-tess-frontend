@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
-import {useSkillStore} from "@/store/InputStore";
 
 interface InputWrapperProps {
     items: string[];
@@ -8,7 +7,6 @@ interface InputWrapperProps {
 }
 
 export default function InputWrapper({ items, onRemove }: InputWrapperProps) {
-    const {skills,removeSkills} = useSkillStore();
     return (
         <div className="flex flex-wrap gap-2">
             {items.map((item, index) => (
@@ -16,7 +14,7 @@ export default function InputWrapper({ items, onRemove }: InputWrapperProps) {
                     <Input
                         value={item}
                         readOnly
-                        className="w-full sm:w-auto pr-10 rounded-3xl text-black cursor-not-allowed"
+                        className="w-full sm:w-auto pr-10 border-[#E2E8F0] rounded-3xl text-black cursor-not-allowed font-[Open Sans] "
                     />
                     <button
                         onClick={() => onRemove(index)}
