@@ -1,5 +1,4 @@
 'use client'
-import InterviewLayout from "@/components/layout/InterviewLayout";
 import { Button } from "@/components/ui/button";
 import SignupForm from "../interview/component/signupform";
 import Image from "next/image";
@@ -9,17 +8,11 @@ import useGoogleLoginHook from "@/hooks/GoogleLogin.hook";
 export default function Signup() {
     const GoogleLoginMutation = useGoogleLoginHook();
     return (
-        <InterviewLayout
-            showTitle={false}
-            subtitle="Sign Up to Share Your AI-Generated Interview"
-            description="Get started with a 60-day free trial - no credit required!"
-            showStepper={false}
-            showGoogleLogin={false}
-            useCard={false}
-            subtitleClassName="font-[roboto] font-medium text-[30px] mt-6 w-[607px]"
-            descriptionClassName="font-[roboto] font-medium text-[24px] leading-[24px] text-[#606778] mt-4 w-[642px]"
-        >
-            <div className="flex justify-center">
+
+        <>
+            <div className="flex flex-col justify-center">
+                <h1 className="font-[roboto] font-medium text-[30px] mt-6 w-[607px]">Sign Up to Share Your AI-Generated Interview</h1>
+                <p className="font-[roboto] font-medium text-[24px] leading-[24px] text-[#606778] mt-4 w-[642px]">Get started with a 60-day free trial - no credit required!</p>
                 <Button
                     onClick={() => GoogleLoginMutation.mutate(
                         {accessToken:""}
@@ -32,7 +25,7 @@ export default function Signup() {
                 </Button>
             </div>
 
-            <div className="w-full flex justify-center">
+
                 <div className="w-full mt-4 mb-8">
                     <div className="relative flex items-center justify-center w-full">
                         <hr className="w-full h-[1px] my-8 mb-4 bg-[#CBCAD7] border-0 rounded-sm dark:bg-gray-700" />
@@ -43,7 +36,7 @@ export default function Signup() {
 
                     <SignupForm/>
                 </div>
-            </div>
-        </InterviewLayout>
+
+        </>
     );
 }
