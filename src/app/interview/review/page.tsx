@@ -7,16 +7,15 @@ import OutputCard from "../component/outputCard";
 import Question from "../component/question";
 import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import {customformSchema} from "@/schema/customform.schema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useEffect, useRef} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import {Dialog, DialogContent, DialogHeader, DialogTrigger} from "@/components/ui/dialog";
 import Signup from "@/app/signup/page";
+import CustomInputForm from "@/app/interview/component/customformInput";
 
 export default function InterviewReview() {
 
@@ -36,6 +35,7 @@ export default function InterviewReview() {
             companyName: jobData.company_name || "",
             location: jobData.location || "",
             salary: jobData.salary || "",
+            currency: jobData.currency || "",
         },
     });
 
@@ -50,6 +50,7 @@ export default function InterviewReview() {
             setValue("companyName", jobData.company_name || "");
             setValue("location", jobData.location || "");
             setValue("salary", jobData.salary || "");
+            setValue("currency",jobData.currency || "")
         }
     }, [jobData, setValue]);
     return (
@@ -61,7 +62,7 @@ export default function InterviewReview() {
             showGoogleLogin={false}
             useCard={false}
         >
-            <div className="w-full p-6">
+            <div className="w-full p-6 mt-8">
                 <Form {...form}>
                     <form ref={ref} className="space-y-8">
                         <FormField
@@ -69,11 +70,12 @@ export default function InterviewReview() {
                             name="jobTitle"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Job Title</FormLabel>
+
                                     <FormControl>
-                                        <Input placeholder="write details here"  {...field} />
+
+                                        <CustomInputForm {...field} name="jobTitle" label="Job Title" placeholder="Job Title  " />
                                     </FormControl>
-                                    <FormMessage/>
+
                                 </FormItem>
                             )}
                         />
@@ -82,11 +84,11 @@ export default function InterviewReview() {
                             name="jobType"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Job Type</FormLabel>
+
                                     <FormControl>
-                                        <Input placeholder="write details here"  {...field} />
+                                        <CustomInputForm {...field} name="jobType" label="Job Type" placeholder="Job Type " />
                                     </FormControl>
-                                    <FormMessage/>
+
                                 </FormItem>
                             )}
                         />
@@ -95,11 +97,12 @@ export default function InterviewReview() {
                             name="companyName"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Company Name</FormLabel>
+
                                     <FormControl>
-                                        <Input placeholder="write details here"  {...field} />
+
+                                        <CustomInputForm {...field} name="companyName" label="Company Name" placeholder="Company Name " />
                                     </FormControl>
-                                    <FormMessage/>
+
                                 </FormItem>
                             )}
                         />
@@ -108,35 +111,28 @@ export default function InterviewReview() {
                             name="location"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Location</FormLabel>
+
                                     <FormControl>
-                                        <Input placeholder="write details here"  {...field} />
+                                        <CustomInputForm {...field} name="location" label="Location" placeholder="Location " />
+
                                     </FormControl>
-                                    <FormMessage/>
+
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="salary"
-                            render={({field}) => (
+                            render={() => (
                                 <FormItem>
-                                    <FormLabel>Salary</FormLabel>
-                                    <div className="flex gap-4 items-start">
-                                        <Select>
-                                            <SelectTrigger className="w-[180px]">
-                                                <SelectValue placeholder="Currency"/>
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="USD">USD</SelectItem>
-                                                <SelectItem value="AED">AED</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormControl>
-                                            <Input placeholder="write details here" type="text" {...field} />
-                                        </FormControl>
-                                    </div>
-                                    <FormMessage/>
+                                    <CustomInputForm
+                                        name="salary"
+                                        currencyName="currency"
+                                        label="Salary"
+                                        placeholder="Enter salary"
+                                        type="number"
+                                    />
+
                                 </FormItem>
                             )}
                         />
@@ -167,15 +163,12 @@ export default function InterviewReview() {
                             <Button className="w-40">Sign up to Continue</Button>
                         </DialogTrigger>
 
-
-                        <DialogContent className="fixed inset-0 bg-black/50 flex items-center justify-center">
-
-
-                                <Signup/>
-
+                        <DialogContent className="items-center bg-white/50 p-6 rounded-lg shadow-lg w-[90vw] max-w-[1412px]">
+                            <DialogHeader>
+                            </DialogHeader>
+                            <Signup/>
                         </DialogContent>
                     </Dialog>
-
                 </div>
             </div>
         </InterviewLayout>
