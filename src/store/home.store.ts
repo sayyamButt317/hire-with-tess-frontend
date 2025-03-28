@@ -10,6 +10,7 @@ interface InputState {
   companyName: string;
   location: string;
   salary: string;
+  currency:string;
   setJobId: (value: string) => void;  
   setJobDescription: (value: string) => void;
   setJobTitle: (value: string) => void;
@@ -17,6 +18,7 @@ interface InputState {
   setCompanyName: (value: string) => void;
   setLocation: (value: string) => void;
   setSalary: (value: string) => void;
+  setCurrency: (value: string) => void;
 }
 
 const useStore = create<InputState>()(
@@ -30,6 +32,7 @@ const useStore = create<InputState>()(
         companyName: '',
         location: '',
         salary: '',
+          currency: '',
         setJobId: (value) => set({ jobId: value }), 
         setJobDescription: (value) => set({ jobDescription: value }),
         setJobTitle: (value) => set({ jobTitle: value }),
@@ -37,9 +40,10 @@ const useStore = create<InputState>()(
         setCompanyName: (value) => set({ companyName: value }),
         setLocation: (value) => set({ location: value }),
         setSalary: (value) => set({ salary: value }),
+          setCurrency: (value) => set({ currency: value }),
       }),
       {
-        name: 'job-application-form', 
+        name: 'job-Details',
         storage:createJSONStorage (() => localStorage), 
       }
     )

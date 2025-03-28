@@ -1,7 +1,7 @@
 'use client'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { formSchema } from "@/schema/formschema";
+import { customformSchema } from "@/schema/customform.schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
@@ -9,8 +9,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export default function CustomForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof customformSchema>>({
+        resolver: zodResolver(customformSchema),
         defaultValues: {
             jobTitle: "",
             jobType: "",
@@ -21,7 +21,7 @@ export default function CustomForm() {
     })
     const ref = useRef<HTMLFormElement>(null)
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async (data: z.infer<typeof customformSchema>) => {
         console.log("SUCCESS", data)
         form.reset()
     }

@@ -31,13 +31,13 @@ export default function InterviewLayout({
                                             showGoogleLogin = false,
                                             useCard = true,
                                             buttons = [],
-                                            titleClassName = "text-[30px] font-normal text-black font-[Space_Grotesk]",
-                                            subtitleClassName = "font-bold text-[34px] md:text-4xl mt-6 font-[Roboto]",
-                                            descriptionClassName = "mt-4 text-[18px] font-[Open_Sans] text-[#6F6C90] max-w-2xl"
+                                            titleClassName = " text-center items-center justify-center text-[30px] mt-6 font-normal text-black leading-[2p8px] font-[space Grotesk] sm:font-[space Grotesk] sm:font-normal text-[20px] leading-[28px] ",
+                                            subtitleClassName = "text-center items-center justify-center font-bold text-[34px] leading-[46px] mt-6 font-[roboto] text-[#170F49] sm:font-bold sm:text-[24px] sm:leading-[46px] font-[roboto] ",
+                                            descriptionClassName = "text-center items-center justify-center text-[18px] font-normal text-[#6F6C90] font-[open sans] sm:font-[roboto] sm:font-normal sm:text-[16px] sm:leading-[30px]  "
                                         }: InterviewLayoutProps) {
 
     const Content = (
-        <div className="w-full p-6 md:p-8 flex flex-col items-center">
+        <div className="w-full h-[759px] border-[1px] mt-6 rounded-[34px] md:p-8 flex flex-col justify-center text-center items-center sm:p-6  ">
             {showStepper && (
                 <div className="flex flex-col items-center w-full mt-2">
                     <div className="flex justify-center w-full max-w-3xl">

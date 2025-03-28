@@ -1,14 +1,11 @@
 "use client"
 import { Card } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useRef } from "react"
-import type { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { formSchema } from "@/schema/formschema"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {customformSchema, FormValidator} from "@/schema/customform.schema"
 import Image from "next/image";
 import useStore from "@/store/home.store"
 import Link from "next/link"
@@ -16,13 +13,14 @@ import OutputCard from "./component/outputCard"
 import NoQuestion from "./component/emptycard"
 import GenerateResponse from "@/hooks/generateResponse.hook";
 import InterviewLayout from "@/components/layout/InterviewLayout";
+import CustomInputForm from "@/app/interview/component/customformInput";
 
 
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormValidator>({
+    resolver: zodResolver(customformSchema),
     defaultValues: {
       jobDescription: jobDescription || "",
       jobTitle: jobTitle || "",
@@ -30,19 +28,21 @@ export default function InterviewForm() {
       companyName: companyName || "",
       location: location || "",
       salary: salary || "",
+
     },
   })
   const ref = useRef<HTMLFormElement>(null)
   const generateMutation = GenerateResponse();
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data:FormValidator) => {
     generateMutation.mutate({
       job_description: data.jobDescription,
       job_title: data.jobTitle,
       job_type: data.jobType,
       company_name: data.companyName,
       location: data.location,
-      salary: data.salary
+      salary: data.salary,
+        currency:data.currency,
     });
   }
 
@@ -51,8 +51,10 @@ export default function InterviewForm() {
   return (
       <><InterviewLayout
           showGoogleLogin={false}
+          useCard={false}
 
       >
+
           <div className=" text-center pt-10 pb-10 w-full">
 
               <Form {...form}>
@@ -62,11 +64,8 @@ export default function InterviewForm() {
                           name="jobDescription"
                           render={({field}) => (
                               <FormItem>
-                                  <FormLabel>Position Overview</FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="write details here" className="font-normal text-[16px]" {...field} />
-                                  </FormControl>
-                                  <FormMessage/>
+                                  <CustomInputForm {...field} name="jobDescription" label="Position Overview" placeholder="Position Overview here" />
+                                  <FormMessage />
                               </FormItem>
                           )}/>
 
@@ -75,79 +74,65 @@ export default function InterviewForm() {
                           name="jobTitle"
                           render={({field}) => (
                               <FormItem>
-                                  <FormLabel>Job Title</FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="write details here" type="text" {...field} />
-                                  </FormControl>
+
+
+                                  <CustomInputForm {...field} name="jobTitle" label="Job Title" placeholder="Job Title here" />
                                   <FormMessage/>
                               </FormItem>
                           )}/>
+
                       <FormField
                           control={form.control}
                           name="jobType"
                           render={({ field }) => (
-                              <FormItem>
-                                  <FormLabel>Job Type</FormLabel>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                      <SelectTrigger className="w-full">
-                                          <SelectValue placeholder="Job Type" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                          <SelectItem value="Onsite">Onsite</SelectItem>
-                                          <SelectItem value="Remote">Remote</SelectItem>
-                                      </SelectContent>
-                                  </Select>
-                              </FormItem>
+                              <CustomInputForm {...field} name="jobType" label="Job Type" jobTypeName="jobType" />
                           )}
                       />
+
+
 
                       <FormField
                           control={form.control}
                           name="companyName"
-                          render={({field}) => (
+                          render={({ field }) => (
                               <FormItem>
-                                  <FormLabel>Company Name</FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="write details here" type="text" {...field} />
-                                  </FormControl>
-                                  <FormMessage/>
+                                  <CustomInputForm {...field} name="companyName" label="Company Name" placeholder="Company Name here" />
+                                  <FormMessage />
                               </FormItem>
-                          )}/>
+                          )}
+                      />
+
+
+
                       <FormField
                           control={form.control}
                           name="location"
                           render={({field}) => (
                               <FormItem>
-                                  <FormLabel>Location</FormLabel>
-                                  <FormControl>
-                                      <Input  placeholder="write details here" type="text" {...field} />
-                                  </FormControl>
+
+                                  <CustomInputForm {...field} name="location" label="Location " placeholder="Location here" />
                                   <FormMessage/>
                               </FormItem>
                           )}/>
                       <FormField
                           control={form.control}
                           name="salary"
-                          render={({field}) => (
+                          render={() => (
                               <FormItem>
-                                  <FormLabel>Salary</FormLabel>
-                                  <div className="flex gap-4 items-start">
-                                      <Select>
-                                          <SelectTrigger className="w-[180px]">
-                                              <SelectValue placeholder="Currency"/>
-                                          </SelectTrigger>
-                                          <SelectContent>
-                                              <SelectItem value="USD">USD</SelectItem>
-                                              <SelectItem value="AED">AED</SelectItem>
-                                          </SelectContent>
-                                      </Select>
-                                      <FormControl>
-                                          <Input placeholder="write details here" type="number" {...field} />
-                                      </FormControl>
-                                  </div>
-                                  <FormMessage/>
+                                  <CustomInputForm
+                                      name="salary"
+                                      currencyName="currency"
+                                      label="Salary"
+                                      placeholder="Enter salary here"
+                                      type="number"
+                                  />
+                                  <FormMessage />
                               </FormItem>
-                          )}/>
+                          )}
+                      />
+
+
+
                       <Button
                           className="cursor-pointer"
                           disabled={generateMutation.isPending}

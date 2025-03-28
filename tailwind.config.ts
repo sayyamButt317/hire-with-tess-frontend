@@ -29,9 +29,17 @@ module.exports = {
             },
             fontFamily: {
                 roboto:['var(--font-family-roboto)'],
+
                 sans: ["Inter", "Helvetica Neue", "Arial", "sans-serif"],
             },
         },
     },
-    plugins: [],
+    plugins: [
+    ],
 };
+
+// sm (640px): Small devices like tablets.
+// md (768px): Medium devices like small laptops.
+// lg (1024px): Large devices like laptops and desktops.
+// xl (1280px): Extra-large devices like high-resolution desktops.
+// 2xl (1536px): Ultra-large devices or full-width monitors.
