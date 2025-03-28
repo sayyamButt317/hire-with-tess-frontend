@@ -53,6 +53,7 @@ export default function InterviewReview() {
             setValue("currency",jobData.currency || "")
         }
     }, [jobData, setValue]);
+
     return (
         <InterviewLayout
             subtitle="Review Your AI-Generated Interview"

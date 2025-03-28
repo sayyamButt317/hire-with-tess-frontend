@@ -36,9 +36,11 @@ export default function SignupForm() {
             role: "admin",
         };
 
-
-        signupMutation.mutate(payload);
-        form.reset()
+        signupMutation.mutate(payload, {
+            onSuccess: () => {
+                form.reset();
+            }
+        });
     };
 
     return (

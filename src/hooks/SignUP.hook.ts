@@ -13,16 +13,16 @@ export default function useSignupMutation() {
         onSuccess: async (response) => {
             if (response?.access_token) {
                 setAccessToken(response.access_token);
-                toast("Signup successful!");
+                toast.success("Signup successful!");
                 router.push("/interview/generatelink");
             } else {
                 toast("Signup failed");
             }
         },
         onError: async (error) => {
-            console.error("Signup Error:", error.message);
-            toast("Signup Failed", {
-                description: error.message || "Something went wrong",
+            console.error("Signup Error:", error?.response?.data?.detail || "An error occurred during signup.");
+            toast.error("Signup Failed", {
+                description: (error as any)?.response?.data?.detail || "An error occurred during signup.",
             });
         },
     });
