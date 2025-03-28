@@ -139,7 +139,7 @@ export default function SignupForm() {
                     <Checkbox id="terms" />
                     <label
                         htmlFor="terms"
-                        className="text-sm font-[Open Sans] text-[16px] font-medium text-[#1B2559]  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-sm font-[Open_Sans] text-[16px] font-medium text-[#1B2559]  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                          I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>

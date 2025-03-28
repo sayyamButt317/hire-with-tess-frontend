@@ -86,15 +86,18 @@ export default function InterviewForm() {
                           control={form.control}
                           name="jobType"
                           render={({ field }) => (
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <SelectTrigger className="w-full">
-                                      <SelectValue placeholder="Job Type" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                      <SelectItem value="Onsite">Onsite</SelectItem>
-                                      <SelectItem value="Remote">Remote</SelectItem>
-                                  </SelectContent>
-                              </Select>
+                              <FormItem>
+                                  <FormLabel>Job Type</FormLabel>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <SelectTrigger className="w-full">
+                                          <SelectValue placeholder="Job Type" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                          <SelectItem value="Onsite">Onsite</SelectItem>
+                                          <SelectItem value="Remote">Remote</SelectItem>
+                                      </SelectContent>
+                                  </Select>
+                              </FormItem>
                           )}
                       />
 
