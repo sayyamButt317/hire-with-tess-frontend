@@ -1,7 +1,6 @@
 'use client'
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { signupFormSchema } from "@/schema/signup.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
@@ -9,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useSignupMutation from "@/hooks/SignUP.hook";
 import {Button} from "@/components/ui/button";
+import CustomInputForm from "@/app/interview/component/customformInput";
 
 export default function SignupForm() {
     const form = useForm<z.infer<typeof signupFormSchema>>({
@@ -50,17 +50,17 @@ export default function SignupForm() {
                 ref={ref}
                 className="space-y-8 flex flex-col items-center"
             >
-                <div className="flex gap-4 items-start w-full ">
+                <div className="flex gap-4 items-start w-full mt-4 ">
                     <FormField
                         control={form.control}
                         name="firstname"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>First Name</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="John" type="text" {...field} />
+                                    <CustomInputForm {...field} name="firstname" label="First Name" placeholder="John " />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -69,11 +69,12 @@ export default function SignupForm() {
                         name="lastname"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Last Name</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="Doe" type="text" {...field} />
+
+                                    <CustomInputForm {...field} name="lastname" label="Last Namee" placeholder="Doe " />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -85,11 +86,12 @@ export default function SignupForm() {
                         name="organization"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Organization Name</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="King Palm" type="text" {...field} />
+
+                                    <CustomInputForm {...field} name="organization" label="Organization Name" placeholder="King Palm " />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -98,11 +100,11 @@ export default function SignupForm() {
                         name="email"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Email</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="john.doe@gmail.com" type="email" {...field} />
+                                    <CustomInputForm {...field} name="email" label="Email" placeholder="john.doe@gmail.com" />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -114,11 +116,12 @@ export default function SignupForm() {
                         name="password"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Password</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="******" type="password" {...field} />
+
+                                    <CustomInputForm {...field} name="password" label="Password" placeholder="******" />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
@@ -127,11 +130,12 @@ export default function SignupForm() {
                         name="confirmpassword"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Confirm Password</FormLabel>
+
                                 <FormControl>
-                                    <Input placeholder="******" type="password" {...field} />
+
+                                    <CustomInputForm {...field} name="confirmpassword" label="Confirm Password" placeholder="******" />
                                 </FormControl>
-                                <FormMessage />
+
                             </FormItem>
                         )}
                     />
