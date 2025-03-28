@@ -2,26 +2,38 @@
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {Copy, } from "lucide-react";
+import {Copy, Download, Share2} from "lucide-react";
 import useFetchInterviewLink from "@/hooks/FetchInterviewLink.hook";
 import { useState } from "react";
 import { toast } from "sonner";
 import Image from "next/image";
 
 export default function GenerateLink() {
-    const { data, } = useFetchInterviewLink();
+    const { data } = useFetchInterviewLink();
     const [copied, setCopied] = useState(false);
     const interviewLink = data?.interview_link || "";
 
     console.log(data);
+
     const handleCopy = () => {
         if (!interviewLink) return;
         navigator.clipboard.writeText(interviewLink);
         setCopied(true);
-        toast.success("Link copied to clipboard!");
+        toast("Link copied to clipboard!");
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const handleDownloadQR = () => {
+        if (!data?.qr_code_base64) return;
+
+        const link = document.createElement("a");
+        link.href = `data:image/png;base64,${data.qr_code_base64}`;
+        link.download = "QR_Code.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast.success("QR Code downloaded successfully!");
+    };
 
     return (
         <InterviewLayout
@@ -33,48 +45,54 @@ export default function GenerateLink() {
             useCard={false}
         >
             <div className="mt-8">
-                <h1 className="font-[roboto] leading-[46px] font-bold text-[24px] ">Interview Link</h1>
-                <p className="font-[Open Sans] font-normal text-[16px] leading[16px] text-center text-[#6F6C90] mt-2">
+                <h1 className="font-[roboto] leading-[46px] font-bold text-[24px]">Interview Link</h1>
+                <p className="font-[Open Sans] font-normal text-[16px] leading-[16px] text-center text-[#6F6C90] mt-2">
                     Copy and share the link with candidates
                 </p>
-                <div className="flex items-center max-w-[483px] mx-auto mt-6 relative">
-                    <Input
-                        value={interviewLink}
-                        readOnly
-                        className="pr-12 text-[#4A3AFF] w-[438px] h-[65px] underline cursor-default"
-                    />
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="absolute right-13 top-1/2 transform -translate-y-1/2 rounded-[14px] border-[1px]"
-                        onClick={handleCopy}
-                    >
+                <div className="flex items-center w-[483px] h-[65px] leading-[14px] mx-auto mt-6 relative">
+                <Input
+                    value={interviewLink}
+                    readOnly
+                    className="pr-16 text-[#4A3AFF] w-full h-[65px] underline cursor-default truncate border border-gray-300 rounded-[14px] px-4"
+                />
+                <Button
+                    type="button"
+                    variant="ghost"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-transparent"
+                    onClick={handleCopy}
+                >
+                    <Copy size={20} className={copied ? "text-blue-500" : "text-gray-600"} />
+                </Button>
 
-                        <Copy size={20} className={copied ? "text-blue-500 bg-tra" : ""}  />
-                    </Button>
+            </div>
+
+
+                <div className="m-12 mb-2">
+                    <hr />
                 </div>
-                <div className="m-18 mb-8">
-                    <hr></hr>
-                </div>
-                <div className="items-center text-center flex flex-col ">
-                    <h1 className="w-[680px] h-[46px] font-[roboto] text-[24px] leading-[46px] font-bold ">QR Code</h1>
-                    <p className="w-[427px] h-[30px] font-[Open Sans] text-[16px] lading-[30px] font-normal text-gray-600">Candidates can scan this QR Code to access the interview</p>
+                <div className="items-center text-center flex flex-col">
+                    <h1 className="w-[680px] h-[46px] font-[roboto] text-[24px] leading-[46px] font-bold">QR Code</h1>
+                    <p className="w-[427px] h-[30px] font-[Open Sans] text-[16px] leading-[30px] font-normal text-gray-600">
+                        Candidates can scan this QR Code to access the interview
+                    </p>
                     {data?.qr_code_base64 && (
-                        <div className="p-4 bg-#FFFFFF">
+                        <div className="w-[200px] h-[200px] bg-white shadow-sm flex items-center justify-center rounded-md mt-4">
                             <Image
-                                className="w-[250px] h-[250px] mt-6"
+                                className="w-[200px] h-[200px]"
                                 src={`data:image/png;base64,${data.qr_code_base64}`}
                                 alt="QR Code"
-                                width={200}
-                                height={200}
+                                width={216}
+                                height={222}
                             />
                         </div>
-
-
                     )}
+                    <button
+                        onClick={handleDownloadQR}
+                        className="flex items-center justify-center gap-3 font-[roboto] text-[18px] leading-[20px] font-bold w-[212px] h-[65px] rounded-[14px] bg-[#1E4B8E] mt-11 text-white"
+                    >
+                        <Download /> Download
+                    </button>
                 </div>
-                <button className="w-[212px] h-[65px] rounded-[14px] bg-[#1E4B8E] mt-11 text-white">Download</button>
-
             </div>
         </InterviewLayout>
     );
