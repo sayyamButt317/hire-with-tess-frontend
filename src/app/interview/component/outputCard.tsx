@@ -40,8 +40,8 @@ export default function OutputCard({
                     <div className="text-left">
                         {res.length > 0 && (
                             <div className="mb-4">
-                                <h3 className="font-semibold text-black">Responsibilities</h3>
-                                <ul className="list-disc pl-5 text-sm">
+                                <h3 className="font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">Responsibilities</h3>
+                                <ul className="list-disc pl-5 font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
                                     {res.map((item, index) => (
                                         <li key={index}>{item}</li>
                                     ))}
@@ -51,8 +51,8 @@ export default function OutputCard({
 
                         {req.length > 0 && (
                             <div className="mb-4">
-                                <h3 className="font-semibold text-black">Requirements</h3>
-                                <ul className="list-disc pl-5 text-sm">
+                                <h3 className="font-normal font-[Open Sans] text-[14px] leading-[24px] text-black text-black">Requirements</h3>
+                                <ul className="list-disc pl-5 font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
                                     {req.map((item, index) => (
                                         <li key={index}>{item}</li>
                                     ))}
