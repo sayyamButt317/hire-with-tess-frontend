@@ -40,7 +40,7 @@ export default function Questionnaire() {
                         {response.length > 0 ? (
                             <Button
                                 onClick={onSubmit}
-                                className="w-[201px] h-[45px] mt-11 rounded-[9px] bg-transparent text-black border  hover:border-white hover:text-white "
+                                className="w-[218px] h-[54px] mt-11 rounded-[45px] cursor-pointer bg-transparent text-black border  hover:border-white hover:text-white "
                                 disabled={questionMutation.isPending}
                             >
                                 {questionMutation.isPending ? "Regenerating..." : "Regenerate Response"}

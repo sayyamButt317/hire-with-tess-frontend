@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAuthStore from "@/store/authToken.store";
 
 const api = axios.create({
   baseURL: "https://backend.hirewithtess.com/",
@@ -41,7 +42,9 @@ export const SignUp = async (data: {
     email: string;
     password: string;
     confirm_password: string;
+    role: "admin";
 }) => {
+    console.log("Signup Request Payload:", data);
     const response = await api.post(`api/v1/auth/signup`, data);
     return response.data;
 };
@@ -51,7 +54,18 @@ export const GoogleLoginIn = async (data:{accessToken:string}) =>{
     return response.data;
 }
 
-export const GenerateIntrviewLink = async(job_id: string) => {
-    const response = await api.get(`/api/v1/generate-interview-link/${job_id}`);
+export const GenerateIntrviewLink = async (job_id: string) => {
+    const { accessToken } = useAuthStore.getState();
+
+    if (!accessToken) {
+        throw new Error("No access token available");
+    }
+
+    const response = await api.get(`/api/v1/generate-interview-link/${job_id}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+
     return response.data;
-}
+};
