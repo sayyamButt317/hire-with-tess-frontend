@@ -31,9 +31,9 @@ export default function InterviewLayout({
                                             showGoogleLogin = false,
                                             useCard = true,
                                             buttons = [],
-                                            titleClassName = "text-[30px] font-normal text-black font-roboto",
-                                            subtitleClassName = "font-bold text-[34px] md:text-4xl mt-6 font-roboto",
-                                            descriptionClassName = "mt-4 text-[18px] font-normal text-[#6F6C90] max-w-2xl font-roboto"
+                                            titleClassName = "text-[30px] font-normal text-black font-[Space_Grotesk]",
+                                            subtitleClassName = "font-bold text-[34px] md:text-4xl mt-6 font-[Roboto]",
+                                            descriptionClassName = "mt-4 text-[18px] font-[Open_Sans] text-[#6F6C90] max-w-2xl"
                                         }: InterviewLayoutProps) {
 
     const Content = (
