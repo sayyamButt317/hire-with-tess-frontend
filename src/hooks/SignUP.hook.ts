@@ -12,16 +12,16 @@ export default function useSignupMutation() {
         mutationFn: SignUp,
         onSuccess: async (response) => {
             if (response?.access_token) {
-                setAccessToken(response.access_token); // Store token
-                toast.success("Signup successful!");
+                setAccessToken(response.access_token);
+                toast("Signup successful!");
                 router.push("/interview/generatelink");
             } else {
-                toast.error("Signup failed. No token received.");
+                toast("Signup failed");
             }
         },
         onError: async (error) => {
             console.error("Signup Error:", error.message);
-            toast.error("Signup Failed", {
+            toast("Signup Failed", {
                 description: error.message || "Something went wrong",
             });
         },
