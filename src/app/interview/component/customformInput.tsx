@@ -38,7 +38,7 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                         type={type}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message || ""}
-                        InputLabelProps={{ shrink: true }}
+                        slotProps={{ inputLabel: { shrink: true } }}
                         sx={{
                             "& .MuiOutlinedInput-root": {
                                 height: "60px",
