@@ -1,6 +1,6 @@
 "use client";
 import { Card } from "@/components/ui/card";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,7 +68,7 @@ export default function InterviewForm() {
                       label="Position Overview"
                       placeholder="Position Overview here"
                     />
-                    <FormMessage />
+
                   </FormItem>
                 )}
               />
@@ -84,7 +84,7 @@ export default function InterviewForm() {
                       label="Job Title"
                       placeholder="Job Title here"
                     />
-                    <FormMessage />
+
                   </FormItem>
                 )}
               />
@@ -113,7 +113,7 @@ export default function InterviewForm() {
                       label="Company Name"
                       placeholder="Company Name here"
                     />
-                    <FormMessage />
+
                   </FormItem>
                 )}
               />
@@ -129,7 +129,7 @@ export default function InterviewForm() {
                       label="Location "
                       placeholder="Location here"
                     />
-                    <FormMessage />
+
                   </FormItem>
                 )}
               />
@@ -145,7 +145,7 @@ export default function InterviewForm() {
                       placeholder="Enter salary here"
                       type="number"
                     />
-                    <FormMessage />
+
                   </FormItem>
                 )}
               />
