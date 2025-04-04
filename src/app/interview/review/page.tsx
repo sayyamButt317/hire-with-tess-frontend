@@ -1,31 +1,28 @@
-"use client";
-
+'use client'
 import useStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import OutputCard from "../component/outputCard";
-import Question from "../component/question";
 import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
-import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
-import {customformSchema} from "@/schema/customform.schema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useEffect, useRef} from "react";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { customformSchema } from "@/schema/customform.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Signup from "@/app/signup/page";
 import CustomInputForm from "@/app/interview/component/customformInput";
 
 export default function InterviewReview() {
-
-    const {jobId} = useStore();
+    const { jobId } = useStore();
 
     const jobDetailsQuery = FetchJobDetails(jobId);
     const jobData = jobDetailsQuery.data || {};
 
     const questionQuery = FetchQuestions(jobId);
-    const questions = questionQuery.data || [];
+    const updatedquestions = questionQuery.data || [];
 
     const form = useForm<z.infer<typeof customformSchema>>({
         resolver: zodResolver(customformSchema),
@@ -36,12 +33,12 @@ export default function InterviewReview() {
             location: jobData.location || "",
             salary: jobData.salary || "",
             currency: jobData.currency || "",
+            questions: updatedquestions || [],
         },
     });
 
-    const ref = useRef<HTMLFormElement>(null)
-    const {setValue} = form;
-
+    const ref = useRef<HTMLFormElement>(null);
+    const { setValue } = form;
 
     useEffect(() => {
         if (jobData && Object.keys(jobData).length > 0) {
@@ -69,55 +66,64 @@ export default function InterviewReview() {
                         <FormField
                             control={form.control}
                             name="jobTitle"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
-
                                     <FormControl>
-
-                                        <CustomInputForm {...field} name="jobTitle" label="Job Title" placeholder="Job Title  " />
+                                        <CustomInputForm
+                                            {...field}
+                                            name="jobTitle"
+                                            label="Job Title"
+                                            placeholder="Job Title"
+                                        />
                                     </FormControl>
-
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="jobType"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
-
                                     <FormControl>
-                                        <CustomInputForm {...field} name="jobType" label="Job Type" placeholder="Job Type " />
+                                        <CustomInputForm
+                                            {...field}
+                                            name="jobType"
+                                            label="Job Type"
+                                            placeholder="Job Type"
+                                        />
                                     </FormControl>
-
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="companyName"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
-
                                     <FormControl>
-
-                                        <CustomInputForm {...field} name="companyName" label="Company Name" placeholder="Company Name " />
+                                        <CustomInputForm
+                                            {...field}
+                                            name="companyName"
+                                            label="Company Name"
+                                            placeholder="Company Name"
+                                        />
                                     </FormControl>
-
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="location"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
-
                                     <FormControl>
-                                        <CustomInputForm {...field} name="location" label="Location" placeholder="Location " />
-
+                                        <CustomInputForm
+                                            {...field}
+                                            name="location"
+                                            label="Location"
+                                            placeholder="Location"
+                                        />
                                     </FormControl>
-
                                 </FormItem>
                             )}
                         />
@@ -133,40 +139,58 @@ export default function InterviewReview() {
                                         placeholder="Enter salary"
                                         type="number"
                                     />
-
                                 </FormItem>
                             )}
                         />
 
+
                     </form>
                 </Form>
+
                 {Object.keys(jobData).length > 0 && (
-                    <div className="mt-4 w-full ">
+                    <div className="mt-4 w-full">
                         <OutputCard
                             showAvatar={false}
-
                             req={jobData.requirements || []}
                             res={jobData.responsibilities || []}
                             skill={jobData.skills || []}
                         />
                     </div>
                 )}
-
-
-                <Question questions={questions} showImage={false}/>
-
+                <div className="text-left space-y-2 w-full">
+                    <h2 className="text-lg font-semibold mt-4 mb-6">AI Powered Questions:</h2>
+                    <Form {...form}>
+                        <form>
+                            {updatedquestions.map((question: string, index: number) => (
+                                <FormField
+                                    key={index}
+                                    control={form.control}
+                                    name={`questions.${index}`}
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-2 pt-2 pb-2">
+                                            <CustomInputForm
+                                                {...field}
+                                                name={`questions.${index}`}
+                                                label={`Question ${index + 1}`}
+                                                placeholder={question}
+                                            
+                                                
+                                            />
+                                        </FormItem>
+                                    )}
+                                />
+                            ))}
+                        </form>
+                    </Form>
+                </div>
                 <div className="flex float-right gap-2 mt-4">
                     <Button variant="secondary">Back</Button>
-
-
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button className="w-40">Sign up to Continue</Button>
                         </DialogTrigger>
-
                         <DialogContent className="items-center bg-white/50 p-6 rounded-lg max-w-[1412px]">
-
-                            <Signup/>
+                            <Signup />
                         </DialogContent>
                     </Dialog>
                 </div>
