@@ -11,6 +11,11 @@ interface InputState {
   location: string;
   salary: string;
   currency:string;
+  skills:string[]
+  responsibilities: string[];
+  requirements: string[];
+  questions: string[];
+
   setJobId: (value: string) => void;  
   setJobDescription: (value: string) => void;
   setJobTitle: (value: string) => void;
@@ -19,6 +24,10 @@ interface InputState {
   setLocation: (value: string) => void;
   setSalary: (value: string) => void;
   setCurrency: (value: string) => void;
+  setSkills: (value: string[]) => void;
+  setResponsibilities: (value: string[]) => void;
+  setRequirements: (value: string[]) => void;
+  setQuestions: (value: string[]) => void;
 }
 
 const useStore = create<InputState>()(
@@ -33,6 +42,11 @@ const useStore = create<InputState>()(
         location: '',
         salary: '',
           currency: '',
+          skills: [],
+          responsibilities: [],
+          requirements: [],
+          questions: [],
+          
         setJobId: (value) => set({ jobId: value }), 
         setJobDescription: (value) => set({ jobDescription: value }),
         setJobTitle: (value) => set({ jobTitle: value }),
@@ -41,6 +55,10 @@ const useStore = create<InputState>()(
         setLocation: (value) => set({ location: value }),
         setSalary: (value) => set({ salary: value }),
           setCurrency: (value) => set({ currency: value }),
+          setSkills: (value) => set({ skills: value }),
+          setResponsibilities: (value) => set({ responsibilities: value }),
+          setRequirements: (value) => set({ requirements: value }),
+          setQuestions: (value) => set({ questions: value }),
       }),
       {
         name: 'job-Details',
