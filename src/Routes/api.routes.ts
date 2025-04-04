@@ -35,6 +35,41 @@ export const GetJobDetails = async (job_id: string) => {
 
 };
 
+export const updateJobDetails = async (job_id: string, data: {
+    job_description: string;
+    job_title: string;
+    job_type: string;
+    company_name: string;
+    location: string;
+    salary: string;
+      currency:string;
+}) => {
+    const response = await api.put(`api/v1/generate-job-details/${job_id}`, data);
+    return response.data;
+  };
+
+  export const updateJobQuestions = async (job_id: string, questions: string[]) => {
+    const response = await api.put(`api/v1/update-questions/${job_id}`, { questions });
+    return response.data;
+};
+
+export const updateResReq = async(job_id:string,data:{
+    job_description: string;
+    job_title: string;
+    job_type: string;
+    company_name: string;
+    location: string;
+    salary: string;
+      currency:string;
+      responsibilities:string[];
+      requirements:string[];
+      skills:string[]
+
+})=>{
+    const response = await api.put(`api/v1/job/${job_id}`, data);
+    return response.data;
+}
+
 export const SignUp = async (data: {
     first_name: string;
     last_name: string;
@@ -44,15 +79,20 @@ export const SignUp = async (data: {
     confirm_password: string;
     role: "admin";
 }) => {
-    console.log("Signup Request Payload:", data);
+    
     const response = await api.post(`api/v1/auth/signup`, data);
     return response.data;
 };
 
-export const GoogleLoginIn = async (data:{accessToken:string}) =>{
-    const response = await api.post(`api/v1/auth/google-login`,data )
+export const GoogleLoginIn = async (accessToken: string) => {
+    const response = await api.post(`api/v1/auth/google-login`, {}, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`, 
+        }
+    });
     return response.data;
-}
+};
+
 
 export const GenerateIntrviewLink = async (job_id: string) => {
     const { accessToken } = useAuthStore.getState();
