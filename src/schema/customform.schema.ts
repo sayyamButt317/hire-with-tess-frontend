@@ -8,6 +8,7 @@ export const customformSchema = z.object({
     location: z.string().min(3, { message: "Please enter a valid location ." }),
     salary: z.string().min(1, { message: "Please enter a valid salary amount." }),
     currency:z.string().min(1, { message: "Please select a currency ." }),
+    questions: z.array(z.string()).optional(),
 });
 
 export type FormValidator = z.infer<typeof customformSchema>;
