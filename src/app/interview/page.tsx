@@ -14,11 +14,13 @@ import NoQuestion from "./component/emptycard";
 import GenerateResponse from "@/hooks/generateResponse.hook";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import CustomInputForm from "@/app/interview/component/customformInput";
+import {  Pencil, Save } from "lucide-react";
+import { useSkillStore } from "@/store/InputStore";
+
 
 export default function InterviewForm() {
-  const { jobDescription, jobTitle, jobType, companyName, location, salary } =
-    useStore();
-
+  const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
+  const { isEditable, setIsEditable } = useSkillStore();
   const form = useForm<FormValidator>({
     resolver: zodResolver(customformSchema),
     defaultValues: {
@@ -47,6 +49,26 @@ export default function InterviewForm() {
 
   const responseData = generateMutation.data || null;
 
+  const handleEditDescription = () => {
+    setIsEditable(true); 
+  };
+
+  // const generateUpdateMutation = useUpdateJob();
+  const UpdateJobDescription = () => {
+    // generateUpdateMutation.mutate({
+    //   data: {
+    //     job_description: form.getValues("jobDescription"),
+    //     job_title: form.getValues("jobTitle"),
+    //     job_type: form.getValues("jobType"),
+    //     company_name: form.getValues("companyName"),
+    //     location: form.getValues("location"),
+    //     salary: (form.getValues("salary")),
+    //     currency: form.getValues("currency"),
+    //   },
+    // });
+    setIsEditable(false);
+  };
+
   return (
     <>
       <InterviewLayout showGoogleLogin={false} useCard={false}>
@@ -57,6 +79,7 @@ export default function InterviewForm() {
               ref={ref}
               className="space-y-8"
             >
+
               <FormField
                 control={form.control}
                 name="jobDescription"
@@ -66,13 +89,32 @@ export default function InterviewForm() {
                       {...field}
                       name="jobDescription"
                       label="Position Overview"
+                      type="textarea"
                       placeholder="Position Overview here"
+                      readOnly={!isEditable} 
+                      icon={
+                        isEditable ? (
+                          <Save
+                            size={16}
+                            color="#000000"
+                            strokeWidth={0.75}
+                            style={{ cursor: "pointer" }}
+                            onClick={UpdateJobDescription} 
+                          />
+                        ) : (
+                          <Pencil
+                            size={18}
+                            color="#718096"
+                            style={{ cursor: "pointer" }}
+                            onClick={handleEditDescription} 
+                          />
+                        )
+                      }
                     />
 
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="jobTitle"
