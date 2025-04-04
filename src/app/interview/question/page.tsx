@@ -8,12 +8,20 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import GenerateQuestionResponse from "@/hooks/generateQuestiion.hook";
 import Question from "../component/question";
+import useUpdateJobQuestion from "@/hooks/UpdateJobQuestion.hook";
 
 export default function Questionnaire() {
   const jobId = useStore((state) => state.jobId);
 
   const questionMutation = GenerateQuestionResponse();
   const response = questionMutation.data || [];
+
+  const generateupdateQuestionsMutation = useUpdateJobQuestion();
+
+  const savegenerateQuestions = async () => {
+    if (!jobId) return;
+    generateupdateQuestionsMutation.mutate({ job_id: jobId, questions: response });
+  };
 
   const onSubmit = () => {
     if (!jobId) return;
