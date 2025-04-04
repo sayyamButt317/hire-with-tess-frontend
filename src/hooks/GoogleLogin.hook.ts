@@ -1,10 +1,10 @@
-import {useMutation} from "@tanstack/react-query";
-import {toast} from "sonner";
-import {GoogleLoginIn} from "@/Routes/api.routes";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { GoogleLoginIn } from "@/Routes/api.routes";
 
 export default function useGoogleLoginHook() {
     return useMutation({
-        mutationFn: GoogleLoginIn,
+        mutationFn: (accessToken: string) => GoogleLoginIn(accessToken), 
         onSuccess: async () => {
             toast.success("Login Successful", {
                 position: "bottom-right",
