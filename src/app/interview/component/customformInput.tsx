@@ -1,10 +1,11 @@
-import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import FormControl from "@mui/material/FormControl";
+import { useSkillStore } from "@/store/InputStore";
+import { useRef } from "react";
 
 interface CustomInputProps {
     name: string;
@@ -13,14 +14,18 @@ interface CustomInputProps {
     type?: string;
     currencyName?: string;
     jobTypeName?: string;
-    icon?:string
+    icon?: React.ReactNode;
+    readOnly?: boolean;
+    color?: string;
     children?: React.ReactNode;
 }
 
 const CustomInputForm: React.FC<CustomInputProps> = ({
-                                                         name, label, placeholder, type = "text", currencyName, jobTypeName, children
-                                                     }) => {
+    name, label, placeholder, type = "text", currencyName, jobTypeName, icon, children, readOnly, color
+}) => {
     const { control } = useFormContext();
+    const inputRef = useRef<HTMLInputElement>(null);
+    const { isEditable } = useSkillStore();
 
     return (
         <Controller
@@ -28,9 +33,11 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
             control={control}
             defaultValue=""
             render={({ field, fieldState }) => (
-                <Box sx={{ width: "100%" }}>
+                <Box sx={{ width: "100%", position: "relative" }}>
                     <TextField
                         {...field}
+                        autoFocus={isEditable}
+                        inputRef={inputRef}
                         fullWidth
                         label={label}
                         placeholder={placeholder}
@@ -39,19 +46,8 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message || ""}
                         slotProps={{ inputLabel: { shrink: true } }}
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                height: "60px",
-                                borderRadius: "14px",
-                                fontSize: "16px",
-                                fontWeight: 400,
-                            },
-                            "& .MuiInputBase-input::placeholder": {
-                                fontSize: "14px",
-                                fontWeight: 400,
-                            },
-                        }}
                         InputProps={{
+                            readOnly,
                             startAdornment: jobTypeName ? (
                                 <InputAdornment position="start">
                                     <Controller
@@ -95,9 +91,34 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                     />
                                 </InputAdornment>
                             ) : null,
+                            endAdornment: icon ? (
+                                <InputAdornment position="end">{icon}</InputAdornment>
+                            ) : null,
+                        }}
+                        sx={{
+                            "& .MuiOutlinedInput-root": {
+                                height: "60px",
+                                borderRadius: "14px",
+                                fontSize: "16px",
+                                fontWeight: 400,
+                            },
+                            "& .MuiInputBase-input": {
+                                color: color || "black",
+                            },
+                            "& .MuiInputLabel-root": {
+                                color: "grey",
+                            },
+                            "& .MuiOutlinedInput-input::placeholder": {
+                                fontSize: "14px",
+                                fontWeight: 400,
+                                color: "black !important",
+                                opacity: 1,
+                            },
+                            "&:hover .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "black",
+                            },
                         }}
                     />
-                    {/* Render additional children if provided */}
                     {children && <Box mt={2}>{children}</Box>}
                 </Box>
             )}
