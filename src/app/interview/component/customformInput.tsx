@@ -111,7 +111,7 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                             "& .MuiOutlinedInput-input::placeholder": {
                                 fontSize: "14px",
                                 fontWeight: 400,
-                                color: "black !important",
+                                color: "grey",
                                 opacity: 1,
                             },
                             "&:hover .MuiOutlinedInput-notchedOutline": {
