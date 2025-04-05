@@ -93,11 +93,13 @@ export default function InterviewForm() {
                       readOnly={!isEditable} 
                       icon={
                         isEditable ? (
-                            <Save size={16}
-                                  color="#718096"
-                                  strokeWidth={0.75}
-                                  style={{ cursor: "pointer" }}
-                                  onClick={UpdateJobDescription}  />
+                            <Save
+                                size={16}
+                                color="#000000"
+                                strokeWidth={0.75}
+                                style={{ cursor: "pointer" }}
+                                onClick={UpdateJobDescription}
+                            />
                         ) : (
                           <Pencil
                             size={18}
