@@ -46,7 +46,7 @@ export default function GenerateLink() {
         >
             <div className="mt-8">
                 <h1 className="font-[roboto] leading-[46px] font-bold text-[24px]">Interview Link</h1>
-                <p className="font-[Open Sans] font-normal text-[16px] leading-[16px] text-center text-[#6F6C90] mt-2">
+                <p className="font-openSans  font-normal text-[16px] leading-[16px] text-center text-[#6F6C90] mt-2">
                     Copy and share the link with candidates
                 </p>
                 <div className="flex items-center w-[483px] h-[65px] leading-[14px] mx-auto mt-6 relative">
@@ -71,8 +71,8 @@ export default function GenerateLink() {
                     <hr />
                 </div>
                 <div className="items-center text-center flex flex-col">
-                    <h1 className="w-[680px] h-[46px] font-[roboto] text-[24px] leading-[46px] font-bold">QR Code</h1>
-                    <p className="w-[427px] h-[30px] font-[Open Sans] text-[16px] leading-[30px] font-normal text-gray-600">
+                    <h1 className="w-[680px] h-[46px] font-roboto text-[24px] leading-[46px] font-bold">QR Code</h1>
+                    <p className="w-[427px] h-[30px] font-openSans  text-[16px] leading-[30px] font-normal text-gray-600">
                         Candidates can scan this QR Code to access the interview
                     </p>
                     {data?.qr_code_base64 && (
@@ -88,7 +88,7 @@ export default function GenerateLink() {
                     )}
                     <button
                         onClick={handleDownloadQR}
-                        className="flex items-center justify-center gap-3 font-[roboto] text-[18px] leading-[20px] font-bold w-[212px] h-[65px] rounded-[14px] bg-[#1E4B8E] mt-11 text-white"
+                        className="flex items-center justify-center gap-3 font-roboto text-[18px] leading-[20px] font-bold w-[212px] h-[65px] rounded-[14px] bg-[#1E4B8E] mt-11 text-white"
                     >
                         <Download /> Download
                     </button>

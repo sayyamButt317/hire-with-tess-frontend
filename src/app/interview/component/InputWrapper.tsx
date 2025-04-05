@@ -14,7 +14,7 @@ export default function InputWrapper({ items, onRemove }: InputWrapperProps) {
                     <Input
                         value={item}
                         readOnly
-                        className="w-full sm:w-auto pr-10 border-[#E2E8F0] rounded-3xl text-black cursor-not-allowed font-[Open Sans] "
+                        className="w-full sm:w-auto pr-10 border-[#E2E8F0] rounded-3xl text-black cursor-not-allowed font-openSans  "
                     />
                     <button
                         onClick={() => onRemove(index)}
