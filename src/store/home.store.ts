@@ -32,8 +32,8 @@ interface InputState {
 
 const useStore = create<InputState>()(
   devtools(
-    persist(
-      (set) => ({
+      (
+          set) => ({
         jobId: '',  
         jobDescription: '',
         jobTitle: '',
@@ -64,7 +64,7 @@ const useStore = create<InputState>()(
         name: 'job-Details',
         storage:createJSONStorage (() => localStorage), 
       }
-    )
+
   )
 );
 
