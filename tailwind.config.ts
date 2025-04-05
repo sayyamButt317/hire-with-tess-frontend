@@ -8,14 +8,8 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                "tess-blue": "var(--tess-blue)",
-                "custom-orange": "var(--custom-orange)",
-                "custom-pink": "var(--custom-pink)",
-                "custom-blue": "var(--custom-blue)",
-                primary: "hsl(var(--primary))",
-                foreground: "hsl(var(--foreground))",
-                background: "hsl(var(--background))",
-                border: "hsl(var(--border))",
+                'tess-blue': '#170F49',
+                'tess-gray':'#6F6C90',
             },
             borderRadius: {
                 sm: "calc(var(--radius) - 4px)",
@@ -28,10 +22,11 @@ module.exports = {
                 "input-height": "4rem", 
             },
             fontFamily: {
-                roboto:['var(--font-family-roboto)'],
+                roboto: ['var(--font-roboto)', 'Roboto', 'sans-serif'],
+                openSans: ['var(--font-open-sans)', 'Open Sans', 'sans-serif'],
+                spaceGrotesk: ['var(--font-space-grotesk)', 'Space Grotesk', 'sans-serif'],
+            }
 
-                sans: ["Inter", "Helvetica Neue", "Arial", "sans-serif"],
-            },
         },
     },
     plugins: [
