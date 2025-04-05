@@ -84,7 +84,7 @@ export default function OutputCard({
                         {res.length > 0 && (
                             <div className="mb-4">
                                 <div className="flex flex-row justify-between">
-                                    <h3 className="font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
+                                    <h3 className="font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                         Responsibilities
                                     </h3>
                                     <Pencil
@@ -104,7 +104,7 @@ export default function OutputCard({
                                         />
                                     </div>
                                 ) : (
-                                    <ul className="list-disc pl-5 font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
+                                    <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                     {editedRes.split("\n").filter(line => line.trim()).map((item, index) => (
                                         <li key={index}>{item}</li>
                                     ))}
@@ -115,7 +115,7 @@ export default function OutputCard({
 
                         {req.length > 0 && (
                             <div className="mb-4">
-                                <h3 className="font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
+                                <h3 className="font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                     Requirements
                                 </h3>
                                 {isEditable ? (
@@ -125,7 +125,7 @@ export default function OutputCard({
                                     className="w-full p-2 border rounded-md h-40 resize-none"
                                 />
                             ) : (
-                                <ul className="list-disc pl-5 font-normal font-[Open Sans] text-[14px] leading-[24px] text-black">
+                                <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                     {editedReq.split("\n").filter(line => line.trim()).map((item, index) => (
                                         <li key={index}>{item}</li>
                                     ))}
