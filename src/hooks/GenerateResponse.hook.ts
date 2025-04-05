@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import {GenerateJobDetails} from "@/Routes/api.routes";
 import { useRouter } from 'next/navigation';
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import { toast } from "sonner";
 
 export default function useGenerateResponse() {
     const router = useRouter();
-    const { setJobId } = useStore();
+    const { setJobId } = useHomeStore();
 
     return useMutation({
         mutationFn: GenerateJobDetails,
