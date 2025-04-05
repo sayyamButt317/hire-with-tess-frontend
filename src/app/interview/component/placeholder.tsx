@@ -18,6 +18,7 @@ export default function Placeholder({
                     text-xs sm:text-sm md:text-base lg:text-lg"
                     placeholder="Describe what you need..."
                     onChange={onChange}
+                    required={true}
                 />
                 <Button
                     type="submit"
