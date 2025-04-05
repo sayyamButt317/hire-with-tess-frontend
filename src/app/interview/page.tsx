@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { customformSchema, FormValidator } from "@/schema/customform.schema";
@@ -72,14 +72,13 @@ export default function InterviewForm() {
   return (
     <>
       <InterviewLayout showGoogleLogin={false} useCard={false}>
-        <div className=" text-center pt-10 pb-10 w-full">
+        <div className=" text-center pt-10 pb-10 w-full ">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               ref={ref}
-              className="space-y-8"
+              className="space-y-8 px-4"
             >
-
               <FormField
                 control={form.control}
                 name="jobDescription"
@@ -94,13 +93,11 @@ export default function InterviewForm() {
                       readOnly={!isEditable} 
                       icon={
                         isEditable ? (
-                          <Save
-                            size={16}
-                            color="#000000"
-                            strokeWidth={0.75}
-                            style={{ cursor: "pointer" }}
-                            onClick={UpdateJobDescription} 
-                          />
+                            <Save size={16}
+                                  color="#718096"
+                                  strokeWidth={0.75}
+                                  style={{ cursor: "pointer" }}
+                                  onClick={UpdateJobDescription}  />
                         ) : (
                           <Pencil
                             size={18}
@@ -209,11 +206,11 @@ export default function InterviewForm() {
           </Form>
         </div>
       </InterviewLayout>
-      <div className=" sm:px-18">
-        <Card className="mt-4 p-12  w-full">
+      <div className=" sm:p-18 p-10" >
+        <Card className="mt-4  w-full">
           {responseData ? (
             <>
-              <h1 className="font-bold text-2xl">AI Powered Description</h1>
+              <h1 className="font-roboto font-semibold text-[20px] leading-[30px]">Ai Powered Description</h1>
               <OutputCard
                 req={responseData.requirements || []}
                 res={responseData.responsibilities || []}
