@@ -1,11 +1,9 @@
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { Pencil } from "lucide-react";
+import { Check, Pencil, X } from "lucide-react";
 import { useSkillStore } from "@/store/InputStore";
 import useUpdateJobQuestion from "@/hooks/UpdateJobQuestion.hook";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
+import React, { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface QuestionProps {
     questions: string[];
@@ -13,26 +11,27 @@ interface QuestionProps {
 }
 
 export default function Question({ questions, showImage = true }: QuestionProps) {
-    const { editableQuestionIndex, updateQuestion, setEditableQuestionIndex } = useSkillStore();
-    
+    const { editableQuestionIndex, setEditableQuestionIndex, isEditable, setIsEditable } = useSkillStore();
     const [editedQuestions, setEditedQuestions] = useState([...questions]);
-
     const UpdateQuestionMutation = useUpdateJobQuestion();
 
-    const handleSaveClick = async () => {
-        UpdateQuestionMutation.mutate({ questions: editedQuestions });
+    const SaveUpdatedQuestions = async () => {
+        if (editedQuestions !== questions) {
+            UpdateQuestionMutation.mutate({ questions: editedQuestions });
+        }
         setEditableQuestionIndex(null);
+        setIsEditable(false);
     };
 
-    const handleEditClick = (index: number) => {
+    const EnableEditing = (index: number) => {
         setEditableQuestionIndex(index);
+        setIsEditable(true);
     };
 
-    const handleQuestionChange = (index: number, value: string) => {
-        const newQuestions = [...editedQuestions];
-        newQuestions[index] = value;
-        setEditedQuestions(newQuestions);
-        updateQuestion(index, value);
+    const cancelEditing = () => {
+        setIsEditable(false);
+        setEditableQuestionIndex(null);
+        setEditedQuestions([...questions]);
     };
 
     return (
@@ -46,9 +45,13 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                         )}
                         <div className="relative w-full">
                             {editableQuestionIndex === index ? (
-                                <Input
+                                <Textarea
                                     value={question}
-                                    onChange={(e) => handleQuestionChange(index, e.target.value)}
+                                    onChange={(e) => {
+                                        const newQuestions = [...editedQuestions];
+                                        newQuestions[index] = e.target.value;
+                                        setEditedQuestions(newQuestions); // Update local state for edited questions
+                                    }}
                                     className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white p-2"
                                     autoFocus
                                 />
@@ -58,24 +61,38 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                                 </p>
                             )}
 
-                            <Pencil
-                                size={18}
-                                color={editableQuestionIndex === index ? "#48BB78" : "#718096"}
-                                onClick={() => handleEditClick(index)}
-                                className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                            />
+
+                            {!isEditable ? (
+                                <Pencil
+                                    size={18}
+                                    color={editableQuestionIndex === index ? "#48BB78" : "#718096"}
+                                    onClick={() => EnableEditing(index)}
+                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                />
+                            ) : (
+
+                                editedQuestions[index] !== questions[index] ? (
+                                    <Check
+                                        size={18}
+                                        color="green"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={SaveUpdatedQuestions}
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                    />
+                                ) : (
+                                    <X
+                                        size={18}
+                                        color="orange"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={cancelEditing}
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                    />
+                                )
+                            )}
                         </div>
                     </div>
                 ))}
             </ul>
-
-            {editableQuestionIndex !== null && (
-                <div className="flex justify-end mt-4">
-                    <Button onClick={handleSaveClick} className="w-40">
-                        Save
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }

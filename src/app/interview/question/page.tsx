@@ -1,27 +1,20 @@
 "use client";
 
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import NoQuestion from "../component/emptycard";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import GenerateQuestionResponse from "@/hooks/generateQuestiion.hook";
+import GenerateQuestionResponse from "@/hooks/GenerateQuestion.hook";
 import Question from "../component/question";
-import useUpdateJobQuestion from "@/hooks/UpdateJobQuestion.hook";
 
 export default function Questionnaire() {
-  const jobId = useStore((state) => state.jobId);
+  const jobId = useHomeStore((state) => state.jobId);
 
   const questionMutation = GenerateQuestionResponse();
   const response = questionMutation.data || [];
 
-  const generateupdateQuestionsMutation = useUpdateJobQuestion();
-
-  const savegenerateQuestions = async () => {
-    if (!jobId) return;
-    generateupdateQuestionsMutation.mutate({ job_id: jobId, questions: response });
-  };
 
   const onSubmit = () => {
     if (!jobId) return;
