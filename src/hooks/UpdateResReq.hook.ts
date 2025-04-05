@@ -1,10 +1,10 @@
 import { updateResReq } from "@/Routes/api.routes";
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export default function useResReqHook() {
-    const { jobId } = useStore(); 
+export default function useResReqSkillHook() {
+    const { jobId } = useHomeStore();
 
     return useMutation({
         mutationFn: ({
@@ -22,12 +22,7 @@ export default function useResReqHook() {
                 requirements: string[];
                 skills: string[];
             };
-        }) => updateResReq(jobId, data), 
-
-        onSuccess: () => {
-            toast.success("Job details updated successfully!");
-        },
-
+        }) => updateResReq(jobId, data),
         onError: (error) => {
             toast.error("Error updating job details: " + error.message);
         },

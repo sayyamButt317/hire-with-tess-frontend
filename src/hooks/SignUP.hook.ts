@@ -20,9 +20,9 @@ export default function useSignupMutation() {
             }
         },
         onError: async (error) => {
-            console.error("Signup Error:", error?.response?.data?.detail || "An error occurred during signup.");
+            console.error("Signup Error:", error.message || "An error occurred during signup.");
             toast.error("Signup Failed", {
-                description: (error as any)?.response?.data?.detail || "An error occurred during signup.",
+                description: error.message || "An error occurred during signup.",
             });
         },
     });
