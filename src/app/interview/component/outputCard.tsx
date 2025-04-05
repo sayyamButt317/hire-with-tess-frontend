@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import InputWrapper from "./InputWrapper";
-import { Pencil } from "lucide-react";
+import {Check, Pencil, X} from "lucide-react";
 import { useSkillStore } from "@/store/InputStore";
 import useResReqHook from "@/hooks/UpdateResReq.hook";
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import { toast } from "sonner";
+import {Input} from "@/components/ui/input";
 
 interface OutputCardProps {
     res: string[];
@@ -17,7 +17,10 @@ interface OutputCardProps {
     buttonText?: string;
     showAvatar?: boolean;
     onGenerateClick?: () => void;
+    items?: string[];
+    onRemove?: (index: number) => void;
 }
+
 
 export default function OutputCard({
     res = [],
@@ -31,19 +34,30 @@ export default function OutputCard({
     const [skills, setSkills] = useState<string[]>(skill);
     const [editedRes, setEditedRes] = useState<string>(res.join("\n"));
     const [editedReq, setEditedReq] = useState<string>(req.join("\n"));
-    const { isEditable, setIsEditable } = useSkillStore();
+    
+    
     const ReqResMutation = useResReqHook();
-    const { jobDescription, jobTitle, jobType, companyName, salary, location, currency } = useStore();
+    const { jobDescription, jobTitle, jobType, companyName, salary, location, currency } = useHomeStore();
 
-    const removeSkill = (index: number) => {
+    const { isEditable, setIsEditable } = useSkillStore();
+
+
+    const deleteSkill = (index: number) => {
         setSkills((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleEdit = () => {
-        setIsEditable(!isEditable);
+    
+    const cancelEditing = () => {
+        setEditedRes(res.join("\n"));
+        setEditedReq(req.join("\n"));
+        setSkills(skill);
+        setIsEditable(false);
     };
 
-    const handleSave = () => {
+
+    const EnableEdit = () => setIsEditable(true);
+
+    const SaveEditedText = () => {
         const updatedRes = editedRes.split("\n").map((line) => line.trim()).filter((line) => line !== "");
         const updatedReq = editedReq.split("\n").map((line) => line.trim()).filter((line) => line !== "");
 
@@ -74,7 +88,8 @@ export default function OutputCard({
 
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 px-8">
+            <h1 className="font-roboto font-semibold text-[20px] leading-[30px]">Ai Powered Description</h1>
             <div className="flex items-start gap-4">
                 {showAvatar && (
                     <Image src={avatarSrc} alt="bot" width={40} height={40} className="shrink-0" />
@@ -87,29 +102,56 @@ export default function OutputCard({
                                     <h3 className="font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                         Responsibilities
                                     </h3>
-                                    <Pencil
-                                        size={18}
-                                        color="#718096"
-                                        style={{ cursor: "pointer" }}
-                                        onClick={handleEdit}
-                                    />
+                                    {!isEditable ? (
+                                        <Pencil
+                                            size={18}
+                                            color="#718096"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={EnableEdit}
+                                        />
+                                    ) : (
+
+                                        <div className="flex gap-2">
+                                            {(editedRes.trim() === res.join("\n").trim() &&
+                                                editedReq.trim() === req.join("\n").trim() &&
+                                                JSON.stringify(skills) === JSON.stringify(skill)) ? (
+                                                <X
+                                                    size={18}
+                                                    color="orange"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={cancelEditing}
+                                                />
+                                            ) : (
+                                                <Check
+                                                    size={18}
+                                                    color="green"
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={SaveEditedText}
+                                                />
+                                            )}
+                                        </div>
+                                    )}
+
+
+
                                 </div>
 
-                                {isEditable ? (
-                                    <div>
+                                {!isEditable ? (
+                                        <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
+                                            {editedRes.split("\n").filter(line => line.trim()).map((item, index) => (
+                                                <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+
+                                ) : (
                                         <textarea
                                             value={editedRes}
                                             onChange={(e) => setEditedRes(e.target.value)}
-                                            className="w-full p-2 border rounded-md h-40 resize-none"
+                                            className="w-full p-2 border rounded-md h-40 resize-none font-normal font-openSans  text-[14px] leading-[24px]"
                                         />
-                                    </div>
-                                ) : (
-                                    <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
-                                    {editedRes.split("\n").filter(line => line.trim()).map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
-                                )}
+
+                                )
+                                }
                             </div>
                         )}
 
@@ -118,25 +160,21 @@ export default function OutputCard({
                                 <h3 className="font-normal font-openSans  text-[14px] leading-[24px] text-black">
                                     Requirements
                                 </h3>
-                                {isEditable ? (
-                                <textarea
-                                    value={editedReq}
-                                    onChange={(e) => setEditedReq(e.target.value)}
-                                    className="w-full p-2 border rounded-md h-40 resize-none"
-                                />
+                                {!isEditable ? (
+                                        <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
+                                            {editedReq.split("\n").filter(line => line.trim()).map((item, index) => (
+                                                <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+
                             ) : (
-                                <ul className="list-disc pl-5 font-normal font-openSans  text-[14px] leading-[24px] text-black">
-                                    {editedReq.split("\n").filter(line => line.trim()).map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
+                                    <textarea
+                                        value={editedReq}
+                                        onChange={(e) => setEditedReq(e.target.value)}
+                                        className="w-full p-2 border rounded-md h-40 font-normal font-openSans  text-[14px] leading-[24px] resize-none"
+                                    />
                             )}
                             </div>
-                        )}
-                        {isEditable && (
-                            <Button onClick={handleSave} className="w-60 sm:w-auto flex items-end gap-2">
-                                Save Changes
-                            </Button>
                         )}
                     </div>
                 </Card>
@@ -147,11 +185,40 @@ export default function OutputCard({
                     {showAvatar && (
                         <Image src={avatarSrc} alt="bot" width={40} height={40} className="shrink-0" />
                     )}
-                    <Card className="p-4 sm:p-6 w-full">
-                        <InputWrapper items={skills} onRemove={removeSkill} />
-                    </Card>
+
+
+                        <div className="flex flex-wrap gap-2">
+                            {skills.map((item, index) => (
+                                <div key={index} className="relative w-full sm:w-auto">
+                                    {!isEditable ? (
+                                                <Input
+                                                    value={item}
+                                                    readOnly
+                                                    className="w-full sm:w-auto pr-10 border-[#E2E8F0] rounded-3xl text-black cursor-not-allowed font-openSans"
+                                                />
+                                    ) : (
+                                        <>
+                                            <Input
+                                                value={item}
+                                                readOnly
+                                                className="w-full sm:w-auto pr-10 border-[#E2E8F0] rounded-3xl text-black cursor-not-allowed font-openSans"
+                                            />
+                                            <button
+                                                onClick={() => deleteSkill(index)}
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                            >
+                                                <X size={18} />
+                                            </button>
+                                        </>
+                                    )
+                                    }
+                                </div>
+                            ))}
+                        </div>
+
                 </div>
             )}
+
 
             {onGenerateClick && (
                 <Button onClick={onGenerateClick} className="w-full sm:w-auto flex items-center gap-2">

@@ -7,11 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { customformSchema, FormValidator } from "@/schema/customform.schema";
 import Image from "next/image";
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import Link from "next/link";
 import OutputCard from "./component/outputCard";
 import NoQuestion from "./component/emptycard";
-import GenerateResponse from "@/hooks/generateResponse.hook";
+import GenerateResponse from "@/hooks/GenerateResponse.hook";
 import InterviewLayout from "@/components/layout/InterviewLayout";
 import CustomInputForm from "@/app/interview/component/customformInput";
 import {  Pencil, Save } from "lucide-react";
@@ -19,7 +19,7 @@ import { useSkillStore } from "@/store/InputStore";
 
 
 export default function InterviewForm() {
-  const { jobDescription, jobTitle, jobType, companyName, location, salary } = useStore();
+  const { jobDescription, jobTitle, jobType, companyName, location, salary } = useHomeStore();
   const { isEditable, setIsEditable } = useSkillStore();
   const form = useForm<FormValidator>({
     resolver: zodResolver(customformSchema),
@@ -212,7 +212,7 @@ export default function InterviewForm() {
         <Card className="mt-4  w-full">
           {responseData ? (
             <>
-              <h1 className="font-roboto font-semibold text-[20px] leading-[30px]">Ai Powered Description</h1>
+
               <OutputCard
                 req={responseData.requirements || []}
                 res={responseData.responsibilities || []}
