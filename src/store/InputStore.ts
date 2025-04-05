@@ -1,12 +1,14 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 interface SkillState {
     skills: string[];
     isEditable: boolean;
     questions: string[];
     editableQuestionIndex: number | null;
+    cancel: boolean;
 
+    setCancel: (value: boolean) => void;
     setIsEditable: (value: boolean) => void;
     setSkills: (value: string[]) => void;
     removeSkills: (index: number) => void;
@@ -24,24 +26,25 @@ export const useSkillStore = create<SkillState>()(
                 isEditable: false,
                 questions: [],
                 editableQuestionIndex: null,
+                cancel: false,
 
+                setCancel: (value: boolean) => set({ cancel: value }),
                 setIsEditable: (value) => set({ isEditable: value }),
                 setSkills: (value) => set({ skills: value }),
                 removeSkills: (indexToRemove) =>
                     set((state) => ({
                         skills: state.skills.filter((_, index) => index !== indexToRemove),
                     })),
-
                 setQuestions: (value) => set({ questions: value }),
                 setEditableQuestionIndex: (index) => set({ editableQuestionIndex: index }),
                 updateQuestion: (index, value) =>
                     set((state) => ({
-                        questions: state.questions.map((q, i) =>
-                            i === index ? value : q
+                        questions: state.questions.map((cq, i) =>
+                            i === index ? value : cq
                         ),
                     })),
             }),
-            { name: "input-storage" }
+            { name: "Response-storage", storage: createJSONStorage(() => localStorage) }
         )
     )
 );
