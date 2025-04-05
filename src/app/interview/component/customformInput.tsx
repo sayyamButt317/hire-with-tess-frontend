@@ -5,7 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import FormControl from "@mui/material/FormControl";
 import { useSkillStore } from "@/store/InputStore";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 interface CustomInputProps {
     name: string;
