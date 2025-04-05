@@ -31,16 +31,17 @@ export default function InterviewLayout({
                                             showGoogleLogin = false,
                                             useCard = true,
                                             buttons = [],
-                                            titleClassName = " text-center items-center justify-center text-[30px] mt-6 font-normal text-black leading-[2p8px] font-[space Grotesk] sm:font-[space Grotesk] sm:font-normal text-[20px] leading-[28px] ",
-                                            subtitleClassName = "text-center items-center justify-center font-bold text-[34px] leading-[46px] mt-6 font-[roboto] text-[#170F49] sm:font-bold sm:text-[24px] sm:leading-[46px] font-[roboto] ",
-                                            descriptionClassName = "text-center items-center justify-center text-[18px] font-normal text-[#6F6C90] font-[open sans] sm:font-[roboto] sm:font-normal sm:text-[16px] sm:leading-[30px]  "
+                                             titleClassName = "text-center items-center justify-center text-[30px] mt-6 font-normal text-black leading-[28px] font-spaceGrotesk sm:font-spaceGrotesk sm:font-normal text-[20px] leading-[28px]",
+                                            subtitleClassName = "text-center text-[#170F49] items-center justify-center font-bold text-[34px] leading-[46px] mt-6 font-roboto sm:font-bold sm:text-[24px] sm:leading-[46px] font-roboto",
+                                           descriptionClassName = "text-center items-center justify-center text-[18px] font-normal text-[#6F6C90] font-openSans sm:font-roboto sm:font-normal sm:text-[16px] sm:leading-[30px]",
+
                                         }: InterviewLayoutProps) {
 
     const Content = (
         <div className="w-full border-[1px] mt-6 rounded-[34px] md:p-8 flex flex-col justify-center text-center items-center sm:p-6  ">
             {showStepper && (
                 <div className="flex flex-col items-center w-full mt-2">
-                    <div className="flex justify-center w-full max-w-3xl">
+                    <div className="flex flex-row justify-center w-full max-w-3xl">
                         <Stepper currentStep={currentStep} />
                     </div>
                     <hr className="w-full border-t border-gray-300 mt-4" />
