@@ -16,6 +16,10 @@ interface OutputCardProps {
     avatarSrc?: string;
     buttonText?: string;
     showAvatar?: boolean;
+    showEditIcon?: boolean;
+    showHeading?: boolean;
+    containerPadding?: string;
+    cardPadding?: string;
     onGenerateClick?: () => void;
     items?: string[];
     onRemove?: (index: number) => void;
@@ -29,6 +33,10 @@ export default function OutputCard({
     avatarSrc = "/images/AIAvatar.png",
     buttonText = "Generate",
     showAvatar = true,
+                                       showEditIcon = true,
+                                       showHeading = true,
+                                       cardPadding = "p-4 sm:p-6",
+                                       containerPadding = "px-8",
     onGenerateClick,
 }: OutputCardProps) {
     const [skills, setSkills] = useState<string[]>(skill);
@@ -88,14 +96,21 @@ export default function OutputCard({
 
 
     return (
-        <div className="flex flex-col gap-4 px-8">
-            <h1 className="font-roboto font-semibold text-[20px] leading-[30px]">Ai Powered Description</h1>
-            <div className="flex items-start gap-4">
+        <div className={`flex flex-col gap-4  ${containerPadding}`}>
+
+        {showHeading && (
+                <h1 className="font-roboto font-semibold text-[20px] leading-[30px]">
+                    Ai Powered Description
+                </h1>
+            )}
+
+            <div className="flex items-start gap-6">
                 {showAvatar && (
                     <Image src={avatarSrc} alt="bot" width={40} height={40} className="shrink-0" />
                 )}
-                <Card className="p-4 sm:p-6 w-full">
-                    <div className="text-left">
+                <Card className={`${cardPadding} w-full rounded-2xl`}>
+
+                <div className="text-left">
                         {res.length > 0 && (
                             <div className="mb-4">
                                 <div className="flex flex-row justify-between">
@@ -103,14 +118,15 @@ export default function OutputCard({
                                         Responsibilities
                                     </h3>
                                     {!isEditable ? (
-                                        <Pencil
-                                            size={18}
-                                            color="#718096"
-                                            style={{ cursor: "pointer" }}
-                                            onClick={EnableEdit}
-                                        />
+                                        showEditIcon && (
+                                            <Pencil
+                                                size={18}
+                                                color="#718096"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={EnableEdit}
+                                            />
+                                        )
                                     ) : (
-
                                         <div className="flex gap-2">
                                             {(editedRes.trim() === res.join("\n").trim() &&
                                                 editedReq.trim() === req.join("\n").trim() &&
@@ -131,6 +147,7 @@ export default function OutputCard({
                                             )}
                                         </div>
                                     )}
+
 
 
 

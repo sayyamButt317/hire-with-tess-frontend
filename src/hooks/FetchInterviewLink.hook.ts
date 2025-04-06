@@ -1,10 +1,10 @@
-import { GenerateIntrviewLink } from "@/Routes/api.routes";
+import {GenerateInterviewLink} from "@/Routes/api.routes";
 import { useQuery } from "@tanstack/react-query";
-import useStore from "@/store/home.store";
+import useHomeStore from "@/store/home.store";
 import useAuthStore from "@/store/authToken.store";
 
 export default function useFetchInterviewLink() {
-    const job_id = useStore((state) => state.jobId);
+    const job_id = useHomeStore((state) => state.jobId);
     const { accessToken } = useAuthStore();
 
     return useQuery({
@@ -13,7 +13,7 @@ export default function useFetchInterviewLink() {
             if (!job_id) throw new Error("No job ID provided");
             if (!accessToken) throw new Error("No access token available");
 
-            return GenerateIntrviewLink(job_id);
+            return GenerateInterviewLink(job_id);
         },
         enabled: !!job_id && !!accessToken,
     });

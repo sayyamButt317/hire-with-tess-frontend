@@ -38,13 +38,13 @@ export default function InterviewLayout({
                                         }: InterviewLayoutProps) {
 
     const Content = (
-        <div className="w-full border-[1px] mt-6 rounded-[34px] md:p-8 flex flex-col justify-center text-center items-center sm:p-6  ">
+        <div className="w-full border-[1px] mt-6 rounded-[34px] md:p-8 flex flex-col justify-center text-center items-center sm:p-6  shadow-xl">
             {showStepper && (
                 <div className="flex flex-col items-center w-full mt-2">
                     <div className="flex flex-row justify-center w-full max-w-3xl">
                         <Stepper currentStep={currentStep} />
                     </div>
-                    <hr className="w-full border-t border-gray-300 mt-4" />
+                    <hr className="w-full border-t border-[#EFF0F6] mt-4" />
                 </div>
             )}
 

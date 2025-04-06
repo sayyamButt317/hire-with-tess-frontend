@@ -1,10 +1,10 @@
 export default function Stepper({ currentStep }: { currentStep: number }) {
     return (
-        <ol className="flex items-center justify-between w-full max-w-3xl mx-auto px-2 sm:px-4">
+        <ol className="flex items-center justify-center w-full max-w-3xl mx-auto px-2 sm:px-4">
             {[1, 2, 3, 4].map((step, index) => (
-                <li key={step} className="flex items-center w-full relative">
+                <li key={step} className="flex items-center relative justify-center">
                     {/* Step and connector */}
-                    <div className="flex items-center w-full">
+                    <div className="flex items-center justify-center w-full">
                         {/* Step Circle */}
                         <div
                             className={`z-10 flex items-center justify-center w-[35px] h-[35px] sm:w-[22px] sm:h-[22px] lg:w-12 lg:h-12 rounded-full shrink-0 text-sm sm:text-xs

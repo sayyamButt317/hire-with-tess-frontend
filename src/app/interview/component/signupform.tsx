@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useSignupMutation from "@/hooks/SignUP.hook";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import CustomInputForm from "@/app/interview/component/customformInput";
 
 export default function SignupForm() {
@@ -19,10 +19,10 @@ export default function SignupForm() {
             organization: "",
             email: "",
             password: "",
-            confirmpassword: "",
+            confirmPassword: "",
         },
-    })
-    const ref = useRef<HTMLFormElement>(null)
+    });
+    const ref = useRef<HTMLFormElement>(null);
     const signupMutation = useSignupMutation();
 
     const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
@@ -32,14 +32,14 @@ export default function SignupForm() {
             organization_name: data.organization,
             email: data.email,
             password: data.password,
-            confirm_password: data.confirmpassword,
+            confirm_password: data.confirmPassword,
             role: "admin",
         };
 
         signupMutation.mutate(payload, {
             onSuccess: () => {
                 form.reset();
-            }
+            },
         });
     };
 
@@ -48,7 +48,7 @@ export default function SignupForm() {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 ref={ref}
-                className="space-y-8 flex flex-col items-center"
+                className="space-y-8 flex flex-col items-center overflow-auto max-h-[80vh]" // Added scroll and max height
             >
                 <div className="flex gap-4 items-start w-full mt-4 ">
                     <FormField
@@ -56,11 +56,15 @@ export default function SignupForm() {
                         name="firstname"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-                                    <CustomInputForm {...field} name="firstname" type="text" label="First Name" placeholder="John " />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="firstname"
+                                        type="text"
+                                        label="First Name"
+                                        placeholder="John"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
@@ -69,12 +73,15 @@ export default function SignupForm() {
                         name="lastname"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-
-                                    <CustomInputForm {...field} name="lastname" type="text" label="Last Namee" placeholder="Doe " />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="lastname"
+                                        type="text"
+                                        label="Last Name"
+                                        placeholder="Doe"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
@@ -86,12 +93,14 @@ export default function SignupForm() {
                         name="organization"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-
-                                    <CustomInputForm {...field} name="organization" label="Organization Name" placeholder="King Palm " />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="organization"
+                                        label="Organization Name"
+                                        placeholder="King Palm"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
@@ -100,11 +109,15 @@ export default function SignupForm() {
                         name="email"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-                                    <CustomInputForm {...field} name="email" type="email" label="Email" placeholder="john.doe@gmail.com" />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="email"
+                                        type="email"
+                                        label="Email"
+                                        placeholder="john.doe@gmail.com"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
@@ -116,45 +129,58 @@ export default function SignupForm() {
                         name="password"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-
-                                    <CustomInputForm {...field} name="password" type="password" label="Password" placeholder="******" />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="password"
+                                        type="password"
+                                        label="Password"
+                                        placeholder="******"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
-                        name="confirmpassword"
+                        name="confirmPassword"
                         render={({ field }) => (
                             <FormItem className="w-full">
-
                                 <FormControl>
-
-                                    <CustomInputForm {...field} name="confirmpassword" type="password" label="Confirm Password" placeholder="******" />
+                                    <CustomInputForm
+                                        {...field}
+                                        name="confirmPassword"
+                                        type="password"
+                                        label="Confirm Password"
+                                        placeholder="******"
+                                    />
                                 </FormControl>
-
                             </FormItem>
                         )}
                     />
                 </div>
 
-                <div className="flex items-start w-full gap-x-0.5">
-                    <Checkbox id="terms" />
+                <div className="flex items-start w-full gap-x-2">
+                    <Checkbox id="terms" required={true} />
                     <label
                         htmlFor="terms"
-                        className="text-sm font-[Open_Sans] text-[16px] font-medium text-[#1B2559]  leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-sm font-openSans text-[16px] font-normal text-[#1B2559] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                         I agree to the Terms of Service and acknowledge you have read our Privacy Policy
+                        I agree to the Terms of Service and acknowledge you have read our Privacy Policy
                     </label>
                 </div>
-                <Button type="submit" className="w-[528px] h-[64px] leading-[20px] font-[roboto]  cursor-pointer rounded-2xl" disabled={signupMutation.isPending}>
-                    {signupMutation.isPending ? "Signing Up..." : "Sign Up to Continue"}
-                </Button>
+
+                <div className="flex justify-center w-full mt-8">
+                    <Button
+                        type="submit"
+                        className="w-full sm:w-[528px] h-[64px] leading-[20px] font-roboto cursor-pointer rounded-2xl mb-10 max-w-[90%]"
+                        disabled={signupMutation.isPending}
+                    >
+                        {signupMutation.isPending ? "Signing Up..." : "Sign Up to Continue"}
+                    </Button>
+                </div>
+
             </form>
         </Form>
-
-    )
+    );
 }

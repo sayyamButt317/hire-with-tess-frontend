@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import GenerateQuestionResponse from "@/hooks/GenerateQuestion.hook";
 import Question from "../component/question";
+import { useRouter } from 'next/navigation'
 
 export default function Questionnaire() {
   const jobId = useHomeStore((state) => state.jobId);
@@ -15,7 +16,7 @@ export default function Questionnaire() {
   const questionMutation = GenerateQuestionResponse();
   const response = questionMutation.data || [];
 
-
+  const router = useRouter()
   const onSubmit = () => {
     if (!jobId) return;
     questionMutation.mutate({ job_id: jobId });
@@ -73,15 +74,7 @@ export default function Questionnaire() {
 
       {response.length > 0 ? (
         <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
-          <Link href="/">
-            <Button
-              variant={"secondary"}
-              className=" sm:w-auto cursor-pointer"
-              type="button"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button onClick={() => router.back()} variant="secondary">Back</Button>
           <Link href="/interview/review">
             <Button
               type="submit"

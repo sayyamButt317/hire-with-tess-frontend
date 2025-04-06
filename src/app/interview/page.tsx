@@ -16,6 +16,7 @@ import InterviewLayout from "@/components/layout/InterviewLayout";
 import CustomInputForm from "@/app/interview/component/customformInput";
 import {  Pencil, Save } from "lucide-react";
 import { useSkillStore } from "@/store/InputStore";
+import {useUpdateJob} from "@/hooks/UpdateJobDetails.hook";
 
 
 export default function InterviewForm() {
@@ -53,19 +54,20 @@ export default function InterviewForm() {
     setIsEditable(true); 
   };
 
-  // const generateUpdateMutation = useUpdateJob();
+  const generateUpdateMutation = useUpdateJob();
   const UpdateJobDescription = () => {
-    // generateUpdateMutation.mutate({
-    //   data: {
-    //     job_description: form.getValues("jobDescription"),
-    //     job_title: form.getValues("jobTitle"),
-    //     job_type: form.getValues("jobType"),
-    //     company_name: form.getValues("companyName"),
-    //     location: form.getValues("location"),
-    //     salary: (form.getValues("salary")),
-    //     currency: form.getValues("currency"),
-    //   },
-    // });
+      generateUpdateMutation.mutate({
+      data: {
+        job_description: form.getValues("jobDescription"),
+        job_title: form.getValues("jobTitle"),
+        job_type: form.getValues("jobType"),
+        company_name: form.getValues("companyName"),
+        location: form.getValues("location"),
+        salary: form.getValues("salary"),
+        currency: form.getValues("currency"),
+
+      },
+    });
     setIsEditable(false);
   };
 
@@ -208,8 +210,8 @@ export default function InterviewForm() {
           </Form>
         </div>
       </InterviewLayout>
-      <div className=" sm:p-18 p-10" >
-        <Card className="mt-4  w-full">
+      <div className=" sm:p-18 p-6 " >
+        <Card className="  w-full rounded-4xl shadow-xl h-[624px]">
           {responseData ? (
             <>
 

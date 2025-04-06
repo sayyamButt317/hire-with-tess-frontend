@@ -50,7 +50,7 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                                     onChange={(e) => {
                                         const newQuestions = [...editedQuestions];
                                         newQuestions[index] = e.target.value;
-                                        setEditedQuestions(newQuestions); // Update local state for edited questions
+                                        setEditedQuestions(newQuestions);
                                     }}
                                     className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white p-2"
                                     autoFocus

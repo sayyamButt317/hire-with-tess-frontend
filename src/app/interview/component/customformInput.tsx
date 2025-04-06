@@ -41,6 +41,7 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                         fullWidth
                         label={label}
                         placeholder={placeholder}
+                        autoComplete="off"
                         variant="outlined"
                         type={type}
                         error={!!fieldState.error}
@@ -48,6 +49,7 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                         slotProps={{ inputLabel: { shrink: true } }}
                         InputProps={{
                             readOnly,
+
                             startAdornment: jobTypeName ? (
                                 <InputAdornment position="start">
                                     <Controller
@@ -103,21 +105,34 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                 fontWeight: 400,
                             },
                             "& .MuiInputBase-input": {
-                                color: color || "black",
+                                color: "black",
+                            },
+                            "& .MuiInputBase-input.Mui-disabled": {
+                                WebkitTextFillColor: "black",
+                                color: "black",
+                                opacity: 1,
                             },
                             "& .MuiInputLabel-root": {
-                                color: "grey",
+                                color: "gray",
+                                transition: "color 0.2s",
+                            },
+                            "& .MuiInputLabel-root.Mui-focused": {
+                                color: "black",
+                            },
+                            "& .MuiInputLabel-root.MuiInputLabel-shrink": {
+                                color: "black", // when there's a value or focused
                             },
                             "& .MuiOutlinedInput-input::placeholder": {
                                 fontSize: "14px",
                                 fontWeight: 400,
-                                color: "grey",
+                                color: "black",
                                 opacity: 1,
                             },
                             "&:hover .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "black",
+                                borderColor: "gray",
                             },
                         }}
+
                     />
                     {children && <Box mt={2}>{children}</Box>}
                 </Box>

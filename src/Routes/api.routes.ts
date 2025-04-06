@@ -7,7 +7,7 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
+//Post Job Details
 export const GenerateJobDetails = async (data: {
   job_description: string;
   job_title: string;
@@ -20,21 +20,13 @@ export const GenerateJobDetails = async (data: {
     const response = await api.post(`api/v1/generate-job-details/`, data);
     return response.data;
 };
-
-export const GenerateQuestion = async (job_id: string) => {
-    const response = await api.post(`api/v1/generate-questions/${job_id}`, {
-        job_id
-    });
-    return response.data.questions; 
-};
-
-
+//Get Job Details
 export const GetJobDetails = async (job_id: string) => {
     const response = await api.get(`api/v1/job/${job_id}`);
     return response.data; 
 
 };
-
+//Update Job Details
 export const updateJobDetails = async (job_id: string, data: {
     job_description: string;
     job_title: string;
@@ -47,12 +39,24 @@ export const updateJobDetails = async (job_id: string, data: {
     const response = await api.put(`api/v1/generate-job-details/${job_id}`, data);
     return response.data;
   };
-
+//GetQuestions
+export const GetQuestionById = async (id: string) => {
+    const response = await api.get(`/api/v1/interview/${id}`);
+    return response.data;
+}
+//Post Questions
+export const GenerateQuestion = async (job_id: string) => {
+    const response = await api.post(`api/v1/generate-questions/${job_id}`, {
+        job_id
+    });
+    return response.data.questions;
+};
+//Update Questions
   export const updateJobQuestions = async (job_id: string, questions: string[]) => {
     const response = await api.put(`api/v1/update-questions/${job_id}`, { questions });
     return response.data;
 };
-
+//Update Req ,Res & Skill
 export const updateResReq = async(job_id:string,data:{
     job_description: string;
     job_title: string;
@@ -94,7 +98,7 @@ export const GoogleLoginIn = async (accessToken: string) => {
 };
 
 
-export const GenerateIntrviewLink = async (job_id: string) => {
+export const GenerateInterviewLink = async (job_id: string) => {
     const { accessToken } = useAuthStore.getState();
 
     if (!accessToken) {
