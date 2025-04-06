@@ -20,10 +20,6 @@ export default function useGenerateResponse() {
                 });
             }
         },
-        onError: () => {
-            toast("Error", {
-                description: "Failed to generate response",
-            });
-        },
+
     });
 }
