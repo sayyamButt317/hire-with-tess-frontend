@@ -6,6 +6,8 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import FormControl from "@mui/material/FormControl";
 import { useSkillStore } from "@/store/InputStore";
 import React, { useRef } from "react";
+import { useToggleStore } from "@/store/Toggle.store";
+import { Eye, EyeOff } from "lucide-react";
 
 interface CustomInputProps {
     name: string;
@@ -21,11 +23,23 @@ interface CustomInputProps {
 }
 
 const CustomInputForm: React.FC<CustomInputProps> = ({
-    name, label, placeholder, type = "text", currencyName, jobTypeName, icon, children, readOnly, color
-}) => {
+                                                         name,
+                                                         label,
+                                                         placeholder,
+                                                         type = "text",
+                                                         currencyName,
+                                                         jobTypeName,
+                                                         icon,
+                                                         children,
+                                                         readOnly,
+                                                         color,
+                                                     }) => {
     const { control } = useFormContext();
     const inputRef = useRef<HTMLInputElement>(null);
     const { isEditable } = useSkillStore();
+
+    const { showPassword, toggleShowPassword } = useToggleStore();
+    const actualType = type === "password" ? (showPassword ? "text" : "password") : type;
 
     return (
         <Controller
@@ -43,13 +57,12 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                         placeholder={placeholder}
                         autoComplete="off"
                         variant="outlined"
-                        type={type}
+                        type={actualType}
                         error={!!fieldState.error}
                         helperText={fieldState.error?.message || ""}
                         slotProps={{ inputLabel: { shrink: true } }}
                         InputProps={{
                             readOnly,
-
                             startAdornment: jobTypeName ? (
                                 <InputAdornment position="start">
                                     <Controller
@@ -63,8 +76,12 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                                         <SelectValue placeholder="Job Type" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="Onsite" className="text-black">Onsite</SelectItem>
-                                                        <SelectItem value="Remote" className="text-black">Remote</SelectItem>
+                                                        <SelectItem value="Onsite" className="text-black">
+                                                            Onsite
+                                                        </SelectItem>
+                                                        <SelectItem value="Remote" className="text-black">
+                                                            Remote
+                                                        </SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             </FormControl>
@@ -84,8 +101,12 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                                         <SelectValue placeholder="USD" />
                                                     </SelectTrigger>
                                                     <SelectContent>
-                                                        <SelectItem value="USD" className="text-black">USD</SelectItem>
-                                                        <SelectItem value="AED" className="text-black">AED</SelectItem>
+                                                        <SelectItem value="USD" className="text-black">
+                                                            USD
+                                                        </SelectItem>
+                                                        <SelectItem value="AED" className="text-black">
+                                                            AED
+                                                        </SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                             </FormControl>
@@ -93,7 +114,20 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                     />
                                 </InputAdornment>
                             ) : null,
-                            endAdornment: icon ? (
+                            endAdornment: type === "password" ? (
+                                <InputAdornment position="end">
+                  <span
+                      onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleShowPassword();
+                      }}
+                      style={{ cursor: "pointer" }}
+                  >
+                    {showPassword ? <EyeOff /> : <Eye />}
+                  </span>
+                                </InputAdornment>
+                            ) : icon ? (
                                 <InputAdornment position="end">{icon}</InputAdornment>
                             ) : null,
                         }}
@@ -105,10 +139,16 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                 fontWeight: 400,
                             },
                             "& .MuiInputBase-input": {
-                                color: "black",
+                                color: "black", // User input or value
+                                "&::placeholder": {
+                                    color: "gray", // Placeholder hint
+                                    opacity: 1,
+                                    fontSize: "14px",
+                                    fontWeight: 400,
+                                },
                             },
                             "& .MuiInputBase-input.Mui-disabled": {
-                                WebkitTextFillColor: "black",
+                                WebkitTextFillColor: "black", // Readonly still black
                                 color: "black",
                                 opacity: 1,
                             },
@@ -120,13 +160,7 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                                 color: "black",
                             },
                             "& .MuiInputLabel-root.MuiInputLabel-shrink": {
-                                color: "black", // when there's a value or focused
-                            },
-                            "& .MuiOutlinedInput-input::placeholder": {
-                                fontSize: "14px",
-                                fontWeight: 400,
-                                color: "black",
-                                opacity: 1,
+                                color: "black", // Floating label
                             },
                             "&:hover .MuiOutlinedInput-notchedOutline": {
                                 borderColor: "gray",
