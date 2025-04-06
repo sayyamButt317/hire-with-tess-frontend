@@ -1,14 +1,61 @@
+'use client';
 import InterviewLayout from "@/components/layout/InterviewLayout";
+import useHomeStore from "@/store/home.store";
+import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function CandidateInstructions() {
-    return(
+    const { jobId } = useHomeStore();
+    const jobDetailsQuery = FetchJobDetails(jobId);
+    const jobData = jobDetailsQuery?.data || {};
+
+    return (
         <InterviewLayout
             showStepper={false}
             useCard={false}
-            description="Let's get started.Record your response at your own pace and put your best foot! "
-            subtitle="Your next opportunity starts here! "
-            showTitle={true} >
-            <div ></div>
+            description="Let's get started. Record your response at your own pace and put your best foot forward!"
+            subtitle="Your next opportunity starts here!"
+            showTitle={true}
+            subtitleClassName="font-roboto font-bold text-[34px] leading-[46px] mt-8"
+            descriptionClassName="mt-4 text-[#6F6C90] leading-[30px] font-roboto font-normal"
+        >
+            <div className="flex flex-col items-center justify-center px-4 ">
+                <h1 className="font-roboto font-bold text-[22px] sm:text-[26px] text-center">
+                    Software Engineer Interview - KingPalm
+                </h1>
+                <p className="font-roboto text-[14px] sm:text-[16px] font-normal text-[#6F6C90] mt-4 text-center">
+                    Take your time, be yourself, and show what you can do!
+                </p>
+
+                <div className="py-8 w-full flex justify-center">
+                    <Card className="w-full sm:w-[90%] md:w-[669px] border-1 rounded-2xl p-4">
+                        <h1 className="font-roboto font-bold text-[16px] leading-[20px] mb-2">
+                            Interview Instructions:
+                        </h1>
+                        <div className="list-disc pl-5 font-openSans text-[14px] leading-[26px] text-black">
+                            <li>You will answer 4 questions, each requiring an audio response.</li>
+                            <li>You can redo your responses before submitting your final answer.</li>
+                            <li>Each question has a time limit, so be mindful of your response time.</li>
+                            <li>Ensure a quiet environment and a stable internet connection for the best experience.</li>
+                            <li>Once you're ready, click "Continue" to begin!</li>
+                        </div>
+                    </Card>
+                </div>
+
+                <div className="py-8 w-full flex justify-center">
+                    <Button className="w-full sm:w-[351px] h-[50px] rounded-md">
+                        Continue
+                    </Button>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-1 px-2 sm:px-0 text-center sm:text-left">
+                    <p className="font-openSans font-bold text-[14px] sm:text-[16px] text-[#6F6C90]">Tip:</p>
+                    <p className="font-openSans font-normal text-[14px] sm:text-[16px] text-[#6F6C90]">
+                        Speak clearly and naturally, as if you're having a conversation. Confidence goes a long way!
+                    </p>
+                </div>
+            </div>
         </InterviewLayout>
-    )
+    );
 }
