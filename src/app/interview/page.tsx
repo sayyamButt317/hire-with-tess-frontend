@@ -37,15 +37,15 @@ export default function InterviewForm() {
   const generateMutation = GenerateResponse();
 
   const onSubmit = async (data: FormValidator) => {
-    generateMutation.mutate({
-      job_description: data.jobDescription,
-      job_title: data.jobTitle,
-      job_type: data.jobType,
-      company_name: data.companyName,
-      location: data.location,
-      salary: data.salary,
-      currency: data.currency,
-    });
+    // generateMutation.mutate({
+    //   job_description: data.jobDescription,
+    //   job_title: data.jobTitle,
+    //   job_type: data.jobType,
+    //   company_name: data.companyName,
+    //   location: data.location,
+    //   salary: data.salary,
+    //   currency: data.currency,
+    // });
   };
 
   const responseData = generateMutation.data || null;
@@ -211,7 +211,7 @@ export default function InterviewForm() {
         </div>
       </InterviewLayout>
       <div className=" sm:p-18 p-6 " >
-        <Card className="  w-full rounded-4xl shadow-xl h-[624px]">
+        <Card className="  w-full rounded-4xl shadow-xl ">
           {responseData ? (
             <>
 
