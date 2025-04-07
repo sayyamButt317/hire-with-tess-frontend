@@ -14,7 +14,7 @@ export default function useSignupMutation() {
             if (response?.access_token) {
                 setAccessToken(response.access_token);
                 toast.success("Signup successful!");
-                router.push("/interview/generatelink");
+                router.push(`/interview/generate-link`);
             } else {
                 toast("Signup failed");
             }

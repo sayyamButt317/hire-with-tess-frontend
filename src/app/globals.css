@@ -1,9 +1,5 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
-@tailwind utilities;
-
 :root {
   --tess-blue: #1E4B8E;
   --custom-orange: #F7941D;
@@ -133,5 +129,5 @@
 @layer components {
   .input-custom {
     @apply h-16 rounded-2xl border px-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
-}
+  }
 }

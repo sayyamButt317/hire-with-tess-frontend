@@ -39,12 +39,12 @@ export default function Signup() {
 
             <div className="w-full ">
                 <div className="relative flex items-center justify-center w-full mt-2 mb-2">
-                    <hr className="w-full h-[1px] mb-4 bg-[#CBCAD7] border-0 rounded-sm dark:bg-gray-700" />
-                    <div className="absolute px-4  font-openSans  font-normal text-[18px] space-x-[28px] bg-white text-gray-600 left-1/2 transform -translate-x-1/2 dark:bg-gray-900">
+                    <hr className="w-full h-[1px]  bg-[#CBCAD7] border-0 rounded-sm " />
+                    <div className="absolute px-4  font-openSans  font-normal text-[18px] space-x-[28px] bg-white text-gray-600 left-1/2 transform -translate-x-1/2 ">
                         Or
                     </div>
                 </div>
-<div className="w-full sm:flex-col px-4">
+<div className="w-full sm:flex-col px-4 mt-4">
     <SignupForm />
 </div>
 
