@@ -32,7 +32,7 @@ interface HomeState {
 
 const useHomeStore = create<HomeState>()(
     devtools(
-
+persist(
             (set) => ({
                 jobId: '',
                 jobDescription: '',
@@ -64,6 +64,7 @@ const useHomeStore = create<HomeState>()(
                 name: 'job-Details',
                 storage: createJSONStorage(() => localStorage),
             }
+        )
     )
 );
 
