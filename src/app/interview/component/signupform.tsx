@@ -170,10 +170,10 @@ export default function SignupForm() {
                     </label>
                 </div>
 
-                <div className="flex justify-center w-full mt-8">
+                <div className="flex justify-center w-full">
                     <Button
                         type="submit"
-                        className="w-full sm:w-[528px] h-[64px] leading-[20px] font-roboto cursor-pointer rounded-2xl mb-10 max-w-[90%]"
+                        className="w-full sm:w-[528px] h-[64px] leading-[20px] font-roboto cursor-pointer rounded-2xl max-w-[90%]"
                         disabled={signupMutation.isPending}
                     >
                         {signupMutation.isPending ? "Signing Up..." : "Sign Up to Continue"}

@@ -55,6 +55,9 @@ function DialogContent({
             <DialogPrimitive.Content
                 className={cn(
                     "fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[90vw] sm:max-w-[1412px] rounded-lg shadow-2xl overflow-auto p-8 bg-white",
+                    "w-full max-w-[90vw] sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] xl:max-w-[80vw]",
+                    "max-h-[90vh] sm:max-h-[75vh] md:max-h-[90vh]",
+                    "rounded-lg shadow-2xl overflow-auto p-6 bg-white",
                     className
                 )}
                 {...props}

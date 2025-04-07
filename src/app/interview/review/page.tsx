@@ -174,7 +174,7 @@ export default function InterviewReview() {
                         <DialogTrigger asChild>
                             <Button className="w-40">Sign up to Continue</Button>
                         </DialogTrigger>
-                        <DialogContent className="items-center bg-white shadow-2xl p-6 rounded-lg max-w-[90vw] sm:max-w-[1412px] mt-16 sm:mt-8">
+                        <DialogContent className="items-center bg-white shadow-2xl rounded-lg w-5xl">
                             <Signup />
                         </DialogContent>
                     </Dialog>
