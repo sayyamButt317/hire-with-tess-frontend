@@ -92,7 +92,7 @@ export default function GenerateLink() {
                 )}
 
                 {/* Divider */}
-                <div className="m-12  mb-2 w-full mb-4">
+                <div className="m-12 w-full mb-4">
                     <hr className="w-[80%] border-gray-300" />
                 </div>
 
@@ -118,14 +118,14 @@ export default function GenerateLink() {
                         </div>
                     )}
 
-                    <div className="flex flex-row items-center justify-center">
-                        <button
-                            onClick={handleDownloadQR}
-                            className="flex items-center justify-center gap-3 font-roboto text-[18px] leading-[20px] font-bold w-[80%] sm:w-[212px] h-[65px] rounded-[14px] bg-[#1E4B8E] mt-11 text-white"
-                        >
-                            <Download /> Download
-                        </button>
-                    </div>
+<div className="flex flex-row items-center justify-center">
+  <button
+    onClick={handleDownloadQR}
+    className="flex items-center justify-center gap-2 sm:gap-3 font-roboto text-[14px] sm:text-[16px] md:text-[18px] font-bold w-[90%] sm:w-[180px] md:w-[212px] h-[50px] sm:h-[60px] md:h-[65px] rounded-[14px] bg-[#1E4B8E] mt-8 sm:mt-11 text-white px-4 sm:px-6"
+  >
+    <Download className="w-4 h-4 sm:w-5 sm:h-5" /> Download
+  </button>
+</div>
 
                 </div>
             </div>
