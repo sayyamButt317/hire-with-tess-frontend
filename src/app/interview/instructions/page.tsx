@@ -24,7 +24,7 @@ export default function CandidateInstructions() {
                 <h1 className="font-roboto font-bold text-[22px] sm:text-[26px] text-center">
                     Software Engineer Interview - KingPalm
                 </h1>
-                <p className="font-roboto text-[14px] sm:text-[16px] font-normal text-[#6F6C90] mt-4 text-center">
+                <p className="font-roboto text-[14px] sm:text-[16px] font-thin text-[#6F6C90] mt-4 text-center">
                     Take your time, be yourself, and show what you can do!
                 </p>
 
