@@ -37,15 +37,15 @@ export default function InterviewForm() {
   const generateMutation = GenerateResponse();
 
   const onSubmit = async (data: FormValidator) => {
-    // generateMutation.mutate({
-    //   job_description: data.jobDescription,
-    //   job_title: data.jobTitle,
-    //   job_type: data.jobType,
-    //   company_name: data.companyName,
-    //   location: data.location,
-    //   salary: data.salary,
-    //   currency: data.currency,
-    // });
+    generateMutation.mutate({
+      job_description: data.jobDescription,
+      job_title: data.jobTitle,
+      job_type: data.jobType,
+      company_name: data.companyName,
+      location: data.location,
+      salary: data.salary,
+      currency: data.currency,
+    });
   };
 
   const responseData = generateMutation.data || null;
@@ -56,18 +56,18 @@ export default function InterviewForm() {
 
   const generateUpdateMutation = useUpdateJob();
   const UpdateJobDescription = () => {
-      generateUpdateMutation.mutate({
-      data: {
-        job_description: form.getValues("jobDescription"),
-        job_title: form.getValues("jobTitle"),
-        job_type: form.getValues("jobType"),
-        company_name: form.getValues("companyName"),
-        location: form.getValues("location"),
-        salary: form.getValues("salary"),
-        currency: form.getValues("currency"),
+    //   generateUpdateMutation.mutate({
+    //   data: {
+    //     job_description: form.getValues("jobDescription"),
+    //     job_title: form.getValues("jobTitle"),
+    //     job_type: form.getValues("jobType"),
+    //     company_name: form.getValues("companyName"),
+    //     location: form.getValues("location"),
+    //     salary: form.getValues("salary"),
+    //     currency: form.getValues("currency"),
 
-      },
-    });
+    //   },
+    // });
     setIsEditable(false);
   };
 
