@@ -48,7 +48,7 @@ export default function SignupForm() {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 ref={ref}
-                className="space-y-8 flex flex-col items-center overflow-auto max-h-[80vh]" // Added scroll and max height
+                className="space-y-8 flex flex-col items-center overflow-auto max-h-[80vh] py-8" // Added padding-y
             >
                 <div className="flex gap-4 items-start w-full mt-4 ">
                     <FormField

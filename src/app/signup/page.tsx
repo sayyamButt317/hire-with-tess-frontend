@@ -17,7 +17,7 @@ export default function Signup() {
 
 
     return (
-        <div>
+        <div className="py-4">
             <div className="flex flex-col items-center justify-center text-center">
                 <h1 className="font-[roboto] font-medium text-[20px] sm:text-[24px]  w-full sm:w-[607px]">
                     Sign Up to Share Your AI-Generated Interview
@@ -37,7 +37,7 @@ export default function Signup() {
 
             </div>
 
-            <div className="w-full ">
+            <div className="w-full mt-4">
                 <div className="relative flex items-center justify-center w-full mt-2 mb-2">
                     <hr className="w-full h-[1px]  bg-[#CBCAD7] border-0 rounded-sm " />
                     <div className="absolute px-4  font-openSans  font-normal text-[18px] space-x-[28px] bg-white text-gray-600 left-1/2 transform -translate-x-1/2 ">

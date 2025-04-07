@@ -37,7 +37,7 @@ export default function Questionnaire() {
           ) : (
             <NoQuestion
               title="No Questions Available"
-              description="Kindly Click on the Generae Button below to generate Interview questions"
+              description="Kindly Click on the Generate Button below to generate Interview questions"
             />
           )}
 

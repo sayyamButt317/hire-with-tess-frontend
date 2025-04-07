@@ -61,16 +61,7 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                                 </p>
                             )}
 
-
-                            {!isEditable ? (
-                                <Pencil
-                                    size={18}
-                                    color={editableQuestionIndex === index ? "#48BB78" : "#718096"}
-                                    onClick={() => EnableEditing(index)}
-                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                                />
-                            ) : (
-
+                            {editableQuestionIndex === index ? (
                                 editedQuestions[index] !== questions[index] ? (
                                     <Check
                                         size={18}
@@ -88,6 +79,13 @@ export default function Question({ questions, showImage = true }: QuestionProps)
                                         className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                                     />
                                 )
+                            ) : (
+                                <Pencil
+                                    size={18}
+                                    color="#718096"
+                                    onClick={() => EnableEditing(index)}
+                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                />
                             )}
                         </div>
                     </div>

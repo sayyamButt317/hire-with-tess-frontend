@@ -7,7 +7,7 @@ import FetchJobDetails from "@/hooks/FetchJobDetails.hook";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { customformSchema } from "@/schema/customform.schema";
-import {  useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -20,12 +20,30 @@ export default function InterviewReview() {
 
     const jobDetailsQuery = FetchJobDetails(jobId);
     const jobData = jobDetailsQuery?.data || {};
-
-    const {data} = FetchQuestions(jobId);
+    const { data } = FetchQuestions(jobId);
 
     const form = useForm<z.infer<typeof customformSchema>>({});
+    const { setValue } = form;
     const ref = useRef<HTMLFormElement>(null);
-    const router = useRouter()
+    const router = useRouter();
+
+    useEffect(() => {
+        if (jobData) {
+            setValue("jobTitle", jobData.job_title || "");
+            setValue("jobType", jobData.job_type || "");
+            setValue("companyName", jobData.company_name || "");
+            setValue("location", jobData.location || "");
+            setValue("salary", jobData.salary || "");
+        }
+    }, [jobData, setValue]);
+
+    useEffect(() => {
+        if (data?.questions) {
+            data.questions.forEach((question: string, index: number) => {
+                setValue(`questions.${index}`, question);
+            });
+        }
+    }, [data?.questions, setValue]);
 
     return (
         <InterviewLayout
@@ -49,14 +67,12 @@ export default function InterviewReview() {
                                             {...field}
                                             name="jobTitle"
                                             label="Job Title"
-                                            placeholder={jobData.job_title|| "Job Title"}
-
+                                            readOnly
                                         />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
-
                         <FormField
                             control={form.control}
                             name="jobType"
@@ -67,7 +83,7 @@ export default function InterviewReview() {
                                             {...field}
                                             name="jobType"
                                             label="Job Type"
-                                            placeholder={jobData.job_type || "Job Type"}
+                                            readOnly
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -83,7 +99,7 @@ export default function InterviewReview() {
                                             {...field}
                                             name="companyName"
                                             label="Company Name"
-                                            placeholder={jobData.company_name || "Company Name"}
+                                            readOnly
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -99,7 +115,7 @@ export default function InterviewReview() {
                                             {...field}
                                             name="location"
                                             label="Location"
-                                            placeholder={ jobData.location || "Location"}
+                                            readOnly
                                         />
                                     </FormControl>
                                 </FormItem>
@@ -114,19 +130,16 @@ export default function InterviewReview() {
                                         name="salary"
                                         currencyName={jobData.currency || "currency"}
                                         label="Salary"
-                                        placeholder={jobData.salary ||"Enter salary"}
                                         type="number"
+                                        readOnly
                                     />
                                 </FormItem>
                             )}
                         />
-
-
                     </form>
                 </Form>
 
                 {Object.keys(jobData).length > 0 && (
-
                     <div className="mt-4 w-full">
                         <OutputCard
                             containerPadding=""
@@ -154,9 +167,7 @@ export default function InterviewReview() {
                                                 {...field}
                                                 name={`questions.${index}`}
                                                 label={`Question ${index + 1}`}
-                                                placeholder={question}
-
-
+                                                readOnly
                                             />
                                         </FormItem>
                                     )}
@@ -179,7 +190,6 @@ export default function InterviewReview() {
                         </DialogContent>
                     </Dialog>
                 </div>
-
             </div>
         </InterviewLayout>
     );
