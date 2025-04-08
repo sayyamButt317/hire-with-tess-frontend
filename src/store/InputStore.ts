@@ -4,12 +4,14 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 interface SkillState {
     skills: string[];
     isEditable: boolean;
+    isEditSkill:boolean;
     questions: string[];
     editableQuestionIndex: number | null;
     cancel: boolean;
 
     setCancel: (value: boolean) => void;
     setIsEditable: (value: boolean) => void;
+    setIsEditableSkill:(value:boolean) => void;
     setSkills: (value: string[]) => void;
     removeSkills: (index: number) => void;
 
@@ -24,12 +26,14 @@ export const useSkillStore = create<SkillState>()(
             (set) => ({
                 skills: [],
                 isEditable: false,
+                isEditSkill:false,
                 questions: [],
                 editableQuestionIndex: null,
                 cancel: false,
 
                 setCancel: (value: boolean) => set({ cancel: value }),
                 setIsEditable: (value) => set({ isEditable: value }),
+                setIsEditableSkill: (value) => set({isEditSkill:value}),
                 setSkills: (value) => set({ skills: value }),
                 removeSkills: (indexToRemove) =>
                     set((state) => ({
