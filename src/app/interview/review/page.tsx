@@ -28,6 +28,7 @@ export default function InterviewReview() {
     const router = useRouter();
 
     useEffect(() => {
+        console.log("jobData", jobData);
         if (jobData) {
             setValue("jobTitle", jobData.job_title || "");
             setValue("jobType", jobData.job_type || "");

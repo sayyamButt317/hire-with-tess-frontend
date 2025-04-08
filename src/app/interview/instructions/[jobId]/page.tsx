@@ -10,7 +10,6 @@ export default function CandidateInstructions() {
     const { jobId } = useHomeStore();
     const {data} = FetchQuestions(jobId);
 
-
     return (
         <InterviewLayout
             showStepper={false}
