@@ -277,7 +277,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
                 </Box>
             )}
 
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-12">
                 {!hasRecorded ? (
                     <EnhancedSpeechButton
                         isListening={isRecording}
