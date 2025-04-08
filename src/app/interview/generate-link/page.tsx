@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, Share2 } from "lucide-react";
 import useFetchInterviewLink from "@/hooks/FetchInterviewLink.hook";
 import { toast } from "sonner";
-import Image from "next/image";
 import SocialShare from "@/app/interview/component/share";
 import useHomeStore from "@/store/home.store";
 import { useToggleStore } from "@/store/Toggle.store";

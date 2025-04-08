@@ -4,6 +4,7 @@ import useHomeStore from "@/store/home.store";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import FetchQuestions from "@/hooks/FetchQuestions.hook";
+import Link from "next/link";
 
 export default function CandidateInstructions() {
     const { jobId } = useHomeStore();
@@ -44,9 +45,12 @@ export default function CandidateInstructions() {
                 </div>
 
                 <div className="py-8 w-full flex justify-center">
+                    <Link href={`/interview/details/${jobId}`}>
                     <Button className="w-full sm:w-[351px] h-[50px] rounded-md">
                         Continue
                     </Button>
+                    </Link>
+                  
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-1 px-2 sm:px-0 text-center sm:text-left">
