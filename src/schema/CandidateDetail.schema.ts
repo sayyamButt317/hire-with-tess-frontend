@@ -5,8 +5,14 @@ const phoneRegex = new RegExp(
 );
 export const CandidateDetailSchema = z.object({
     image: z
-        .any()
-        .refine((file) => file.size > 0, "Image is Required"),
+    .any()
+    .refine((file) => typeof window !== "undefined" && file instanceof File, {
+      message: "Image field must be a Filed",
+    })
+    .refine((file) => file?.size > 0, {
+      message: "Image is required",
+    }),
+  
           
         candidate_name : z.string().min(3, { message: "Please provide your User name." }),
     email: z

@@ -74,6 +74,7 @@ export const updateResReq = async(job_id:string,data:{
     return response.data;
 }
 
+//Sign UP 
 export const SignUp = async (data: {
     first_name: string;
     last_name: string;
@@ -88,6 +89,7 @@ export const SignUp = async (data: {
     return response.data;
 };
 
+//googleLogin
 export const GoogleLoginIn = async (accessToken: string) => {
     const response = await api.post(`api/v1/auth/google-login`, {}, {
         headers: {
@@ -126,3 +128,5 @@ export const UserDetails = async (data: {
       const response = await api.post(`api/v1/submit-interview/`, data);
       return response.data;
   };
+
+
