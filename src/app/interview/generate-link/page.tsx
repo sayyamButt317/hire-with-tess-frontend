@@ -22,7 +22,8 @@ export default function GenerateLink() {
     setShowQrSharedOptions,
   } = useToggleStore();
 
-  const interviewLink = `${window.location.origin}/interview/instructions/${jobId}`;
+  const interviewLink = `https://hire-with-tess-frontend-mf6h.vercel.app/interview/instructions/${jobId}`;
+
 
   const handleCopy = () => {
     if (!interviewLink) return;
