@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, Share2 } from "lucide-react";
 import useFetchInterviewLink from "@/hooks/FetchInterviewLink.hook";
 import { toast } from "sonner";
-import Image from "next/image";
 import SocialShare from "@/app/interview/component/share";
 import useHomeStore from "@/store/home.store";
 import { useToggleStore } from "@/store/Toggle.store";
@@ -23,7 +22,8 @@ export default function GenerateLink() {
     setShowQrSharedOptions,
   } = useToggleStore();
 
-  const interviewLink = `${window.location.origin}/interview/instructions/${jobId}`;
+  const interviewLink = `https://hire-with-tess-frontend-mf6h.vercel.app/interview/instructions/${jobId}`;
+
 
   const handleCopy = () => {
     if (!interviewLink) return;

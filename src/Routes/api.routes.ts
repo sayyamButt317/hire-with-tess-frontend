@@ -113,3 +113,16 @@ export const GenerateInterviewLink = async (job_id: string) => {
 
     return response.data;
 };
+
+//Post Candidate Details
+export const UserDetails = async (data: {
+    job_id: string; 
+    candidate_name: string;
+    email: string;
+    phone: string;
+    image: string;
+  }) => {
+    
+      const response = await api.post(`api/v1/submit-interview/`, data);
+      return response.data;
+  };
