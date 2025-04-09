@@ -6,7 +6,8 @@ interface ToggleProps {
     showConfirmPassword: boolean;
     copied: string;
     showShareOptions: boolean;
-    showQrSharedOptions:boolean
+    showQrSharedOptions:boolean;
+    
     setShowQrSharedOptions:() => void;
     setCopied: (value: string) => void;
     setShowShareOptions: () => void;
@@ -24,10 +25,8 @@ export const useToggleStore = create<ToggleProps>()(
                 showShareOptions: false,
                 showQrSharedOptions:false,
 
-                setShowQrSharedOptions:() => set((state) => ({showQrSharedOptions:!state.showQrSharedOptions})),
-                
+                setShowQrSharedOptions:() => set((state) => ({showQrSharedOptions:!state.showQrSharedOptions})),           
                 setCopied: (value: string) => set({ copied: value }),
-
                 setShowShareOptions: () => set((state) => ({ showShareOptions: !state.showShareOptions })),
 
                 toggleShowPassword: () => set((state) => ({ showPassword: !state.showPassword })),
