@@ -41,17 +41,20 @@ export default function CandidateInterviewQuestions() {
         Hirewithtess
       </h1>
       {/* <Timer seconds={time} /> */}
-      <div className="flex justify-between items-center my-10 w-full ">
-        {!data?.questions ? <Skeleton className="w-full h-10" /> :
-
+      <div className="flex justify-between items-center my-10 w-3xl ">
+        {!data?.questions ? <Skeleton className="w-full h-10 px-4" /> :
           <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={40} lineHeight={4} lineWidth={50} />
-
-
         }
       </div>
 
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
-        <p className="text-sm text-gray-500 mb-2">{`Question ${currentStep}`}</p>
+        <p className="text-sm text-gray-500 mb-2">
+          {!data?.questions ? (
+            <Skeleton className="w-sm h-6" />
+          ) : (
+            `Question ${currentStep}`
+          )}
+        </p>
         <h2 className="text-lg font-bold mb-8">{data?.questions[currentStep - 1]}</h2>
         <SpeechRecordingInput onSaveAndContinue={handleSaveAndContinue} />
       </div>
