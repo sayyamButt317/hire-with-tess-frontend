@@ -47,7 +47,7 @@ export default function QuestionPage() {
       </h1>
 
       <div className="flex justify-between items-center my-10 w-full">
-      {!data?.questions ? <Skeleton/> : 
+      {!data?.questions ? <Skeleton className="w-full h-10"/> : 
    <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={40} lineHeight={4} lineWidth={50} />
       }  
       </div>
