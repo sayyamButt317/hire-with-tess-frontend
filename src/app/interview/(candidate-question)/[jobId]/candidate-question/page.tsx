@@ -9,6 +9,7 @@ import FetchQuestions from "@/hooks/FetchQuestions.hook";
 import SpeechRecordingInput from "@/app/interview/component/SpeechToTextInput";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CandidateInterviewQuestions() {
    
@@ -18,9 +19,10 @@ export default function CandidateInterviewQuestions() {
   const {data} = FetchQuestions(jobId);
   const router = useRouter();
     
-  const [currentStep, setCurrentStep] = useState(1);
+
   const totalSteps = data?.questions.length;
-  
+  const [currentStep, setCurrentStep] = useState(0);
+
   const handleSaveAndContinue = () => {
     const nextIndex = currentStep;  
     if (nextIndex < totalSteps) {
@@ -29,6 +31,7 @@ export default function CandidateInterviewQuestions() {
       toast("You have completed all the questions!");
     }
   };
+  
 
   const [time, setTime] = useState(32 * 60 + 10);
 
@@ -39,7 +42,10 @@ export default function CandidateInterviewQuestions() {
     </h1>
         {/* <Timer seconds={time} /> */}
     <div className="flex justify-between items-center my-10 w-full">
-      <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={25} lineHeight={4} lineWidth={50} />
+      {data.isLoading ?
+       <Skeleton className="w-full h-10 items-center justify-center" /> 
+       : <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={40} lineHeight={4} lineWidth={50} />}
+  
     </div>
       
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
