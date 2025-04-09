@@ -29,7 +29,7 @@ export default function Questionnaire() {
         currentStep={2}
         showGoogleLogin={false}
         useCard={false}
-        description="Review,edit, or regenerate questions before finalizing your interview"
+        description="Review, Edit, or regenerate questions before finalizing your interview"
       >
         <div className="flex flex-col w-full h-full items-center text-center space-y-4">
           {response.length > 0 ? (

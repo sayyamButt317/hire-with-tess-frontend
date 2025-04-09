@@ -21,7 +21,7 @@ export default function CandidateInterviewQuestions() {
     
 
   const totalSteps = data?.questions.length;
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const handleSaveAndContinue = () => {
     const nextIndex = currentStep;  
@@ -42,9 +42,7 @@ export default function CandidateInterviewQuestions() {
     </h1>
         {/* <Timer seconds={time} /> */}
     <div className="flex justify-between items-center my-10 w-full">
-      {data.isLoading ?
-       <Skeleton className="w-full h-10 items-center justify-center" /> 
-       : <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={40} lineHeight={4} lineWidth={50} />}
+     <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={40} lineHeight={4} lineWidth={50} />
   
     </div>
       
