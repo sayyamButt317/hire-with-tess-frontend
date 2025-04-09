@@ -28,7 +28,7 @@ export default function CandidatesDetails() {
 
   const onSubmit = async (data: CandidateDetailsValidator) => {
     console.log(data);
-    router.push(`/interview/candidate-question`);
+    router.push(`/interview/${jobId}/candidate-question`);
   };
 
   const ref = useRef<HTMLFormElement>(null);
@@ -65,7 +65,7 @@ export default function CandidatesDetails() {
             <FormField
               control={form.control}
               name="image"
-              render={({ field }) => (
+              render={({}) => (
                 <FormItem className="w-full h-full">
                   {fileName ? (
                     <div className="w-full h-full flex flex-col items-center justify-center">

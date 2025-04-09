@@ -2,9 +2,11 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { TextField, Button, Box } from '@mui/material';
-import EnhancedSpeechButton from "@/components/interview/SpeechButton";
-
+import { TextField, Box } from '@mui/material';
+import EnhancedSpeechButton from "@/app/interview/component/SpeechButton";
+import { Button } from '@/components/ui/button'
+import { CirclePause, CirclePlay, } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 interface SpeechRecordingInputProps {
     placeholder?: string;
     onSaveAndContinue: (transcript: string, audioURL: string | null) => void;
@@ -56,6 +58,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
             if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
             }
+            setAudioData([])
+            setHasRecorded(false)
+        
         };
     }, []);
 
@@ -215,7 +220,19 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     };
 
     if (!browserSupportsSpeechRecognition) {
-        return <div className="text-red-500">Browser doesn&#39;t support speech recognition.</div>;
+        return (
+            <div className='w-full'>
+                <div >
+                    <Skeleton className="w-full h-10 mb-4" />
+                </div>
+                <Skeleton className="h-[125px] w-full rounded-xl" />
+                <div className=' flex flex-col mt-8 items-center justify-center'>
+
+                    <Skeleton className="w-20 h-20 rounded-full z-10 relative" />
+                </div>
+
+            </div>
+        )
     }
 
     return (
@@ -227,7 +244,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
                 variant="outlined"
                 placeholder={placeholder}
                 fullWidth
-                className="w-full"
+                className="w-full rounded-2xl"
             />
 
             {/* Hidden audio element */}
@@ -239,41 +256,42 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
             />
 
             {(hasRecorded || isRecording) && (
-                <Box className="mt-4 bg-white rounded-lg p-3 border border-gray-200">
-                    <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center">
-              <span className="text-sm text-gray-600 mr-2">
-                {isRecording
-                    ? 'Recording...'
-                    : `Recording (${audioRef.current ? formatTime(audioRef.current.duration || 0) : '00:00'})`}
-              </span>
+                <Box className="mt-4 bg-white rounded-full p-3 border border-gray-200">
+                    <div className="flex flex-row items-center justify-between mb-2">
+                        <div className="flex items-center justify-center">
+
+                            <canvas
+                                ref={canvasRef}
+                                width={600}
+                                height={48}
+                                className="truncate overflow-hidden text-ellipsis w-full h-12 border-dashed color-[#1E4B8E]"
+                            />
+
                         </div>
-                        {hasRecorded && !isRecording && (
-                            <Button
-                                variant="text"
-                                size="small"
-                                onClick={togglePlayback}
-                                className="min-w-0 p-1"
-                            >
-                                {isPlaying ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                    </svg>
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                                    </svg>
-                                )}
-                            </Button>
-                        )}
+
+                        <div className='flex flex-row gap-2'>
+                            <div className="text-sm text-gray-600 ">
+                                {isRecording
+                                    ? 'Recording...'
+                                    : `Recording (${audioRef.current ? formatTime(audioRef.current.duration || 0) : '00:00'})`}
+                            </div>
+                            {hasRecorded && !isRecording && (
+                                <div
+                                    onClick={togglePlayback}
+                                    className=" bg-transparent rounded-full"
+                                >
+                                    {isPlaying ? (
+                                        <CirclePause color="#1E4B8E" />
+                                    ) : (
+                                        <CirclePlay color="#1E4B8E" />
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
                     </div>
 
-                    <canvas
-                        ref={canvasRef}
-                        width={600}
-                        height={48}
-                        className="w-full h-12 bg-gray-50 rounded"
-                    />
+
                 </Box>
             )}
 
@@ -284,31 +302,20 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
                         onClick={toggleRecording}
                     />
                 ) : (
-                    <div className="flex space-x-4 w-full justify-center">
+                    <div className="flex space-x-4 w-full justify-center font-openSans">
                         <Button
-                            variant="outlined"
-                            color="primary"
+
+                            variant="outline"
                             onClick={handleRecordAgain}
-                            className="px-6"
-                            startIcon={
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-                                </svg>
-                            }
+                            className="px-6 border-[#F7941D] text-[#F7941D]"
                         >
                             Record Again
                         </Button>
 
                         <Button
-                            variant="contained"
-                            color="primary"
+
                             onClick={handleSaveAndContinue}
-                            className="px-6"
-                            startIcon={
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                            }
+
                         >
                             Save and Continue
                         </Button>
