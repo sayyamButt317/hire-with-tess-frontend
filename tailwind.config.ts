@@ -27,20 +27,14 @@ module.exports = {
             spacing: {
                 "input-height": "4rem",
             },
-            fontFamily: {
-                roboto: ['var(--font-roboto)', 'Roboto', 'sans-serif'],
-                openSans: ['var(--font-open-sans)', 'Open Sans', 'sans-serif'],
-                spaceGrotesk: ['var(--font-space-grotesk)', 'Space Grotesk', 'sans-serif'],
-            }
+            // fontFamily: {
+            //     roboto: ['var(--font-roboto)', 'Roboto', 'sans-serif'],
+            //     openSans: ['var(--font-open-sans)', 'Open Sans', 'sans-serif'],
+            //     spaceGrotesk: ['var(--font-space-grotesk)', 'Space Grotesk', 'sans-serif'],
+            // }
 
         },
     },
     plugins: [
     ],
 };
-
-// sm (640px): Small devices like tablets.
-// md (768px): Medium devices like small laptops.
-// lg (1024px): Large devices like laptops and desktops.
-// xl (1280px): Extra-large devices like high-resolution desktops.
-// 2xl (1536px): Ultra-large devices or full-width monitors.

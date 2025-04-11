@@ -98,7 +98,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       if (userVideoRef.current) {
         userVideoRef.current.srcObject = userStream;
       }
-
       streamRef.current = userStream;
 
       return userStream;
@@ -112,11 +111,30 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
   const TurnVideo = async () => {
     if (isRecordingStream) {
-      stopVideoStreaming();
+      await UserVideoTurnOff();
     } else {
-      startVideoStreaming()
+      await startVideoStreaming();
     }
-  }
+  };
+
+
+
+  const UserVideoTurnOff = async () => {
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+
+    if (userVideoRef.current) {
+      userVideoRef.current.srcObject = null;
+    }
+
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+  };
+
+
 
 
   const toggleVideo = async () => {
@@ -176,10 +194,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       setIsRecordingStream(true);
     }
   };
-
-
-
-
   const startScreenSharing = async () => {
     try {
       const displayStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
@@ -192,6 +206,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
 
   const stopVideoStreaming = useCallback(() => {
+
     if (videoRef.current) {
       videoRef.current.srcObject = null;
     }
@@ -284,23 +299,74 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         </Box>
       )}
 
-      <div className="flex justify-center mt-12 gap-2">
+<div className="flex justify-center mt-12 gap-2">
+  {isRecordingStream ? (
+    <>
+      <EnhancedButton
+        action={isRecordingStream}
+        onClick={toggleVideo}
+        icon={<MonitorUp />}
+        defaultTitle={''}
+        onpressTitle={'Sharing...'}
+      />
+      {listening ? (
         <EnhancedButton
-          action={isRecordingStream}
-          onClick={toggleVideo}
-          icon={<MonitorUp />}
+          action={listening}
+          onClick={toggleRecording}
+          icon={<Mic />}
           defaultTitle={''}
-          onpressTitle={'Sharing...'} />
-
-        <EnhancedButton
-          // action={isRecordingStream}
-          onClick={TurnVideo}
-          icon={<Video />}
-          defaultTitle={''}
-          onpressTitle={'Recording...'}
+          onpressTitle={'Listening...'}
         />
+      ) : (
+        <>
+          <EnhancedButton
+            action={isRecordingStream}
+            onClick={toggleVideo}
+            icon={<MonitorUp />}
+            defaultTitle={''}
+            onpressTitle={'Sharing...'}
+          />
+          <EnhancedButton
+            onClick={TurnVideo}
+            icon={<Video />}
+            defaultTitle={''}
+            onpressTitle={'Recording...'}
+          />
+          <EnhancedButton
+            action={listening}
+            onClick={toggleRecording}
+            icon={<Mic />}
+            defaultTitle={''}
+            onpressTitle={'Listening...'}
+          />
+        </>
+      )}
+    </>
+  ) : (  <>
+    <EnhancedButton
+      action={isRecordingStream}
+      onClick={toggleVideo}
+      icon={<MonitorUp />}
+      defaultTitle={''}
+      onpressTitle={'Sharing...'}
+    />
+    <EnhancedButton
+      onClick={TurnVideo}
+      icon={<Video />}
+      defaultTitle={''}
+      onpressTitle={'Recording...'}
+    />
+    <EnhancedButton
+      action={listening}
+      onClick={toggleRecording}
+      icon={<Mic />}
+      defaultTitle={''}
+      onpressTitle={'Listening...'}
+    />
+  </>)}
+</div>
 
-        {!hasRecorded ? (
+        {/* {!hasRecorded ? (
           <EnhancedButton
             action={listening}
             onClick={toggleRecording}
@@ -316,8 +382,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
             </Button>
             <Button onClick={handleSaveAndContinue}>Save and Continue</Button>
           </div>
-        )}
-      </div>
+        )}  */}
+        
+   
       <div className="flex justify-center items-center gap-6 ">
         {/* User Camera Preview */}
         <div className="flex justify-end w-full ">
