@@ -33,8 +33,6 @@ export default function CandidateInterviewQuestions() {
   };
 
 
-  const [time, setTime] = useState(32 * 60 + 10);
-
   return (
     <div className="min-h-screen flex flex-col items-center p-6">
       <h1 className="text-center items-center justify-center text-[30px] mt-6 font-normal text-black leading-[28px] font-spaceGrotesk sm:font-spaceGrotesk sm:font-normal">
@@ -48,13 +46,13 @@ export default function CandidateInterviewQuestions() {
       </div>
 
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
-        <p className="text-sm text-gray-500 mb-2">
+        
           {!data?.questions ? (
             <Skeleton className="w-sm h-6" />
           ) : (
             `Question ${currentStep}`
           )}
-        </p>
+        
         <h2 className="text-lg font-bold mb-8">{data?.questions[currentStep - 1]}</h2>
         <SpeechRecordingInput onSaveAndContinue={handleSaveAndContinue} />
       </div>

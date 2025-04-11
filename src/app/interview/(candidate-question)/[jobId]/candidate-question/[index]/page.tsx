@@ -53,13 +53,13 @@ export default function QuestionPage() {
       </div>
 
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
-      <p className="text-sm text-gray-500 mb-2">
+      {/* <p className="text-sm text-gray-500 mb-2"> */}
   {!data?.questions ? (
     <Skeleton className="w-sm h-6" />
   ) : (
     `Question ${currentStep}`
   )}
-</p>
+{/* </p> */}
         <h2 className="text-lg font-bold mb-8">{
         currentQuestion}</h2>
         <SpeechRecordingInput onSaveAndContinue={handleSaveAndContinue} />

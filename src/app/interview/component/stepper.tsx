@@ -11,7 +11,7 @@ export default function Stepper({
   totalSteps = 4,
   circleSize = 35,
   lineHeight = 6,
-  lineWidth = 60,
+  lineWidth = 50,
 }: StepperProps) {
   return (
     <ol className="flex items-center justify-center w-full max-w-3xl mx-auto px-2 sm:px-4">
