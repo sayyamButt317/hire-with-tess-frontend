@@ -19,7 +19,8 @@ export default function InterviewReview() {
   const { jobId } = useHomeStore();
   const jobDetailsQuery = FetchJobDetails(jobId);
 
-  const jobData = jobDetailsQuery?.data ?? null;
+  const jobData = jobDetailsQuery?.data || {};
+
   const { data } = FetchQuestions(jobId);
 
   const form = useForm<z.infer<typeof customformSchema>>({});
