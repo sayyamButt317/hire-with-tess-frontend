@@ -24,7 +24,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
   const [isRecordingStream, setIsRecordingStream] = useState(false);
   const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
-  const [activeTool, setActiveTool] = useState<'mic' | 'video' | 'screen' | null>(null);
+  const [activeOption, setActiveOption] = useState<'mic' | 'video' | 'screen' | null>(
+    null,
+  );
 
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const previewVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -67,10 +69,10 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   const toggleSpeechRecognition = async () => {
     if (listening) {
       await stopSpeechRecognition();
-      setActiveTool(null);
+      setActiveOption(null);
     } else {
       await startSpeechRecognition();
-      setActiveTool('mic');
+      setActiveOption('mic');
     }
   };
 
@@ -134,10 +136,10 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   const toggleUserCamera = async () => {
     if (isRecordingStream) {
       stopUserCamera();
-      setActiveTool(null);
+      setActiveOption(null);
     } else {
       await startUserCamera();
-      setActiveTool('video');
+      setActiveOption('video');
     }
   };
 
@@ -176,11 +178,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   };
   const stopCombinedRecording = async (): Promise<void> => {
     try {
-      // Stop the media recorder if it exists and is active
       if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
         mediaRecorderRef.current.stop();
       }
-      // Stop all media tracks
       stopUserCamera();
       recordedChunksRef.current = [];
     } catch (error) {
@@ -191,10 +191,10 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   const toggleScreenSharing = async () => {
     if (isRecordingStream) {
       await stopCombinedRecording();
-      setActiveTool(null);
+      setActiveOption(null);
     } else {
       await startCombinedRecording();
-      setActiveTool('screen');
+      setActiveOption('screen');
     }
   };
 
@@ -325,9 +325,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       <div className="flex justify-center mt-12 gap-2">
         {!hasRecorded ? (
           <>
-            {activeTool
+            {activeOption
               ? tools
-                  .filter((tool) => tool.key === activeTool)
+                  .filter((tool) => tool.key === activeOption)
                   .map((tool) => (
                     <EnhancedButton
                       key={tool.key}
@@ -377,6 +377,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           </div>
         </div>
       </div>
+
       {recordedBlobUrl && (
         <video src={recordedBlobUrl} controls className="w-full h-auto mt-4 rounded-xl" />
       )}
