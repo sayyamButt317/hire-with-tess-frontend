@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
 interface EnhancedSpeechButtonProps {
   icon: ReactNode;
   defaultTitle: string;
   onpressTitle: string;
-  action?:boolean;
+  action?: boolean;
   onClick: () => void;
 }
 
@@ -29,14 +29,12 @@ const EnhancedButton: React.FC<EnhancedSpeechButtonProps> = ({
         <div
           className={`absolute inset-0 rounded-full transition-all duration-300 ${
             action
-              ? "bg-gradient-to-br from-[#1e4b8e] to-[#f7941D] shadow-2xl"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? 'bg-gradient-to-br from-[#1e4b8e] to-[#f7941D] shadow-2xl '
+              : 'bg-gradient-to-br from-[#1e4b8e] to-[#f7941D] '
           }`}
         />
 
-        <div className="z-10 relative">
-          {icon}
-        </div>
+        <div className="z-10 relative">{icon}</div>
 
         {action && (
           <>
