@@ -1,7 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function EmployerLayout({ children, hideSignUp = false }: { children: React.ReactNode, hideSignUp?: boolean }) {
+export default function EmployerLayout({
+  children,
+  hideSignUp = false,
+}: {
+  children: React.ReactNode;
+  hideSignUp?: boolean;
+}) {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f7941D] via-[#ffbfbf] to-[#1e4b8e]">
       <header className="flex justify-between items-center p-6 text-white">
@@ -11,7 +17,10 @@ export default function EmployerLayout({ children, hideSignUp = false }: { child
           </Link>
           <nav className="flex gap-4">
             {!hideSignUp && (
-              <Link href={"/signup"} className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700">
+              <Link
+                href={'/signup'}
+                className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700"
+              >
                 Sign Up
               </Link>
             )}
@@ -23,7 +32,9 @@ export default function EmployerLayout({ children, hideSignUp = false }: { child
       </main>
       <footer className="bg-gray-100 py-8">
         <div className="container mx-auto px-4">
-          <p className="text-center text-gray-600">© {new Date().getFullYear()} Hiring Platform. All rights reserved.</p>
+          <p className="text-center text-gray-600">
+            © {new Date().getFullYear()} Hiring Platform. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
