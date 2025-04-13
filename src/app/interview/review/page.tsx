@@ -7,7 +7,7 @@ import FetchJobDetails from '@/hooks/FetchJobDetails.hook';
 import FetchQuestions from '@/hooks/FetchQuestions.hook';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { customformSchema } from '@/schema/customform.schema';
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -19,10 +19,7 @@ export default function InterviewReview() {
   const { jobId } = useHomeStore();
   const jobDetailsQuery = FetchJobDetails(jobId);
 
-  const jobData = useMemo(() => {
-    return jobDetailsQuery?.data ?? null;
-  }, [jobDetailsQuery?.data]);
-
+  const jobData = jobDetailsQuery?.data ?? null;
   const { data } = FetchQuestions(jobId);
 
   const form = useForm<z.infer<typeof customformSchema>>({});
