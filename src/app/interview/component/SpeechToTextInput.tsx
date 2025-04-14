@@ -120,7 +120,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     if (listening) {
       stopVoiceRecording();
       await stopSpeechRecognition();
-      setActiveOption(null);
+      setActiveTool(null);
     } else {
       await startSpeechRecognition();
       startVoiceRecording();
@@ -292,7 +292,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       // Stop video recording and camera
       stopVideoRecording();
       stopUserCamera();
-      setActiveOption(null);
+      setActiveTool(null);
     } else {
       // Start camera and video recording
       setActiveTool('video');
@@ -502,9 +502,9 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       <div className="flex justify-center mt-12 gap-2">
         {!hasRecorded && !recordedVoiceURL && !recordedBlobUrl && !recordedVideoURL ? (
           <>
-            {activeOption
+            {activeTool
               ? tools
-                  .filter((tool) => tool.key === activeOption)
+                  .filter((tool) => tool.key === activeTool)
                   .map((tool) => (
                     <EnhancedButton
                       key={tool.key}
