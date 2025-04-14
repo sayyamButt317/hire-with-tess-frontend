@@ -34,7 +34,7 @@ const EnhancedButton: React.FC<EnhancedSpeechButtonProps> = ({
           }`}
         />
 
-        <div className="z-10 relative">{icon}</div>
+        <div className="z-10 relative text-white">{icon}</div>
 
         {action && (
           <>
