@@ -14,16 +14,13 @@ import NoQuestion from './component/emptycard';
 import GenerateResponse from '@/hooks/GenerateResponse.hook';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import { Check, Pencil, Save } from 'lucide-react';
+import { Check, Pencil, } from 'lucide-react';
 import { useSkillStore } from '@/store/InputStore';
-import { useSearchParams } from 'next/navigation';
 
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } =
     useHomeStore();
-
-    const searchParams = useSearchParams();
-    const jobId = searchParams.get('job_id'); 
+    const jobId = useHomeStore((state) => state.jobId);
 
   const {  isEditDescription,setIsEditableDescription} = useSkillStore();
   const form = useForm<FormValidator>({
@@ -219,7 +216,7 @@ export default function InterviewForm() {
         </Card>
       </div>
 
-      {responseData && jobId ? (
+      {responseData ? (
         <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
           <Link href="/">
             <Button
@@ -230,7 +227,7 @@ export default function InterviewForm() {
               Cancel
             </Button>
           </Link>
-          <Link href={`/interview/question/${jobId}`}>
+          <Link href={`/interview/question`}>
             <Button type="submit" className="w-full sm:w-auto cursor-pointer">
               Next Step
             </Button>
