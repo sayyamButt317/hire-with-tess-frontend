@@ -2,7 +2,7 @@
 import useHomeStore from '@/store/home.store';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import { Button } from '@/components/ui/button';
-import OutputCard from '../component/outputCard';
+import OutputCard from '@/app/interview/component/outputCard';
 import FetchJobDetails from '@/hooks/FetchJobDetails.hook';
 import FetchQuestions from '@/hooks/FetchQuestions.hook';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -20,7 +20,6 @@ export default function InterviewReview() {
   const jobDetailsQuery = FetchJobDetails(jobId);
 
   const jobData = jobDetailsQuery?.data || {};
-
   const { data } = FetchQuestions(jobId);
 
   const form = useForm<z.infer<typeof customformSchema>>({});
