@@ -21,7 +21,7 @@ export default function EmployerLayout({
               <Link
                 href={'/signup'}
                 className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700"
-              >
+              >Sign up</Link>
             )}
           </nav>
         </div>
@@ -32,7 +32,7 @@ export default function EmployerLayout({
       <footer className="bg-gray-100 py-8">
         <div className="container mx-auto px-4">
           <p className="text-center text-gray-600">
-            © {new Date().getFullYear()} Hiring Platform. All rights reserved.
+            © {new Date().getFullYear()} Hiring Platform.All rights reserved.
           </p>
         </div>
       </footer>
