@@ -1,11 +1,10 @@
-"use client";
-import InterviewLayout from "@/components/layout/InterviewLayout";
-import useHomeStore from "@/store/home.store";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import FetchQuestions from "@/hooks/FetchQuestions.hook";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+'use client';
+import InterviewLayout from '@/components/layout/InterviewLayout';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import FetchQuestions from '@/hooks/FetchQuestions.hook';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function CandidateInstructions() {
   const params = useParams();

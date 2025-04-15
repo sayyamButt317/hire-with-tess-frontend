@@ -1,10 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:is(.dark *));
 :root {
-  --tess-blue: #1E4B8E;
-  --custom-orange: #F7941D;
-  --custom-pink: #FFBFBF;
-  --custom-blue: #1E4B8E;
+  --tess-blue: #1e4b8e;
+  --custom-orange: #f7941d;
+  --custom-pink: #ffbfbf;
+  --custom-blue: #1e4b8e;
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

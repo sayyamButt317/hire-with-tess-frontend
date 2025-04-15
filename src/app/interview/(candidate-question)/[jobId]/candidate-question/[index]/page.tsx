@@ -1,29 +1,29 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import FetchQuestions from "@/hooks/FetchQuestions.hook";
-import Stepper from "@/app/interview/component/stepper";
-import SpeechRecordingInput from "@/app/interview/component/SpeechToTextInput";
-import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
+'use client';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import FetchQuestions from '@/hooks/FetchQuestions.hook';
+import Stepper from '@/app/interview/component/stepper';
+import SpeechRecordingInput from '@/app/interview/component/SpeechToTextInput';
+import { toast } from 'sonner';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function QuestionPage() {
   const params = useParams();
   const router = useRouter();
   const jobId = params?.jobId as string | undefined;
-  const index = parseInt(params?.index as string, 10); 
+  const index = parseInt(params?.index as string, 10);
 
-  const { data } = FetchQuestions(jobId); 
+  const { data } = FetchQuestions(jobId);
 
-
-  const [currentQuestion, setCurrentQuestion] = useState<string | undefined>(data?.questions[index - 1]);
-  const [currentStep, setCurrentStep] = useState(index); 
+  const [currentQuestion, setCurrentQuestion] = useState<string | undefined>(
+    data?.questions[index - 1],
+  );
+  const [currentStep, setCurrentStep] = useState(index);
 
   const totalSteps = data?.questions.length;
 
   useEffect(() => {
     if (data?.questions && data.questions.length) {
-    
       setCurrentQuestion(data.questions[currentStep - 1]);
     }
   }, [data, currentStep]);
@@ -34,9 +34,9 @@ export default function QuestionPage() {
     if (nextIndex <= totalSteps) {
       setCurrentStep(nextIndex);
       setCurrentQuestion(data?.questions[nextIndex - 1]);
-      router.push(`/interview/${jobId}/candidate-question/${nextIndex}` );
+      router.push(`/interview/${jobId}/candidate-question/${nextIndex}`);
     } else {
-      toast("You have completed all the questions!");
+      toast('You have completed all the questions!');
     }
   };
 
@@ -46,14 +46,25 @@ export default function QuestionPage() {
         Hirewithtess
       </h1>
 
-      <div className="flex justify-between items-center my-10 w-full">
-        <Stepper currentStep={currentStep} totalSteps={totalSteps} circleSize={25} lineHeight={4} lineWidth={50} />
+      <div className="flex justify-between items-center my-10 w-3xl ">
+        {!data?.questions ? (
+          <Skeleton className="w-full h-10" />
+        ) : (
+          <Stepper
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            circleSize={40}
+            lineHeight={4}
+            lineWidth={50}
+          />
+        )}
       </div>
 
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
-        <p className="text-sm text-gray-500 mb-2">{`Question ${currentStep}`}</p>
-        <h2 className="text-lg font-bold mb-8">{
-        currentQuestion}</h2>
+        {/* <p className="text-sm text-gray-500 mb-2"> */}
+        {!data?.questions ? <Skeleton className="w-sm h-6" /> : `Question ${currentStep}`}
+        {/* </p> */}
+        <h2 className="text-lg font-bold mb-8">{currentQuestion}</h2>
         <SpeechRecordingInput onSaveAndContinue={handleSaveAndContinue} />
       </div>
     </div>

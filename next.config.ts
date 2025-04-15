@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   typescript: {
@@ -9,10 +9,10 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-     {
-      protocol:'https',
-      hostname: "backend.hirewithtess.com",
-     }
+      {
+        protocol: 'https',
+        hostname: 'backend.hirewithtess.com',
+      },
     ],
   },
 };

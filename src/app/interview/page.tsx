@@ -1,36 +1,35 @@
-"use client";
-import { Card } from "@/components/ui/card";
-import { Form, FormField, FormItem } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import React, { useRef } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { customformSchema, FormValidator } from "@/schema/customform.schema";
-import Image from "next/image";
-import useHomeStore from "@/store/home.store";
-import Link from "next/link";
-import OutputCard from "./component/outputCard";
-import NoQuestion from "./component/emptycard";
-import GenerateResponse from "@/hooks/GenerateResponse.hook";
-import InterviewLayout from "@/components/layout/InterviewLayout";
-import CustomInputForm from "@/app/interview/component/customformInput";
-import {  Pencil, Save } from "lucide-react";
-import { useSkillStore } from "@/store/InputStore";
-import {useUpdateJob} from "@/hooks/UpdateJobDetails.hook";
-
+'use client';
+import { Card } from '@/components/ui/card';
+import { Form, FormField, FormItem } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import React, { useRef } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { customformSchema, FormValidator } from '@/schema/customform.schema';
+import Image from 'next/image';
+import useHomeStore from '@/store/home.store';
+import Link from 'next/link';
+import OutputCard from './component/outputCard';
+import NoQuestion from './component/emptycard';
+import GenerateResponse from '@/hooks/GenerateResponse.hook';
+import InterviewLayout from '@/components/layout/InterviewLayout';
+import CustomInputForm from '@/app/interview/component/customformInput';
+import { Pencil, Save } from 'lucide-react';
+import { useSkillStore } from '@/store/InputStore';
 
 export default function InterviewForm() {
-  const { jobDescription, jobTitle, jobType, companyName, location, salary } = useHomeStore();
+  const { jobDescription, jobTitle, jobType, companyName, location, salary } =
+    useHomeStore();
   const { isEditable, setIsEditable } = useSkillStore();
   const form = useForm<FormValidator>({
     resolver: zodResolver(customformSchema),
     defaultValues: {
-      jobDescription: jobDescription || "",
-      jobTitle: jobTitle || "",
-      jobType: jobType || "",
-      companyName: companyName || "",
-      location: location || "",
-      salary: salary || "",
+      jobDescription: jobDescription || '',
+      jobTitle: jobTitle || '',
+      jobType: jobType || '',
+      companyName: companyName || '',
+      location: location || '',
+      salary: salary || '',
     },
   });
   const ref = useRef<HTMLFormElement>(null);
@@ -51,23 +50,10 @@ export default function InterviewForm() {
   const responseData = generateMutation.data || null;
 
   const handleEditDescription = () => {
-    setIsEditable(true); 
+    setIsEditable(true);
   };
 
-  const generateUpdateMutation = useUpdateJob();
   const UpdateJobDescription = () => {
-    //   generateUpdateMutation.mutate({
-    //   data: {
-    //     job_description: form.getValues("jobDescription"),
-    //     job_title: form.getValues("jobTitle"),
-    //     job_type: form.getValues("jobType"),
-    //     company_name: form.getValues("companyName"),
-    //     location: form.getValues("location"),
-    //     salary: form.getValues("salary"),
-    //     currency: form.getValues("currency"),
-
-    //   },
-    // });
     setIsEditable(false);
   };
 
@@ -92,27 +78,26 @@ export default function InterviewForm() {
                       label="Position Overview"
                       type="textarea"
                       placeholder="Position Overview here"
-                      readOnly={!isEditable} 
+                      readOnly={!isEditable}
                       icon={
                         isEditable ? (
-                            <Save
-                                size={16}
-                                color="#000000"
-                                strokeWidth={0.75}
-                                style={{ cursor: "pointer" }}
-                                onClick={UpdateJobDescription}
-                            />
+                          <Save
+                            size={16}
+                            color="#000000"
+                            strokeWidth={0.75}
+                            style={{ cursor: 'pointer' }}
+                            onClick={UpdateJobDescription}
+                          />
                         ) : (
                           <Pencil
                             size={18}
                             color="#718096"
-                            style={{ cursor: "pointer" }}
-                            onClick={handleEditDescription} 
+                            style={{ cursor: 'pointer' }}
+                            onClick={handleEditDescription}
                           />
                         )
                       }
                     />
-
                   </FormItem>
                 )}
               />
@@ -127,7 +112,6 @@ export default function InterviewForm() {
                       label="Job Title"
                       placeholder="Job Title here"
                     />
-
                   </FormItem>
                 )}
               />
@@ -156,7 +140,6 @@ export default function InterviewForm() {
                       label="Company Name"
                       placeholder="Company Name here"
                     />
-
                   </FormItem>
                 )}
               />
@@ -172,7 +155,6 @@ export default function InterviewForm() {
                       label="Location "
                       placeholder="Location here"
                     />
-
                   </FormItem>
                 )}
               />
@@ -188,7 +170,6 @@ export default function InterviewForm() {
                       placeholder="Enter salary here"
                       type="number"
                     />
-
                   </FormItem>
                 )}
               />
@@ -198,23 +179,17 @@ export default function InterviewForm() {
                 disabled={generateMutation.isPending}
                 type="submit"
               >
-                <Image
-                  src="/images/Vector.png"
-                  alt="alt"
-                  width={20}
-                  height={20}
-                />
-                {generateMutation.isPending ? "Generating....." : "Generate"}
+                <Image src="/images/Vector.png" alt="alt" width={20} height={20} />
+                {generateMutation.isPending ? 'Generating.....' : 'Generate'}
               </Button>
             </form>
           </Form>
         </div>
       </InterviewLayout>
-      <div className=" sm:p-18 p-6 " >
+      <div className=" sm:p-18 p-6 ">
         <Card className="  w-full rounded-4xl shadow-xl ">
           {responseData ? (
             <>
-
               <OutputCard
                 req={responseData.requirements || []}
                 res={responseData.responsibilities || []}
@@ -228,8 +203,8 @@ export default function InterviewForm() {
                   className="bg-transparent text-black hover:text-white  border border-gray-400 hover:border-none rounded-2xl flex items-center justify-center"
                 >
                   {generateMutation.isPending
-                    ? "Regenerating....."
-                    : "Regenerate response"}
+                    ? 'Regenerating.....'
+                    : 'Regenerate response'}
                 </Button>
               </div>
             </>
@@ -243,7 +218,7 @@ export default function InterviewForm() {
         <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
           <Link href="/">
             <Button
-              variant={"secondary"}
+              variant={'secondary'}
               className=" sm:w-auto cursor-pointer"
               type="button"
             >

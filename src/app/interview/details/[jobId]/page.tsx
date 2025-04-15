@@ -1,16 +1,19 @@
-'use client'
-import InterviewLayout from "@/components/layout/InterviewLayout";
-import { Card } from "@/components/ui/card";
-import { FormField, FormItem, FormMessage } from "@/components/ui/form";
-import CustomInputForm from "@/app/interview/component/customformInput";
-import React, { useRef, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CandidateDetailSchema, CandidateDetailsValidator } from "@/schema/CandidateDetail.schema";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+'use client';
+import InterviewLayout from '@/components/layout/InterviewLayout';
+import { Card } from '@/components/ui/card';
+import { FormField, FormItem, FormMessage } from '@/components/ui/form';
+import CustomInputForm from '@/app/interview/component/customformInput';
+import React, { useRef, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CandidateDetailSchema,
+  CandidateDetailsValidator,
+} from '@/schema/CandidateDetail.schema';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
-import { X } from "lucide-react";
+import { X } from 'lucide-react';
 
 export default function CandidatesDetails() {
   const { jobId } = useParams();
@@ -19,9 +22,9 @@ export default function CandidatesDetails() {
   const form = useForm<CandidateDetailsValidator>({
     resolver: zodResolver(CandidateDetailSchema),
     defaultValues: {
-      candidate_name: "",
-      email: "",
-      phone: "",
+      candidate_name: '',
+      email: '',
+      phone: '',
       image: null,
     },
   });
@@ -38,17 +41,17 @@ export default function CandidatesDetails() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      form.setValue("image", file);
-      form.clearErrors("image");
+      form.setValue('image', file);
+      form.clearErrors('image');
       setFileName(file.name);
     }
   };
 
   const removeFile = () => {
     setFileName(null);
-    form.setValue("image", null);
+    form.setValue('image', null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = '';
     }
   };
 
@@ -106,18 +109,17 @@ export default function CandidatesDetails() {
         </div>
 
         <div className="mt-8">
-          <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8 px-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            ref={ref}
+            className="space-y-8 px-4"
+          >
             <FormField
               control={form.control}
               name="candidate_name"
               render={({ field }) => (
                 <FormItem>
-                  <CustomInputForm
-                    {...field}
-                    label="Your Name"
-                    placeholder="Name"
-                  />
-               
+                  <CustomInputForm {...field} label="Your Name" placeholder="Name" />
                 </FormItem>
               )}
             />
@@ -126,12 +128,7 @@ export default function CandidatesDetails() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <CustomInputForm
-                    {...field}
-                    label="Email"
-                    placeholder="Email"
-                  />
-               
+                  <CustomInputForm {...field} label="Email" placeholder="Email" />
                 </FormItem>
               )}
             />
@@ -145,7 +142,6 @@ export default function CandidatesDetails() {
                     label="Phone Number"
                     placeholder="Phone Number"
                   />
-                 
                 </FormItem>
               )}
             />

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import useHomeStore from "@/store/home.store";
-import InterviewLayout from "@/components/layout/InterviewLayout";
-import NoQuestion from "../component/emptycard";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import GenerateQuestionResponse from "@/hooks/GenerateQuestion.hook";
-import Question from "../component/question";
-import { useRouter } from 'next/navigation'
+import useHomeStore from '@/store/home.store';
+import InterviewLayout from '@/components/layout/InterviewLayout';
+import NoQuestion from '../component/emptycard';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import GenerateQuestionResponse from '@/hooks/GenerateQuestion.hook';
+import Question from '../component/question';
+import { useRouter } from 'next/navigation';
 
 export default function Questionnaire() {
   const jobId = useHomeStore((state) => state.jobId);
@@ -16,7 +16,7 @@ export default function Questionnaire() {
   const questionMutation = GenerateQuestionResponse();
   const response = questionMutation.data || [];
 
-  const router = useRouter()
+  const router = useRouter();
   const onSubmit = () => {
     if (!jobId) return;
     questionMutation.mutate({ job_id: jobId });
@@ -48,9 +48,7 @@ export default function Questionnaire() {
                 className="w-[218px] h-[54px] mt-11 rounded-[45px] cursor-pointer bg-transparent text-black border  hover:border-white hover:text-white "
                 disabled={questionMutation.isPending}
               >
-                {questionMutation.isPending
-                  ? "Regenerating..."
-                  : "Regenerate Response"}
+                {questionMutation.isPending ? 'Regenerating...' : 'Regenerate Response'}
               </Button>
             ) : (
               <Button
@@ -59,13 +57,8 @@ export default function Questionnaire() {
                 onClick={onSubmit}
                 disabled={!jobId || questionMutation.isPending}
               >
-                <Image
-                  src="/images/Vector.png"
-                  alt="alt"
-                  width={20}
-                  height={20}
-                />
-                {questionMutation.isPending ? "Generating..." : "Generate"}
+                <Image src="/images/Vector.png" alt="alt" width={20} height={20} />
+                {questionMutation.isPending ? 'Generating...' : 'Generate'}
               </Button>
             )}
           </div>
@@ -74,7 +67,9 @@ export default function Questionnaire() {
 
       {response.length > 0 ? (
         <div className="flex justify-end mr-16  sm:justify-end items-center mt-6 mb-4 sm:mr-18 gap-4">
-          <Button onClick={() => router.back()} variant="secondary">Back</Button>
+          <Button onClick={() => router.back()} variant="secondary">
+            Back
+          </Button>
           <Link href="/interview/review">
             <Button
               type="submit"

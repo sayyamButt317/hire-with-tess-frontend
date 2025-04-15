@@ -1,14 +1,14 @@
-"use client";
-import InterviewLayout from "@/components/layout/InterviewLayout";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Copy, Download, Share2 } from "lucide-react";
-import useFetchInterviewLink from "@/hooks/FetchInterviewLink.hook";
-import { toast } from "sonner";
-import SocialShare from "@/app/interview/component/share";
-import useHomeStore from "@/store/home.store";
-import { useToggleStore } from "@/store/Toggle.store";
-import QRCode from "react-qr-code";
+'use client';
+import InterviewLayout from '@/components/layout/InterviewLayout';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Copy, Download, Share2 } from 'lucide-react';
+import useFetchInterviewLink from '@/hooks/FetchInterviewLink.hook';
+import { toast } from 'sonner';
+import SocialShare from '@/app/interview/component/share';
+import useHomeStore from '@/store/home.store';
+import { useToggleStore } from '@/store/Toggle.store';
+import QRCode from 'react-qr-code';
 
 export default function GenerateLink() {
   const { jobId } = useHomeStore();
@@ -24,24 +24,23 @@ export default function GenerateLink() {
 
   const interviewLink = `https://hire-with-tess-frontend-mf6h.vercel.app/interview/instructions/${jobId}`;
 
-
   const handleCopy = () => {
     if (!interviewLink) return;
     navigator.clipboard.writeText(interviewLink);
-    setCopied("Link copied to clipboard!");
-    toast("Link copied to clipboard!");
-    setTimeout(() => setCopied(""), 2000);
+    setCopied('Link copied to clipboard!');
+    toast('Link copied to clipboard!');
+    setTimeout(() => setCopied(''), 2000);
   };
 
   const handleDownloadQR = () => {
     if (!data?.qr_code_base64) return;
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = `data:image/png;base64,${data.qr_code_base64}`;
-    link.download = "QR_Code.png";
+    link.download = 'QR_Code.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("QR Code downloaded successfully!");
+    toast.success('QR Code downloaded successfully!');
   };
 
   const toggleShareOptions = () => {
@@ -71,11 +70,11 @@ export default function GenerateLink() {
         <div className="flex flex-row gap-3 items-center w-full sm:w-[400px] mt-6 relative">
           {/* Input Field */}
           <Input
-            value={data?.interview_link ? interviewLink : ""}
+            value={data?.interview_link ? interviewLink : ''}
             readOnly
             onClick={() => {
               if (interviewLink) {
-                window.open(interviewLink, "_blank");
+                window.open(interviewLink, '_blank');
               }
             }}
             className="text-[#4A3AFF] w-full h-[65px] underline cursor-pointer text-ellipsis overflow-hidden truncate border border-gray-300 rounded-[14px] px-4 pr-14" // Changed cursor-default to cursor-pointer
@@ -87,10 +86,7 @@ export default function GenerateLink() {
             className="absolute right-16 top-1/2 transform -translate-y-1/2 p-2 hover:bg-transparent"
             onClick={handleCopy}
           >
-            <Copy
-              size={20}
-              className={copied ? "text-blue-500" : "text-gray-600"}
-            />
+            <Copy size={20} className={copied ? 'text-blue-500' : 'text-gray-600'} />
           </Button>
 
           <div className="ml-2">
@@ -130,7 +126,7 @@ export default function GenerateLink() {
                 className="w-[200px] h-[200px] shadow-lg p-4"
                 width={216}
                 height={222}
-                value={data.qr_code_base64 ? interviewLink : ""}
+                value={data.qr_code_base64 ? interviewLink : ''}
               />
             </div>
           )}
