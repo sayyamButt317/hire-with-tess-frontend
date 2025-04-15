@@ -17,8 +17,7 @@ export default function CandidateInterviewQuestions() {
   const totalSteps = data?.questions.length;
 
   const stepParam = params?.step as string;
-const currentStep = parseInt(stepParam || '1', 10);
-
+  const currentStep = parseInt(stepParam || '1', 10);
 
   const handleSaveAndContinue = () => {
     const nextIndex = currentStep;
