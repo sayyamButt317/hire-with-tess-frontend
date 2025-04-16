@@ -36,7 +36,7 @@ export default function QuestionPage() {
       setCurrentQuestion(data?.questions[nextIndex - 1]);
       router.push(`/interview/${jobId}/candidate-question/${nextIndex}`);
     } else {
-      toast('You have completed all the questions!');
+      router.push(`/interview/${jobId}/answered-questions`);
     }
   };
 
