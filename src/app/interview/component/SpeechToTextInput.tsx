@@ -134,7 +134,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     }
   };
 
-  const handleRestartRecording = async () => {
+  const handleRestartVoiceRecording = async () => {
     if (listening) {
       await stopSpeechRecognition();
     }
@@ -448,7 +448,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           <div className="flex justify-center gap-4">
             <Button
               variant="outline"
-              onClick={handleRestartRecording}
+              onClick={handleRestartVoiceRecording}
               className="px-6 border-[#F7941D] text-[#F7941D]"
             >
               Record Again
@@ -459,9 +459,10 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           </div>
         </div>
       )}
+   
+   {}
 
-
-      {!hasRecorded && !recordedVoiceURL && !recordedBlobUrl && !recordedVideoURL && (
+   {!hasRecorded && !recordedVoiceURL && !recordedBlobUrl && !recordedVideoURL && activeTool !== 'screen' && (
         <div className="flex justify-center gap-2 mt-12">
           {isRecordingAgain ? (
             // Show button when in "record again" mode

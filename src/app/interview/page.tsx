@@ -14,13 +14,15 @@ import NoQuestion from './component/emptycard';
 import GenerateResponse from '@/hooks/GenerateResponse.hook';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import { Pencil, Save } from 'lucide-react';
+import { Check, Pencil, } from 'lucide-react';
 import { useSkillStore } from '@/store/InputStore';
 
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } =
     useHomeStore();
-  const { isEditable, setIsEditable } = useSkillStore();
+    const jobId = useHomeStore((state) => state.jobId);
+
+  const {  isEditDescription,setIsEditableDescription} = useSkillStore();
   const form = useForm<FormValidator>({
     resolver: zodResolver(customformSchema),
     defaultValues: {
@@ -50,11 +52,11 @@ export default function InterviewForm() {
   const responseData = generateMutation.data || null;
 
   const handleEditDescription = () => {
-    setIsEditable(true);
+    setIsEditableDescription(true);
   };
 
   const UpdateJobDescription = () => {
-    setIsEditable(false);
+    setIsEditableDescription(false);
   };
 
   return (
@@ -78,12 +80,12 @@ export default function InterviewForm() {
                       label="Position Overview"
                       type="textarea"
                       placeholder="Position Overview here"
-                      readOnly={!isEditable}
+                      readOnly={!isEditDescription}
                       icon={
-                        isEditable ? (
-                          <Save
+                        isEditDescription ? (
+                          <Check
                             size={16}
-                            color="#000000"
+                            color="green"
                             strokeWidth={0.75}
                             style={{ cursor: 'pointer' }}
                             onClick={UpdateJobDescription}
@@ -225,7 +227,7 @@ export default function InterviewForm() {
               Cancel
             </Button>
           </Link>
-          <Link href="/interview/question">
+          <Link href={`/interview/question`}>
             <Button type="submit" className="w-full sm:w-auto cursor-pointer">
               Next Step
             </Button>
