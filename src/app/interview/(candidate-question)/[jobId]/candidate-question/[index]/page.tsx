@@ -4,13 +4,13 @@ import { useParams, useRouter } from 'next/navigation';
 import FetchQuestions from '@/hooks/FetchQuestions.hook';
 import Stepper from '@/app/interview/component/stepper';
 import SpeechRecordingInput from '@/app/interview/component/SpeechToTextInput';
-import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function QuestionPage() {
   const params = useParams();
   const router = useRouter();
-  const jobId = params?.jobId as string | undefined;
+  const jobId = params?.jobId as string ;
+ 
   const index = parseInt(params?.index as string, 10);
 
   const { data } = FetchQuestions(jobId);
@@ -61,11 +61,13 @@ export default function QuestionPage() {
       </div>
 
       <div className="mb-6 flex flex-col items-center sm:items-start sm:text-left text-center gap-0.5 w-10/12">
-        {/* <p className="text-sm text-gray-500 mb-2"> */}
+      
         {!data?.questions ? <Skeleton className="w-sm h-6" /> : `Question ${currentStep}`}
-        {/* </p> */}
+      
         <h2 className="text-lg font-bold mb-8">{currentQuestion}</h2>
-        <SpeechRecordingInput onSaveAndContinue={handleSaveAndContinue} />
+        <SpeechRecordingInput 
+         jobId={jobId}
+        index={currentStep} onSaveAndContinue={handleSaveAndContinue}   />
       </div>
     </div>
   );

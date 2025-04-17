@@ -38,7 +38,6 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
   icon,
   children,
   readOnly,
-  color,
 }) => {
   const { control } = useFormContext();
   const inputRef = useRef<HTMLInputElement>(null);

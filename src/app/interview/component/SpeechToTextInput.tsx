@@ -1,8 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { Button } from '@/components/ui/button';
-import { CirclePause, CirclePlay, Mic, MonitorUp, Video } from 'lucide-react';
+import {  Mic, MonitorUp, Video } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRecordingStore } from '@/store/Recording.store';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,15 +9,20 @@ import { toast } from 'sonner';
 import EnhancedButton from '@/app/interview/component/SpeechButton';
 import WaveSurfer from 'wavesurfer.js';
 import RecordingControls from '@/app/interview/component/RecordingControls';
+import Waveform from './Waveform';
 
 interface SpeechRecordingInputProps {
   placeholder?: string;
+  jobId: string;
+  index: number;
   onSaveAndContinue: (transcript: string, audioURL: string | null) => void;
 }
 
 const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   placeholder = 'Your response will appear here as you speak...',
   onSaveAndContinue,
+  jobId,
+  index,
 }) => {
   const { isPlaying, hasRecorded, setIsPlaying } = useRecordingStore();
 
@@ -33,18 +37,11 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
   const previewVideoRef = useRef<HTMLVideoElement | null>(null);
   const userCameraRef = useRef<HTMLVideoElement | null>(null);
-  const wavesurferRef = useRef<WaveSurfer | null>(null);
 
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
 
-  const formatTime = (totalSeconds: number) => {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  };
 
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
@@ -92,7 +89,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         const recordedBlob = new Blob(recordedChunksRef.current, { type: 'audio/mp3' });
         const url = URL.createObjectURL(recordedBlob);
         setIsRecordedVoiceURL(url);
-
+        useRecordingStore.getState().setAudioURL(url);
         recordedChunksRef.current = [];
         clearTimeout(timer);
       };
@@ -119,36 +116,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       startVoiceRecording();
       setActiveTool('mic');
     }
-  };
-  const togglePlayback = () => {
-    const ws = wavesurferRef.current;
-    if (!ws) return;
-
-    if (ws.isPlaying()) {
-      ws.pause();
-      setIsPlaying(false);
-    } else {
-      ws.play();
-      setIsPlaying(true);
-    }
-  };
-
-  const handleRestartScreenSharing = async () => {
-    if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      mediaStreamRef.current = null;
-    }
-
-    if (previewVideoRef.current) {
-      previewVideoRef.current.srcObject = null;
-      previewVideoRef.current.src = '';
-    }
-
-    setRecordedBlobUrl('');
-    setIsRecordingStream(false);
-    setActiveTool('screen');
-
-    await startScreenRecording();
   };
 
   const startUserCamera = async (): Promise<MediaStream | null> => {
@@ -225,20 +192,21 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         });
         const videoURL = URL.createObjectURL(videoBlob);
         setRecordedVideoURL(videoURL);
+        useRecordingStore.getState().setVideoURL(videoURL);
         console.log('Recording complete. Video URL:', videoURL);
       };
 
       mediaRecorderRef.current.start();
     } catch (error) {
-      console.error('Error starting video recording:', error);
+      console.log(error)
+      toast.error('Error starting video recording');
     }
   };
   const stopVideoRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-      console.log('Recording stopped...');
     } else {
-      console.log('No recording in progress');
+      toast('No recording in progress');
     }
   };
 
@@ -258,8 +226,8 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     try {
       return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
     } catch (error) {
-      console.error('Screen share error:', error);
-      toast.error('Could not start screen sharing');
+      console.log(error)
+      toast.error('Screen share error:');
       return null;
     }
   };
@@ -290,53 +258,38 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         recordedChunksRef.current.push(event.data);
       }
     };
-
     recorder.onstop = () => {
       const videoBlob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
-      setRecordedBlobUrl(URL.createObjectURL(videoBlob));
+      const screenURL = URL.createObjectURL(videoBlob);
+      setRecordedBlobUrl(screenURL);
+      useRecordingStore.getState().setScreenURL(screenURL);
     };
 
     recorder.start();
   };
 
-  useEffect(() => {
-    if (!recordedVoiceURL) return;
-
-    const waveformElement = document.getElementById('waveform');
-    if (!waveformElement) return;
-    waveformElement.innerHTML = '';
-    const wavesurfer = WaveSurfer.create({
-      container: waveformElement,
-      barWidth: 3,
-      barRadius: 3,
-      barGap: 2,
-      cursorWidth: 1,
-      backend: 'WebAudio',
-      height: 40,
-      waveColor: '#1e4b8e',
-      progressColor: '#C4C4C4',
-      cursorColor: 'transparent',
-      url: recordedVoiceURL,
-    });
-
-    wavesurferRef.current = wavesurfer;
-
-    wavesurfer.on('finish', () => {
-      setIsPlaying(false);
-    });
-
-    return () => {
-      wavesurfer.destroy();
-      wavesurferRef.current = null;
-    };
-  }, [recordedVoiceURL, setIsPlaying]);
-
   const handleSaveAndContinue = () => {
-    console.log('pressed button');
-    if (onSaveAndContinue) {
-      onSaveAndContinue(transcript, recordedVoiceURL);
-    }
+    const { activeType, audioURL, videoURL, screenURL } = useRecordingStore.getState();
+    const questionId = `${jobId}-q${index}`;
+
+    let url = '';
+    if (activeType === 'audio') url = audioURL;
+    else if (activeType === 'video') url = videoURL;
+    else if (activeType === 'screen') url = screenURL;
+
+    const responseData = {
+      transcript,
+      type: activeType,
+      url,
+    };
+
+    useRecordingStore.getState().saveResponse(questionId, responseData);
+    if (onSaveAndContinue) onSaveAndContinue(transcript, url);
   };
+
+  const setActiveType = useRecordingStore.getState().setActiveType;
+
+
 
   const resetAllState = () => {
     if (listening) {
@@ -387,21 +340,30 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     {
       key: 'mic',
       condition: listening,
-      onClick: toggleSpeechRecognition,
+      onClick: () => {
+        setActiveType('audio');
+        toggleSpeechRecognition();
+      },
       icon: <Mic />,
       title: 'Listening...',
     },
     {
       key: 'video',
       condition: isRecordingStream,
-      onClick: toggleUserCamera,
+      onClick: () => {
+        setActiveType('video');
+        toggleUserCamera();
+      },
       icon: <Video />,
       title: 'Recording...',
     },
     {
       key: 'screen',
       condition: isRecordingStream,
-      onClick: handleRestartScreenSharing,
+      onClick: () => {
+        setActiveType('screen');
+        startScreenRecording();
+      },
       icon: <MonitorUp />,
       title: 'Sharing...',
     },
@@ -439,17 +401,12 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           {recordedVoiceURL && (
             <div className="rounded-full p-3 border shadow-xl">
               <div className="flex items-center gap-2 w-full">
-                <div id="waveform" className="flex-1" />
-                <span className="text-[#1e4b8e] min-w-[50px] text-center">
-                  {formatTime(seconds)}
-                </span>
-                <button onClick={togglePlayback} className="p-1">
-                  {isPlaying ? (
-                    <CirclePause className="w-10 h-8" color="#1e4b8e" />
-                  ) : (
-                    <CirclePlay className="w-10 h-8" color="#1e4b8e" />
-                  )}
-                </button>
+                <Waveform
+                  recordedVoiceURL={recordedVoiceURL}
+                  isPlaying={isPlaying}
+                  setIsPlaying={setIsPlaying}
+                  seconds={seconds}
+                />
               </div>
             </div>
           )}
@@ -482,29 +439,29 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           <div className="flex justify-center gap-2 mt-12">
             {activeTool
               ?
-                tools
-                  .filter((tool) => tool.key === activeTool)
-                  .map((tool) => (
-                    <EnhancedButton
-                      key={tool.key}
-                      action={tool.condition}
-                      onClick={tool.onClick}
-                      icon={tool.icon}
-                      defaultTitle=""
-                      onpressTitle={tool.title}
-                    />
-                  ))
-              :
-                tools.map((tool) => (
+              tools
+                .filter((tool) => tool.key === activeTool)
+                .map((tool) => (
                   <EnhancedButton
                     key={tool.key}
-                    action={false}
+                    action={tool.condition}
                     onClick={tool.onClick}
                     icon={tool.icon}
                     defaultTitle=""
                     onpressTitle={tool.title}
                   />
-                ))}
+                ))
+              :
+              tools.map((tool) => (
+                <EnhancedButton
+                  key={tool.key}
+                  action={false}
+                  onClick={tool.onClick}
+                  icon={tool.icon}
+                  defaultTitle=""
+                  onpressTitle={tool.title}
+                />
+              ))}
           </div>
         )}
 
