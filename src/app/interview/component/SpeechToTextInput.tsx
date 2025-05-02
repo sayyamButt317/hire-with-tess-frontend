@@ -1,21 +1,26 @@
 'use client';
 import React, { useRef, useState } from 'react';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import {  Mic, MonitorUp, Video } from 'lucide-react';
+import  { useSpeechRecognition } from 'react-speech-recognition';
+import { Mic, MonitorUp, Video } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useRecordingStore } from '@/store/Recording.store';
+import { useRecordingStore } from '@/store/candidate/Recording.store';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import EnhancedButton from '@/app/interview/component/SpeechButton';
-import WaveSurfer from 'wavesurfer.js';
 import RecordingControls from '@/app/interview/component/RecordingControls';
 import Waveform from './Waveform';
+import useVoiceRecorder from '@/Utils/helper/useVoiceRecorder';
+import useScreenSharing from '@/Utils/helper/useScreenSharing';
+import useVideoRecording from '@/Utils/helper/useVideoRecording';
 
-interface SpeechRecordingInputProps {
+type SpeechRecordingInputProps = {
   placeholder?: string;
   jobId: string;
   index: number;
-  onSaveAndContinue: (transcript: string, audioURL: string | null) => void;
+  onSaveAndContinue: (
+    transcript: string, 
+    currentquestion:string,
+    audioURL: string | null) => void;
 }
 
 const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
@@ -24,7 +29,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   jobId,
   index,
 }) => {
-  const { isPlaying, hasRecorded, setIsPlaying } = useRecordingStore();
+  const { hasRecorded, setIsPlaying } = useRecordingStore();
 
   const [isRecordingStream, setIsRecordingStream] = useState(false);
   const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
@@ -42,32 +47,11 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
 
-
-  const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } =
+  const {  resetTranscript, browserSupportsSpeechRecognition } =
     useSpeechRecognition();
-  const screenShareOptions = {
-    video: {
-      displaySurface: 'browser',
-    },
-    audio: {
-      echoCancellation: true,
-      noiseSuppression: true,
-      sampleRate: 44100,
-      suppressLocalAudioPlayback: true,
-    },
-    preferCurrentTab: false,
-    selfBrowserSurface: 'exclude',
-    systemAudio: 'include',
-    surfaceSwitching: 'include',
-    monitorTypeSurfaces: 'include',
-  };
-
-  const startSpeechRecognition = async () => {
-    await SpeechRecognition.startListening({ continuous: true });
-  };
-  const stopSpeechRecognition = async () => {
-    await SpeechRecognition.stopListening();
-  };
+    const {  transcript,startSpeechRecognition,stopSpeechRecognition, listening,  } = useVoiceRecorder();
+    const {startScreenShare} = useScreenSharing();  
+    const {stopVideoRecording} = useVideoRecording();
 
   const startVoiceRecording = async () => {
     setIsVoiceRecording(true);
@@ -198,46 +182,31 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
       mediaRecorderRef.current.start();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error('Error starting video recording');
-    }
-  };
-  const stopVideoRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-    } else {
-      toast('No recording in progress');
     }
   };
 
   const toggleUserCamera = async () => {
     if (isRecordingStream) {
-      stopVideoRecording();
+      await stopVideoRecording();
       stopUserCamera();
       setActiveTool(null);
     } else {
       setActiveTool('video');
-      await startUserCamera();
-      startVideoRecording();
+      const stream = await startUserCamera();
+      if (stream) {
+        await startVideoRecording();
+      }
     }
   };
 
-  const startScreenShare = async (): Promise<MediaStream | null> => {
-    try {
-      return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
-    } catch (error) {
-      console.log(error)
-      toast.error('Screen share error:');
-      return null;
-    }
-  };
 
   const startScreenRecording = async () => {
     const screenStream = await startScreenShare();
 
     if (!screenStream) {
-      resetAllState()
-      toast.error('Failed to start screen or camera');
+      resetAllState();
       return;
     }
     if (previewVideoRef.current) {
@@ -269,27 +238,31 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   };
 
   const handleSaveAndContinue = () => {
-    const { activeType, audioURL, videoURL, screenURL } = useRecordingStore.getState();
-    const questionId = `${jobId}-q${index}`;
-
+  const {activeType,audioURL,videoURL,screenURL,currentquestion,} = useRecordingStore.getState();
+  
+    const questionId = `${jobId}-Question${index}`;
+  
     let url = '';
     if (activeType === 'audio') url = audioURL;
     else if (activeType === 'video') url = videoURL;
     else if (activeType === 'screen') url = screenURL;
-
+  
     const responseData = {
+      question: currentquestion,
       transcript,
       type: activeType,
       url,
     };
-
+  
     useRecordingStore.getState().saveResponse(questionId, responseData);
-    if (onSaveAndContinue) onSaveAndContinue(transcript, url);
+  
+    if (onSaveAndContinue) {
+      onSaveAndContinue(transcript, url, currentquestion);
+    }
   };
+  
 
   const setActiveType = useRecordingStore.getState().setActiveType;
-
-
 
   const resetAllState = () => {
     if (listening) {
@@ -403,8 +376,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
               <div className="flex items-center gap-2 w-full">
                 <Waveform
                   recordedVoiceURL={recordedVoiceURL}
-                  isPlaying={isPlaying}
-                  setIsPlaying={setIsPlaying}
                   seconds={seconds}
                 />
               </div>
@@ -438,30 +409,28 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         activeTool !== 'screen' && (
           <div className="flex justify-center gap-2 mt-12">
             {activeTool
-              ?
-              tools
-                .filter((tool) => tool.key === activeTool)
-                .map((tool) => (
+              ? tools
+                  .filter((tool) => tool.key === activeTool)
+                  .map((tool) => (
+                    <EnhancedButton
+                      key={tool.key}
+                      action={tool.condition}
+                      onClick={tool.onClick}
+                      icon={tool.icon}
+                      defaultTitle=""
+                      onpressTitle={tool.title}
+                    />
+                  ))
+              : tools.map((tool) => (
                   <EnhancedButton
                     key={tool.key}
-                    action={tool.condition}
+                    action={false}
                     onClick={tool.onClick}
                     icon={tool.icon}
                     defaultTitle=""
                     onpressTitle={tool.title}
                   />
-                ))
-              :
-              tools.map((tool) => (
-                <EnhancedButton
-                  key={tool.key}
-                  action={false}
-                  onClick={tool.onClick}
-                  icon={tool.icon}
-                  defaultTitle=""
-                  onpressTitle={tool.title}
-                />
-              ))}
+                ))}
           </div>
         )}
 

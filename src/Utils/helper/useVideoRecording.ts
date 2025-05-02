@@ -1,35 +1,36 @@
-import { useState, useRef, useCallback, useEffect } from "react";
-import { toast } from "sonner";
+import { useRecordingStore } from '@/store/candidate/Recording.store';
+import { useState, useRef, RefObject } from 'react';
+import { toast } from 'sonner';
 
 interface UseVideoRecorderResult {
   isRecordingStream: boolean;
   recordedVideoURL: string | null;
-  startCamera: () => Promise<MediaStream | undefined>; 
-  stopCamera: () => void;
-  startRecording: () => Promise<void>;
-  stopRecording: () => Promise<void>;
-  userCameraRef: React.RefObject<HTMLVideoElement>;
+  startUserCamera: () => void;
+  stopUserCamera: () => void;
+  userCameraRef: RefObject<HTMLVideoElement | null>;
+  previewVideoRef: RefObject<HTMLVideoElement | null>;
+  stopVideoRecording: () => Promise<void>;
+  startVideoRecording: () => Promise<void>;
 }
 
 const useVideoRecording = (): UseVideoRecorderResult => {
-
+  
   const [recordedVideoURL, setRecordedVideoURL] = useState<string | null>(null);
+  const [isRecordingStream, setIsRecordingStream] = useState(false);
+
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
-  const userCameraRef = useRef<HTMLVideoElement | null>(null);
-  const isRecordingStream = useRef(false);
 
-  const startCamera = useCallback(async (): Promise<MediaStream | undefined> => {
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
+  const userCameraRef = useRef<HTMLVideoElement | null>(null);
+
+  const startUserCamera = async (): Promise<MediaStream | null> => {
     try {
       const constraints: MediaStreamConstraints = {
         video: {
-          width: {
-            ideal: 1280
-          },
-          height: {
-            ideal: 720
-          },
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
           facingMode: 'user',
         },
         audio: {
@@ -38,44 +39,53 @@ const useVideoRecording = (): UseVideoRecorderResult => {
           sampleRate: 44100,
         },
       };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      mediaStreamRef.current = stream;
-
+  
+      const userStream = await navigator.mediaDevices.getUserMedia(constraints);
+      mediaStreamRef.current = userStream;
+  
+      // Assign the stream to the video element
       if (userCameraRef.current) {
-        userCameraRef.current.srcObject = stream;
+        userCameraRef.current.srcObject = userStream;
+        userCameraRef.current.play(); // Ensure the video starts playing
       }
-
-      isRecordingStream.current = true;
-      return stream;
-
+  
+      setIsRecordingStream(true);
+      return userStream;
     } catch (error) {
-      console.error("Camera start error:", error);
-      toast.error(`Failed to start camera`);
-      return undefined; 
+      console.error('Camera access error:', error);
+      toast.error('Could not access camera/microphone');
+      return null;
     }
-  }, [isRecordingStream]);
+  };
+  
 
-  const stopCamera = useCallback(() => {
+  const stopUserCamera = (): void => {
     if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current.getTracks().forEach((track) => {
+        track.stop();
+      });
       mediaStreamRef.current = null;
     }
-    if (mediaRecorderRef.current) {
-        mediaRecorderRef.current = null;
+
+    if (previewVideoRef.current) {
+      previewVideoRef.current.srcObject = null;
     }
+
     if (userCameraRef.current) {
       userCameraRef.current.srcObject = null;
     }
-    isRecordingStream.current = false;
-  }, []);
 
-  const startRecording = useCallback(async (): Promise<void> => {
+    setIsRecordingStream(false);
+  };
+
+  const startVideoRecording = async () => {
     if (!mediaStreamRef.current) {
       toast.error('Camera is not started');
       return;
     }
 
     recordedChunksRef.current = [];
+
     try {
       mediaRecorderRef.current = new MediaRecorder(mediaStreamRef.current, {
         mimeType: 'video/webm; codecs=vp9',
@@ -93,42 +103,31 @@ const useVideoRecording = (): UseVideoRecorderResult => {
         });
         const videoURL = URL.createObjectURL(videoBlob);
         setRecordedVideoURL(videoURL);
+        useRecordingStore.getState().setVideoURL(videoURL);
+        console.log('Recording complete. Video URL:', videoURL);
       };
 
       mediaRecorderRef.current.start();
-    } catch (error: any) {
-      console.error('Error starting video recording:', error);
-      toast.error(`Failed to start video recording: ${error.message}`);
+    } catch (error) {
+      console.log(error);
+      toast.error('Error starting video recording');
     }
-  }, []);
-
-  const stopRecording = useCallback(async (): Promise<void> => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-        try {
-            mediaRecorderRef.current.stop();
-        } catch (error: any) {
-            console.error("Error stopping recording:", error);
-            toast.error(`Failed to stop video recording: ${error.message}`);
-        }
+  };
+  const stopVideoRecording = async () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
     }
-  }, []);
-
-    useEffect(() => {
-        return () => {
-            if (recordedVideoURL) {
-                URL.revokeObjectURL(recordedVideoURL);
-            }
-        };
-    }, [recordedVideoURL]);
-
+  };
   return {
     isRecordingStream,
     recordedVideoURL,
-    startCamera,
-    stopCamera,
-    startRecording,
-    stopRecording,
-    userCameraRef
+    startUserCamera,
+    stopUserCamera,
+    previewVideoRef,
+    userCameraRef,
+    stopVideoRecording,
+    startVideoRecording,
+    
   };
 };
 

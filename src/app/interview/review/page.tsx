@@ -1,5 +1,5 @@
 'use client';
-import useHomeStore from '@/store/home.store';
+import useHomeStore from '@/store/Employee/home.store';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import { Button } from '@/components/ui/button';
 import OutputCard from '@/app/interview/component/outputCard';
@@ -13,7 +13,8 @@ import { z } from 'zod';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Signup from '@/app/signup/page';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import { useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
+
 
 export default function InterviewReview() {
   const { jobId } = useHomeStore();
@@ -40,7 +41,7 @@ export default function InterviewReview() {
   useEffect(() => {
     if (data?.questions) {
       data.questions.forEach((question: string, index: number) => {
-        setValue(`questions.${index}`, question);
+        setValue(`questions.${index}`, question.text);
       });
     }
   }, [data?.questions, setValue]);

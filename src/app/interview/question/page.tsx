@@ -6,12 +6,10 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import GenerateQuestionResponse from '@/hooks/GenerateQuestion.hook';
 import Question from '../component/question';
-import {  useRouter } from 'next/navigation';
-import useHomeStore from '@/store/home.store';
+import { useRouter } from 'next/navigation';
+import useHomeStore from '@/store/Employee/home.store';
 
 export default function Questionnaire() {
-
-
   const jobId = useHomeStore((state) => state.jobId);
 
   const questionMutation = GenerateQuestionResponse();

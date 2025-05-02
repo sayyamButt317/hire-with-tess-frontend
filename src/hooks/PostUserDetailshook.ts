@@ -1,4 +1,4 @@
-import { UserDetails } from '@/Routes/api.routes';
+import { UserDetails } from '@/Routes/Client/Api/api.routes';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation'; // Use the right router
 import { toast } from 'sonner';

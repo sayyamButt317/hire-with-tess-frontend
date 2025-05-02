@@ -1,0 +1,46 @@
+import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+
+export default function UserProfilePermission() {
+    return (
+        <>
+           <div className="mb-4">
+           <h1 className=" text-24 font-semibold ">Permissions</h1>
+           </div>
+            <Card className="p-4">
+                {/* Permission 1 */}
+                <div className="gap-2 mb-2">
+                  <div className="flex flex-row items-center justify-between">
+                    <div>
+                      <h1 className="font-[open Sans] text-[#1E293B] font-semibold">Receive Interview Completion Alerts</h1>
+                      <p className="font-thin text-sm">Get updates with candidates finish interviews </p>
+                    </div>
+                    <Switch/>
+                  </div>
+                </div>
+
+                {/* Permission 2 */}
+                <div className="gap-2 mb-2">
+                  <div className="flex flex-row items-center justify-between">
+                    <div>
+                      <h1 className="font-[open Sans] text-[#1E293B] font-semibold">Receive Notification for New Applicants</h1>
+                      <p className="font-thin text-sm">Get notofied whenever a candidates completes an interview or submits application  </p>
+                    </div>
+                    <Switch/>
+                  </div>
+                </div>
+
+                {/* Permission 3 */}
+                <div className="gap-2">
+                  <div className="flex flex-row items-center justify-between">
+                    <div>
+                      <h1 className="font-[open Sans] text-[#1E293B] font-semibold">Show Company Brand on Job Listings </h1>
+                      <p className="font-thin text-sm">Display your company logo and details on job postings for better visibility </p>
+                    </div>
+                    <Switch/>
+                  </div>
+                </div>
+            </Card>
+        </>
+    )
+}

@@ -3,9 +3,9 @@ import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Check, Pencil, X } from 'lucide-react';
-import { useSkillStore } from '@/store/InputStore';
+import { useSkillStore } from '@/store/Employee/InputStore';
 import useResReqHook from '@/hooks/UpdateResReq.hook';
-import useHomeStore from '@/store/home.store';
+import useHomeStore from '@/store/Employee/home.store';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 

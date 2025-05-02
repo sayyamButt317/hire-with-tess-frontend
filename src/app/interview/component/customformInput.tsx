@@ -10,9 +10,9 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import FormControl from '@mui/material/FormControl';
-import { useSkillStore } from '@/store/InputStore';
+import { useSkillStore } from '@/store/Employee/InputStore';
 import React, { useRef } from 'react';
-import { useToggleStore } from '@/store/Toggle.store';
+import { useToggleStore } from '@/store/Employee/Toggle.store';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface CustomInputProps {
@@ -109,8 +109,8 @@ const CustomInputForm: React.FC<CustomInputProps> = ({
                             <SelectItem value="USD" className="text-black">
                               USD
                             </SelectItem>
-                            <SelectItem value="AED" className="text-black">
-                              AED
+                            <SelectItem value="PKR" className="text-black">
+                              PKR
                             </SelectItem>
                           </SelectContent>
                         </Select>

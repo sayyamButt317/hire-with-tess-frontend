@@ -1,5 +1,5 @@
-import { updateResReq } from '@/Routes/api.routes';
-import useHomeStore from '@/store/home.store';
+import { updateResReq } from '@/Routes/Client/Api/api.routes';
+import useHomeStore from '@/store/Employee/home.store';
 import { useMutation } from '@tanstack/react-query';
 export default function useResReqSkillHook() {
   const { jobId } = useHomeStore();
