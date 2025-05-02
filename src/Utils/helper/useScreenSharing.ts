@@ -43,7 +43,7 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
   const previewVideoRef = useRef<HTMLVideoElement | null>(null);
-  const [error, setError] = useState<Error | null>(null);
+  const [error] = useState<Error | null>(null);
 
   const screenShareOptions = {
     ...defaultScreenShareOptions,
@@ -90,9 +90,7 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
 
       mediaRecorderRef.current.start();
     } catch (error) {
-      console.error('Screen share error:', error);
-      setError(error);
-      toast.error(`Failed to start screen sharing: ${error.message}`);
+      toast.error(`Failed to start screen sharing`);
       setIsSharingScreen(false);
       setIsRecording(false);
     }
@@ -115,9 +113,7 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
       setIsRecording(false);
       setRecordedBlobUrl(null);
     } catch (error) {
-      console.error('Error stopping screen sharing:', error);
-      setError(error);
-      toast.error(`Failed to stop screen sharing: ${error.message}`);
+      toast.error(`Failed to stop screen sharing`);
     }
   }, []);
 

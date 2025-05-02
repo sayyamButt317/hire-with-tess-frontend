@@ -16,7 +16,7 @@ import {
   Users,
 } from 'lucide-react';
 
-import useTokenStore from '@/store/tokenstore';
+import useTokenStore from '@/store/Employee/auth.store';
 import React from 'react';
 
 const navItems = [
@@ -26,9 +26,9 @@ const navItems = [
 ];
 
 export default function AdminDashboardLayout() {
-  const { token, setToken } = useTokenStore((state) => state);
+  const { accessToken, setAccessToken } = useTokenStore((state) => state);
   const pathname = usePathname();
-  const logout = () => setToken('');
+  const logout = () => setAccessToken('');
 
   return (
     <div className=" bg-slate-100">
