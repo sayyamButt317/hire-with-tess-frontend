@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { APIEndpoint } from '@/Routes/Client/Constant/endpoint.routes';
-import {SubmitInterviewPayload} from '@/Types/Employer/useresponse';
+import { SubmitInterviewPayload } from '@/Types/Employer/useresponse';
 import TypeInterviewLink from '@/Types/Employer/interviewlink.type';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
 import { useRecordingStore } from '@/store/candidate/Recording.store';
+import TypeUploadFile from '@/Types/Candidate/uploadfile';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -110,7 +111,9 @@ export const GoogleLoginIn = async (accessToken: string) => {
   return response.data;
 };
 //Get Generate Interview link
-export const GenerateInterviewLink = async (job_id: string): Promise<TypeInterviewLink> => {
+export const GenerateInterviewLink = async (
+  job_id: string,
+): Promise<TypeInterviewLink> => {
   const { accessToken } = EmployeeAuthStore.getState();
   if (!accessToken) throw new Error('No access token available');
 
@@ -134,11 +137,26 @@ export const RegisterCandidate = async (data: FormData) => {
   return response;
 };
 
+//Upload File
+export const UploadFile = async (
+  interview_id: string,
+  data: FormData,
+) => {
+  const response = await api.post<TypeUploadFile>(APIEndpoint.UPLOAD_FILE(interview_id), data, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+};
 
 //submit Interview
 export const SubmitInterview = async (
-  interview_id:string
-  ,data: SubmitInterviewPayload) => {
-    const response =  await api.post(APIEndpoint.SUBMIT_INTERVIEW(interview_id), data);
-    return response.data;
-}
+  interview_id: string,
+  data: SubmitInterviewPayload,
+) => {
+  const payload = { Question_data: data }; 
+  const response = await api.post(
+    APIEndpoint.SUBMIT_INTERVIEW(interview_id),
+    payload
+  );
+  return response.data;
+};

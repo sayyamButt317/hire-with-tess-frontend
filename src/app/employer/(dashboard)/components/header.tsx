@@ -37,9 +37,7 @@ export default function Header() {
           <div className="p-2">
             <Avatar className="w-10 h-10">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>
-                {/* {(session?.user?.name || "IN")} */}
-              </AvatarFallback>
+              <AvatarFallback>{/* {(session?.user?.name || "IN")} */}</AvatarFallback>
             </Avatar>
           </div>
           <div className="pl-2">

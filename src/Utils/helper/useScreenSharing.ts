@@ -39,6 +39,7 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
   const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
+
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
@@ -50,15 +51,14 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
     ...options,
   };
 
-
-    const startScreenShare = async (): Promise<MediaStream | null> => {
-      try {
-        return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-    };
+  const startScreenShare = async (): Promise<MediaStream | null> => {
+    try {
+      return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
   const startSharing = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
@@ -96,39 +96,29 @@ const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
     }
   }, [screenShareOptions]);
 
-  const stopSharing = useCallback(() => {
-    try {
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-        mediaRecorderRef.current.stop();
-      }
+    const startScreenRecording = async () => {
+    const screenStream = await startScreenShare();
 
-      if (mediaStreamRef.current) {
-        mediaStreamRef.current.getTracks().forEach((track) => track.stop());
-      }
-
-      if (previewVideoRef.current && previewVideoRef.current.srcObject) {
-        previewVideoRef.current.srcObject = null;
-      }
-      setIsSharingScreen(false);
-      setIsRecording(false);
-      setRecordedBlobUrl(null);
-    } catch (error) {
-      toast.error(`Failed to stop screen sharing`);
+    if (!screenStream) {
+      resetAllState();
+      return;
     }
-  }, []);
+    if (previewVideoRef.current) {
+      previewVideoRef.current.srcObject = screenStream;
+    }
 
-  useEffect(() => {
-    return () => {
-      stopSharing();
-    };
-  }, [stopSharing]);
+    recordedChunksRef.current = [];
+    setupMediaRecorder(screenStream);
+    setIsRecordingStream(true);
+  };
+  
+ 
 
   return {
     isSharingScreen,
     isRecording,
     recordedBlobUrl,
     startSharing,
-    stopSharing,
     previewVideoRef,
     startScreenShare,
     error,

@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef, useState } from 'react';
-import  { useSpeechRecognition } from 'react-speech-recognition';
+import { useSpeechRecognition } from 'react-speech-recognition';
 import { Mic, MonitorUp, Video } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRecordingStore } from '@/store/candidate/Recording.store';
@@ -12,22 +12,20 @@ import Waveform from './Waveform';
 import useVoiceRecorder from '@/Utils/helper/useVoiceRecorder';
 import useScreenSharing from '@/Utils/helper/useScreenSharing';
 import useVideoRecording from '@/Utils/helper/useVideoRecording';
+import useMediaRecorder from '@/Utils/helper/mediarecorder';
+import useUploadFileMutation from '@/Routes/Client/hook/POST/UploadFilehook';
+import { useResponseStore } from '@/store/candidate/responsestore';
 
 type SpeechRecordingInputProps = {
   placeholder?: string;
   jobId: string;
   index: number;
-  onSaveAndContinue: (
-    transcript: string, 
-    currentquestion:string,
-    audioURL: string | null) => void;
-}
+  onSaveAndContinue: (transcript: string, currentquestion: string, audioURL: string | null,) => void;
+};
 
 const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   placeholder = 'Your response will appear here as you speak...',
-  onSaveAndContinue,
-  jobId,
-  index,
+  onSaveAndContinue, jobId, index,
 }) => {
   const { hasRecorded, setIsPlaying } = useRecordingStore();
 
@@ -35,24 +33,26 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
   const [recordedVoiceURL, setIsRecordedVoiceURL] = useState('');
   const [recordedVideoURL, setRecordedVideoURL] = useState<string | null>(null);
-
   const [isVoiceRecording, setIsVoiceRecording] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [activeTool, setActiveTool] = useState<'mic' | 'video' | 'screen' | null>(null);
 
-  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
-  const userCameraRef = useRef<HTMLVideoElement | null>(null);
-
-  const mediaStreamRef = useRef<MediaStream | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
 
-  const {  resetTranscript, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
-    const {  transcript,startSpeechRecognition,stopSpeechRecognition, listening,  } = useVoiceRecorder();
-    const {startScreenShare} = useScreenSharing();  
-    const {stopVideoRecording} = useVideoRecording();
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
+  const userCameraRef = useRef<HTMLVideoElement | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
 
+  const { mutate: uploadFile } = useUploadFileMutation();
+
+  const { resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+  const { transcript, startSpeechRecognition, stopSpeechRecognition, listening } = useVoiceRecorder();
+  // const { startScreenShare } = useScreenSharing();
+  const { stopVideoRecording } = useVideoRecording();
+
+
+  
   const startVoiceRecording = async () => {
     setIsVoiceRecording(true);
     try {
@@ -194,14 +194,58 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       setActiveTool(null);
     } else {
       setActiveTool('video');
-      const stream = await startUserCamera();
+      // Explicitly cast the result to MediaStream | null to satisfy TypeScript
+      const stream = await startUserCamera() as MediaStream | null;
+      // Now TypeScript knows that stream is MediaStream | null and can be checked
       if (stream) {
         await startVideoRecording();
       }
     }
   };
+  const screenShareOptions = {
+    video: {
+      displaySurface: 'browser',
+    },
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      sampleRate: 44100,
+      suppressLocalAudioPlayback: true,
+    },
+    preferCurrentTab: false,
+    selfBrowserSurface: 'exclude',
+    systemAudio: 'include',
+    surfaceSwitching: 'include',
+    monitorTypeSurfaces: 'include',
+  };
+  const startScreenShare = async (): Promise<MediaStream | null> => {
+    try {
+      return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+  const setupMediaRecorder = (stream: MediaStream) => {
+    const recorder = new MediaRecorder(stream);
+    mediaRecorderRef.current = recorder;
 
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        recordedChunksRef.current.push(event.data);
+      }
+    };
 
+    recorder.onstop = () => {
+      const videoBlob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+      const screenURL = URL.createObjectURL(videoBlob);
+      setRecordedBlobUrl(screenURL);
+      useRecordingStore.getState().setScreenURL(screenURL);
+      recordedChunksRef.current = []; // Clear chunks
+    };
+
+    recorder.start();
+  };
   const startScreenRecording = async () => {
     const screenStream = await startScreenShare();
 
@@ -218,49 +262,44 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     setIsRecordingStream(true);
   };
 
-  const setupMediaRecorder = (stream: MediaStream) => {
-    const recorder = new MediaRecorder(stream);
-    mediaRecorderRef.current = recorder;
 
-    recorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        recordedChunksRef.current.push(event.data);
-      }
-    };
-    recorder.onstop = () => {
-      const videoBlob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
-      const screenURL = URL.createObjectURL(videoBlob);
-      setRecordedBlobUrl(screenURL);
-      useRecordingStore.getState().setScreenURL(screenURL);
-    };
+  const handleSaveAndContinue = async () => {
+    const { activeType, audioURL, videoURL, screenURL, currentquestion, interviewId } = useRecordingStore.getState();
 
-    recorder.start();
-  };
+    let fileUrl = '';
+    if (activeType === 'audio') fileUrl = audioURL;
+    else if (activeType === 'video') fileUrl = videoURL;
+    else if (activeType === 'screen') fileUrl = screenURL;
 
-  const handleSaveAndContinue = () => {
-  const {activeType,audioURL,videoURL,screenURL,currentquestion,} = useRecordingStore.getState();
-  
-    const questionId = `${jobId}-Question${index}`;
-  
-    let url = '';
-    if (activeType === 'audio') url = audioURL;
-    else if (activeType === 'video') url = videoURL;
-    else if (activeType === 'screen') url = screenURL;
-  
-    const responseData = {
-      question: currentquestion,
-      transcript,
-      type: activeType,
-      url,
-    };
-  
-    useRecordingStore.getState().saveResponse(questionId, responseData);
-  
-    if (onSaveAndContinue) {
-      onSaveAndContinue(transcript, url, currentquestion);
+    if (!fileUrl || !currentquestion || !interviewId) {
+      toast.error('Missing required data');
+      return;
     }
+
+    const blob = await fetch(fileUrl).then((res) => res.blob());
+
+    const formData = new FormData();
+    formData.append('question_text', currentquestion);
+    formData.append('answer_file', blob, `${activeType}-answer.webm`);
+
+    uploadFile({ interview_id: interviewId, data: formData },
+      {
+        onSuccess: (response) => {
+          const savedResponses = JSON.parse(localStorage.getItem('savedResponses') || '[]');
+          const newEntry = {
+            question_text: currentquestion,
+            temp_url: response?.temp_url || fileUrl,
+            content_type: blob.type,
+          };
+          useResponseStore.getState().addResponse(newEntry);
+          onSaveAndContinue(currentquestion, fileUrl, transcript || '');
+
+        },
+      }
+    );
+
   };
-  
+
 
   const setActiveType = useRecordingStore.getState().setActiveType;
 
@@ -374,10 +413,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           {recordedVoiceURL && (
             <div className="rounded-full p-3 border shadow-xl">
               <div className="flex items-center gap-2 w-full">
-                <Waveform
-                  recordedVoiceURL={recordedVoiceURL}
-                  seconds={seconds}
-                />
+                <Waveform recordedVoiceURL={recordedVoiceURL} seconds={seconds} />
               </div>
             </div>
           )}
@@ -410,27 +446,27 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
           <div className="flex justify-center gap-2 mt-12">
             {activeTool
               ? tools
-                  .filter((tool) => tool.key === activeTool)
-                  .map((tool) => (
-                    <EnhancedButton
-                      key={tool.key}
-                      action={tool.condition}
-                      onClick={tool.onClick}
-                      icon={tool.icon}
-                      defaultTitle=""
-                      onpressTitle={tool.title}
-                    />
-                  ))
-              : tools.map((tool) => (
+                .filter((tool) => tool.key === activeTool)
+                .map((tool) => (
                   <EnhancedButton
                     key={tool.key}
-                    action={false}
+                    action={tool.condition}
                     onClick={tool.onClick}
                     icon={tool.icon}
                     defaultTitle=""
                     onpressTitle={tool.title}
                   />
-                ))}
+                ))
+              : tools.map((tool) => (
+                <EnhancedButton
+                  key={tool.key}
+                  action={false}
+                  onClick={tool.onClick}
+                  icon={tool.icon}
+                  defaultTitle=""
+                  onpressTitle={tool.title}
+                />
+              ))}
           </div>
         )}
 

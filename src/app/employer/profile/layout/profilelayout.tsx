@@ -1,8 +1,8 @@
 'use client';
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import ProfileSidebar from "@/app/employer/profile/components/profilesidebar";
-import { sidebarProfileItem } from "../Constants/profileitem";
+import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import ProfileSidebar from '@/app/employer/profile/components/profilesidebar';
+import { sidebarProfileItem } from '../Constants/profileitem';
 
 export default function ProfileLayout() {
   const [activeKey, setActiveKey] = useState('accountdetails');

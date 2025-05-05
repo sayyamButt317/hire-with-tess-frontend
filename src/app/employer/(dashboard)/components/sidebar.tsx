@@ -11,7 +11,7 @@ import { LogOut, Menu } from 'lucide-react';
 export interface SidebarLink {
   label: string;
   route: string;
-  img: string; 
+  img: string;
 }
 
 export interface SidebarProps {
@@ -30,7 +30,7 @@ export default function Sidebar({ links, onLogout }: SidebarProps) {
   };
 
   const handleLogout = () => {
-    onLogout?.(); 
+    onLogout?.();
     router.push('/login');
   };
 
@@ -83,7 +83,7 @@ export default function Sidebar({ links, onLogout }: SidebarProps) {
               className="mt-6 w-full bg-red-50 text-red-700 hover:bg-red-100 transition-all duration-300"
               variant="ghost"
             >
-             <LogOut /> Logout
+              <LogOut /> Logout
             </Button>
           )}
         </nav>

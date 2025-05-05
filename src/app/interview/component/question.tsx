@@ -16,7 +16,8 @@ interface QuestionProps {
 }
 
 export default function Question({ questions, showImage = true }: QuestionProps) {
-  const { editableQuestionIndex, setEditableQuestionIndex, setIsEditable } = useSkillStore();
+  const { editableQuestionIndex, setEditableQuestionIndex, setIsEditable } =
+    useSkillStore();
   const [edited, setEdited] = useState([...questions]);
   const { mutate } = useUpdateJobQuestion();
 

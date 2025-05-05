@@ -25,10 +25,8 @@ interface RecordingState {
 
   // Stored answers by question
   storedResponses: { questionId: string; response: ResponseData }[];
-  interviewId: string,
-  currentquestion: string,
-
-
+  interviewId: string;
+  currentquestion: string;
 
   // Actions
   setIsListening: (val: boolean) => void;

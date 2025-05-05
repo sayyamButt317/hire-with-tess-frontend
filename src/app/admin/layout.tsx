@@ -8,18 +8,18 @@ import { useRouter } from 'next/navigation';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
 
 export default function EmployeeRootLayout({ children }: { children: React.ReactNode }) {
-//   const router = useRouter();
-//   const { accessToken } = EmployeeAuthStore();
+  //   const router = useRouter();
+  //   const { accessToken } = EmployeeAuthStore();
 
-//   useEffect(() => {
-//     if (!accessToken) {
-//       router.push('/login');
-//     }
-//   }, [accessToken, router]);
+  //   useEffect(() => {
+  //     if (!accessToken) {
+  //       router.push('/login');
+  //     }
+  //   }, [accessToken, router]);
 
-//   if (!accessToken) {
-//     return null; 
-//   }
+  //   if (!accessToken) {
+  //     return null;
+  //   }
 
   return (
     <ReactQueryProvider>

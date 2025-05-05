@@ -1,15 +1,17 @@
-'use client'
-import CustomInputForm from "@/app/interview/component/customformInput";
-import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem, Form } from "@/components/ui/form";
-import LoginInMutation from "@/Routes/Employer/hooks/Auth/SignIn.hook";
-import { AccountDetailformSchema, AccountFormValidator } from "@/schema/accountDetail.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
-import { useForm } from "react-hook-form";
+'use client';
+import CustomInputForm from '@/app/interview/component/customformInput';
+import { Button } from '@/components/ui/button';
+import { FormControl, FormField, FormItem, Form } from '@/components/ui/form';
+import LoginInMutation from '@/Routes/Employer/hooks/Auth/SignIn.hook';
+import {
+  AccountDetailformSchema,
+  AccountFormValidator,
+} from '@/schema/accountDetail.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function UserAccountDetail() {
-
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -40,7 +42,7 @@ export default function UserAccountDetail() {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           ref={ref}
-          className="space-y-8 flex flex-col overflow-auto max-h-[80vh] py-8" 
+          className="space-y-8 flex flex-col overflow-auto max-h-[80vh] py-8"
         >
           <div className="flex gap-4 items-start w-3xl mt-4 ">
             <FormField
@@ -135,13 +137,11 @@ export default function UserAccountDetail() {
             />
           </div>
 
-
-
           <div className="flex ">
             <Button
               type="submit"
               className=" leading-[20px] font-roboto cursor-pointer "
-            // disabled={signupMutation.isPending}
+              // disabled={signupMutation.isPending}
             >
               Update Profile
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}
@@ -150,7 +150,7 @@ export default function UserAccountDetail() {
               type="reset"
               variant="ghost"
               className="leading-[20px] font-roboto cursor-pointer "
-            // disabled={signupMutation.isPending}
+              // disabled={signupMutation.isPending}
             >
               Reset
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}
@@ -159,5 +159,5 @@ export default function UserAccountDetail() {
         </form>
       </Form>
     </div>
-  )
+  );
 }

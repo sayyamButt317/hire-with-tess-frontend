@@ -18,15 +18,12 @@ export default function CardComponent({ heading, subheading, icon }: CardProps) 
           <div className="w-10 h-10 flex items-center justify-center bg-orange-100 rounded-lg">
             {icon}
           </div>
-          <CardTitle className="text-xs font-light truncate">
-            {heading}
-          </CardTitle>
+          <CardTitle className="text-xs font-light truncate">{heading}</CardTitle>
         </div>
         <CardDescription className="text-base pl-3 text-black font-[open Sans] font-semibold truncate mt-2">
           {subheading}
         </CardDescription>
       </div>
-  
     </div>
   );
 }

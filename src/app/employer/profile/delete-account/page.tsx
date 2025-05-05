@@ -1,5 +1,3 @@
-export default function DeleteUserAccount(){
-    return(
-        <div>delete</div>
-    )
+export default function DeleteUserAccount() {
+  return <div>delete</div>;
 }

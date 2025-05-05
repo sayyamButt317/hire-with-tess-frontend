@@ -14,7 +14,6 @@ interface UseVideoRecorderResult {
 }
 
 const useVideoRecording = (): UseVideoRecorderResult => {
-  
   const [recordedVideoURL, setRecordedVideoURL] = useState<string | null>(null);
   const [isRecordingStream, setIsRecordingStream] = useState(false);
 
@@ -27,6 +26,7 @@ const useVideoRecording = (): UseVideoRecorderResult => {
 
   const startUserCamera = async (): Promise<MediaStream | null> => {
     try {
+      console.log('Starting user camera...');
       const constraints: MediaStreamConstraints = {
         video: {
           width: { ideal: 1280 },
@@ -39,16 +39,12 @@ const useVideoRecording = (): UseVideoRecorderResult => {
           sampleRate: 44100,
         },
       };
-  
+
       const userStream = await navigator.mediaDevices.getUserMedia(constraints);
-      mediaStreamRef.current = userStream;
-  
-      // Assign the stream to the video element
       if (userCameraRef.current) {
         userCameraRef.current.srcObject = userStream;
-        userCameraRef.current.play(); // Ensure the video starts playing
       }
-  
+      mediaStreamRef.current = userStream;
       setIsRecordingStream(true);
       return userStream;
     } catch (error) {
@@ -57,7 +53,6 @@ const useVideoRecording = (): UseVideoRecorderResult => {
       return null;
     }
   };
-  
 
   const stopUserCamera = (): void => {
     if (mediaStreamRef.current) {
@@ -78,41 +73,42 @@ const useVideoRecording = (): UseVideoRecorderResult => {
     setIsRecordingStream(false);
   };
 
-  const startVideoRecording = async () => {
-    if (!mediaStreamRef.current) {
-      toast.error('Camera is not started');
-      return;
-    }
-
-    recordedChunksRef.current = [];
-
-    try {
-      mediaRecorderRef.current = new MediaRecorder(mediaStreamRef.current, {
-        mimeType: 'video/webm; codecs=vp9',
-      });
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        const videoBlob = new Blob(recordedChunksRef.current, {
-          type: 'video/webm',
+    const startVideoRecording = async () => {
+      if (!mediaStreamRef.current) {
+        toast.error('Camera is not started');
+        return;
+      }
+  
+      recordedChunksRef.current = [];
+  
+      try {
+        mediaRecorderRef.current = new MediaRecorder(mediaStreamRef.current, {
+          mimeType: 'video/webm; codecs=vp9',
         });
-        const videoURL = URL.createObjectURL(videoBlob);
-        setRecordedVideoURL(videoURL);
-        useRecordingStore.getState().setVideoURL(videoURL);
-        console.log('Recording complete. Video URL:', videoURL);
-      };
+  
+        mediaRecorderRef.current.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunksRef.current.push(event.data);
+          }
+        };
+  
+        mediaRecorderRef.current.onstop = () => {
+          const videoBlob = new Blob(recordedChunksRef.current, {
+            type: 'video/webm',
+          });
+          const videoURL = URL.createObjectURL(videoBlob);
+          setRecordedVideoURL(videoURL);
+          useRecordingStore.getState().setVideoURL(videoURL);
+          console.log('Recording complete. Video URL:', videoURL);
+        };
+  
+        mediaRecorderRef.current.start();
+      } catch (error) {
+        console.log(error);
+        toast.error('Error starting video recording');
+      }
+    };
 
-      mediaRecorderRef.current.start();
-    } catch (error) {
-      console.log(error);
-      toast.error('Error starting video recording');
-    }
-  };
   const stopVideoRecording = async () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
@@ -127,7 +123,6 @@ const useVideoRecording = (): UseVideoRecorderResult => {
     userCameraRef,
     stopVideoRecording,
     startVideoRecording,
-    
   };
 };
 

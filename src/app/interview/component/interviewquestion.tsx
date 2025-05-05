@@ -10,10 +10,12 @@ import SpeechRecordingInput from '@/app/interview/component/SpeechToTextInput';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type InterviewQuestionPageProps = {
-  useStepParamName?: string; 
+  useStepParamName?: string;
 };
 
-export default function InterviewQuestionPage({ useStepParamName = 'step' }: InterviewQuestionPageProps) {
+export default function InterviewQuestionPage({
+  useStepParamName = 'step',
+}: InterviewQuestionPageProps) {
   const params = useParams();
   const router = useRouter();
 

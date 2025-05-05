@@ -1,5 +1,4 @@
 'use client';
-import useHomeStore from '@/store/Employee/home.store';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import { Button } from '@/components/ui/button';
 import OutputCard from '@/app/interview/component/outputCard';
@@ -13,18 +12,25 @@ import { z } from 'zod';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Signup from '@/app/signup/page';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import {  useRouter } from 'next/navigation';
-
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import EmployeeAuthStore from '@/store/Employee/auth.store';
 
 export default function InterviewReview() {
-  const { jobId } = useHomeStore();
-  const jobDetailsQuery = FetchJobDetails(jobId);
+ 
+  const params = useParams();
+  const jobId = params?.jobId as string;
 
+  const access_token = EmployeeAuthStore.getState().accessToken;
+  const jobDetailsQuery = FetchJobDetails(jobId);
+  
   const jobData = jobDetailsQuery?.data || {};
   const { data } = FetchQuestions(jobId);
 
   const form = useForm<z.infer<typeof customformSchema>>({});
   const { setValue } = form;
+  
   const ref = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
@@ -183,8 +189,12 @@ export default function InterviewReview() {
               Back
             </Button>
           </div>
-
-          <Dialog>
+          {access_token ? (
+            <Link href={`/interview/generate-link/${jobId}`}>
+              <Button className="w-40">Generate Link</Button>
+            </Link>
+          ) : (
+            <Dialog>
             <DialogTrigger asChild>
               <Button className="w-40">Sign up to Continue</Button>
             </DialogTrigger>
@@ -192,6 +202,9 @@ export default function InterviewReview() {
               <Signup />
             </DialogContent>
           </Dialog>
+          )}
+
+       
         </div>
       </div>
     </InterviewLayout>

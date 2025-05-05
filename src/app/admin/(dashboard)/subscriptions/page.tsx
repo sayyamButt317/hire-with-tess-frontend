@@ -7,7 +7,6 @@ import Searchbar from '@/app/employer/(dashboard)/components/searchbar';
 import UseDashboardJobCardStats from '@/Routes/Employer/hooks/GET/GetJobCardstats.hook';
 import UseGetAllJob from '@/Routes/Employer/hooks/GET/GetAllJobs.hook';
 
-
 export default function Subscriptions() {
   const TITLE = [
     'Action',
@@ -17,12 +16,11 @@ export default function Subscriptions() {
     'Status',
     'Start Date',
     'Expiry Date',
-
   ];
 
-  const {data:jobdata} = UseDashboardJobCardStats();
-  const{data:JobTableData} = UseGetAllJob();
-  console.log("All Job Data:", JobTableData)
+  const { data: jobdata } = UseDashboardJobCardStats();
+  const { data: JobTableData } = UseGetAllJob();
+  console.log('All Job Data:', JobTableData);
 
   const DATA = [
     [
@@ -41,7 +39,9 @@ export default function Subscriptions() {
 
   return (
     <div>
-      <h1 className="text-[24px] font-[open sans] font-semibold ml-2 mb-4">Subscriptions</h1>
+      <h1 className="text-[24px] font-[open sans] font-semibold ml-2 mb-4">
+        Subscriptions
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
         <CardComponent
           heading=" Active Subscriptions "
@@ -66,10 +66,18 @@ export default function Subscriptions() {
         ></CardComponent>
       </div>
       <div className="mt-10">
-        <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mb-4"> Employer Subscription Overview</h1>
+        <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mb-4">
+          {' '}
+          Employer Subscription Overview
+        </h1>
         <Searchbar />
 
-        <TableComponent header={TITLE} subheader={DATA} paginationstart={JobTableData?.current_page} paginationend={JobTableData?.total} />
+        <TableComponent
+          header={TITLE}
+          subheader={DATA}
+          paginationstart={JobTableData?.current_page}
+          paginationend={JobTableData?.total}
+        />
       </div>
     </div>
   );

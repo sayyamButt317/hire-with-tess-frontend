@@ -23,10 +23,10 @@ const useVoiceRecorder = (): UseVoiceRecorderResult => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
   const [isVoiceRecording, setIsVoiceRecording] = useState(false);
-   const [recordedVoiceURL, setIsRecordedVoiceURL] = useState('');
-   const [seconds, setSeconds] = useState(0);
-   const [isRecording, setIsRecording] = useState(false);
-   
+  const [recordedVoiceURL, setIsRecordedVoiceURL] = useState('');
+  const [seconds, setSeconds] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+
   const startSpeechRecognition = async () => {
     await SpeechRecognition.startListening({ continuous: true });
   };

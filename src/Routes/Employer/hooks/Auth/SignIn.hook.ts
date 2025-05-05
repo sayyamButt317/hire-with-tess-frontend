@@ -3,27 +3,29 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import EmployeeAuthStore from '@/store/Employee/auth.store';
+import { setAuthToken } from '@/Utils/Providers/auth';
+
+interface LoginResponse {
+  access_token: string;
+  token_type: string;
+}
 
 export default function LoginInMutation() {
   const router = useRouter();
-  const { setAccessToken } = EmployeeAuthStore();
 
-  return useMutation({
-    mutationFn: EmployerLogin,
+  return useMutation<LoginResponse, AxiosError, { email: string; password: string }>({
+    mutationFn: ({ email, password }) => EmployerLogin({ email, password }),
     onSuccess: async (data) => {
-      if (!data.access_token) return;
-      // Save token in localStorage
-      // localStorage.setItem('accessToken', data.access_token);
-
-      // Store token in cookies
-      document.cookie = `accessToken=${data.access_token}; path=/; max-age=${60 * 60 * 24}; secure; samesite=strict`;
-
-      // (Optional) still set in Zustand store if you're using it somewhere
-      setAccessToken(data.access_token);
+      if (!data.access_token) {
+        toast.error('You are Not Authenticated');
+        return;
+      }
+      console.log("Before Login access_Token",data);
+      setAuthToken(data.access_token);
+      console.log("After Login access_Token",data.access_token);
       toast.success('SignIn successful!');
       router.push('/employer/home');
-    },
+    },    
     onError: (error) => {
       const axiosError = error as AxiosError<{ detail: string }>;
       toast.error('SignIn Failed', {

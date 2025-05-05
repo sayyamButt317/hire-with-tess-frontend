@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import GenerateQuestionResponse from '@/hooks/GenerateQuestion.hook';
-import Question from '../component/question';
-import { useRouter } from 'next/navigation';
-import useHomeStore from '@/store/Employee/home.store';
+import Question from '@/app/interview/component/question';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function Questionnaire() {
-  const jobId = useHomeStore((state) => state.jobId);
+
+  const params = useParams();
+  const jobId = params?.jobId as string;
 
   const questionMutation = GenerateQuestionResponse();
   const response = questionMutation.data || [];
@@ -69,7 +70,7 @@ export default function Questionnaire() {
           <Button onClick={() => router.back()} variant="secondary">
             Back
           </Button>
-          <Link href={`/interview/review`}>
+          <Link href={`/interview/review/${jobId}`}>
             <Button
               type="submit"
               disabled={!jobId}

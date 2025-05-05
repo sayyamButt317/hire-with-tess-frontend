@@ -34,11 +34,10 @@ export default function EmployeeSignIn() {
   return (
     <div className="flex items-center justify-center p-2 sm:p-10 w-full">
       <div className="w-full ">
-      
         <Card className="items-center justify-center p-4 sm:p-8 ">
-        <h1 className="text-center mb-2 text-xl sm:text-2xl font-normal">
-          Hirewithtess
-        </h1>
+          <h1 className="text-center mb-2 text-xl sm:text-2xl font-normal">
+            Hirewithtess
+          </h1>
           <h1 className="font-[roboto] font-medium text-2xl text-center">
             Sign In to your Account
           </h1>

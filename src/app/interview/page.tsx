@@ -18,7 +18,8 @@ import { Check, Pencil } from 'lucide-react';
 import { useSkillStore } from '@/store/Employee/InputStore';
 
 export default function InterviewForm() {
-  const { jobDescription, jobTitle, jobType, companyName, location, salary } = useHomeStore();
+  const { jobDescription, jobTitle, jobType, companyName, location, salary } =
+    useHomeStore();
   const jobId = useHomeStore((state) => state.jobId);
 
   const { isEditDescription, setIsEditableDescription } = useSkillStore();
@@ -226,7 +227,7 @@ export default function InterviewForm() {
               Cancel
             </Button>
           </Link>
-          <Link href={`/interview/question`}>
+          <Link href={`/interview/generate-questions/${jobId}`}>
             <Button type="submit" className="w-full sm:w-auto cursor-pointer">
               Next Step
             </Button>

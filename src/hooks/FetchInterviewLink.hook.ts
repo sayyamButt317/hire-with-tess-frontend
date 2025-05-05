@@ -15,4 +15,3 @@ export default function useFetchInterviewLink() {
     enabled: !!job_id && !!accessToken,
   });
 }
-

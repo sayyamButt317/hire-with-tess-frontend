@@ -7,7 +7,6 @@ import Searchbar from '../components/searchbar';
 import UseDashboardJobCardStats from '@/Routes/Employer/hooks/GET/GetJobCardstats.hook';
 import UseGetAllJob from '@/Routes/Employer/hooks/GET/GetAllJobs.hook';
 
-
 export default function JobPosting() {
   const TITLE = [
     'Action',
@@ -20,9 +19,9 @@ export default function JobPosting() {
     'Job Expiry Date',
   ];
 
-  const {data:jobdata} = UseDashboardJobCardStats();
-  const{data:JobTableData} = UseGetAllJob();
-  console.log("All Job Data:", JobTableData)
+  const { data: jobdata } = UseDashboardJobCardStats();
+  const { data: JobTableData } = UseGetAllJob();
+  console.log('All Job Data:', JobTableData);
 
   const DATA = [
     [
@@ -69,7 +68,12 @@ export default function JobPosting() {
         <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mb-4"> Jobs</h1>
         <Searchbar />
 
-        <TableComponent header={TITLE} subheader={DATA} paginationstart={JobTableData?.current_page} paginationend={JobTableData?.total} />
+        <TableComponent
+          header={TITLE}
+          subheader={DATA}
+          paginationstart={JobTableData?.current_page}
+          paginationend={JobTableData?.total}
+        />
       </div>
     </div>
   );

@@ -118,7 +118,8 @@
 }
 
 .filter-orange {
-  filter: brightness(0) saturate(80%) invert(52%) sepia(68%) saturate(2150%) hue-rotate(358deg) brightness(90%) contrast(101%);
+  filter: brightness(0) saturate(80%) invert(52%) sepia(68%) saturate(2150%)
+    hue-rotate(358deg) brightness(90%) contrast(101%);
 }
 
 @layer base {

@@ -12,64 +12,54 @@ import { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import useSubmitInterview from '@/Routes/Client/hook/POST/SubmitInterviewhook';
 import { SubmitInterviewPayload } from '@/Types/Employer/useresponse';
-
+import { useResponseStore } from '@/store/candidate/responsestore';
 
 export default function AnsweredQuestionList() {
   const params = useParams();
   const jobId = params?.jobId as string;
 
-  // Fetch the interview questions based on the jobId
   const { data } = FetchQuestions(jobId);
-
-  // Access interview_id and stored responses from the Zustand store
   const interview_id = useRecordingStore((state) => state.interviewId);
-  const storedResponses = useRecordingStore((state) => state.storedResponses);
+  const savedResponses = useResponseStore((state) => state.savedResponses);
+  console.log('savedResponses', savedResponses);
 
-  // Ref for the feedback form
   const feedback = useRef<HTMLFormElement>(null);
+  const { mutate, isPending, isError } = useSubmitInterview();
 
-  // Hook for submitting the interview responses
-  const { mutate, isLoading, isError } = useSubmitInterview();
-
-  // Function to handle feedback form submission
   const onSubmitFeedback = async () => {
     const form = feedback.current;
     if (form) {
       const formData = new FormData(form);
-      const feedbackText = formData.get("feedback");
-      console.log("User Feedback:", feedbackText);
+      const feedbackText = formData.get('feedback');
+      console.log('User Feedback:', feedbackText);
     }
   };
 
-  // Function to submit interview responses
   const onSubmitInterview = async () => {
-    const { storedResponses, interviewId } = useRecordingStore.getState();
-  
+    const interviewId = useRecordingStore.getState().interviewId;
+
     if (!interviewId) {
-      console.error("Interview ID is missing!");
+      console.error('Interview ID is missing!');
       return;
     }
 
-    const questions_data = storedResponses.reduce((acc, item) => {
-      const question = item.response.question;
-      const url = item.response.url;
-      if (question && url) {
-        acc[question] = url;
-      }
+    if (!savedResponses.length) {
+      console.warn('No saved responses found in localStorage.');
+      return;
+    }
+
+    const questions_data = savedResponses.reduce((acc, item) => {
+      acc[item.question_text] = item.temp_url;
       return acc;
     }, {} as Record<string, string>);
-  
-    console.log("questions_data", questions_data);
-    console.log("Interview ID", interviewId);
-  
-    mutate({
-      interview_id: interviewId,
-      data: {
-        questions_data,
-      },
-    });
+
+    const payload: SubmitInterviewPayload = {
+      interview_id: interview_id,
+      data: questions_data,
+    };
+        
+    mutate(payload);
   };
-  
 
   return (
     <>
@@ -85,10 +75,10 @@ export default function AnsweredQuestionList() {
           </div>
 
           {data?.questions.map((question: any, index: number) => {
-            const questionId = `${jobId}-Question${index + 1}`;
-            const matchedResponse = storedResponses.find(
-              (res) => res.questionId === questionId
+            const matchedResponse = savedResponses.find(
+              (res) => res.question_text.trim().toLowerCase() === question.text.trim().toLowerCase()
             );
+
             const hasResponse = !!matchedResponse;
 
             return (
@@ -104,37 +94,26 @@ export default function AnsweredQuestionList() {
 
                 {hasResponse ? (
                   <div className="mb-4 space-y-2">
-                    {matchedResponse.response.type === 'audio' && (
+                    {matchedResponse.content_type.startsWith('audio') && (
                       <div className="rounded-full p-3 border">
                         <Waveform
-                          recordedVoiceURL={matchedResponse.response.url}
-                          seconds={matchedResponse.response.transcript?.length || 0}
+                          recordedVoiceURL={matchedResponse.temp_url}
+                          seconds={matchedResponse.length || 0}
                         />
                       </div>
                     )}
-                    {matchedResponse.response.type === 'video' && (
+                    {matchedResponse.content_type.startsWith('video') && (
                       <div className="items-center justify-center flex p-4">
                         <video
                           controls
                           width={400}
-                          src={matchedResponse.response.url}
                           className="z-10 transition-all duration-300 ease-in-out transform group-hover:scale-105 rounded-2xl"
                         />
                       </div>
                     )}
-                    {matchedResponse.response.type === 'screen' && (
+                    {matchedResponse.content_type.startsWith('screen') && (
                       <div className="items-center justify-center flex p-4">
-                        <video
-                          controls
-                          width={400}
-                          src={matchedResponse.response.url}
-                        />
-                      </div>
-                    )}
-                    {matchedResponse.response.transcript && (
-                      <div className="mt-1 text-sm text-gray-700">
-                        <p className="font-medium">Transcript:</p>
-                        <p>{matchedResponse.response.transcript}</p>
+                        <video controls width={400} src={matchedResponse.temp_url} />
                       </div>
                     )}
                   </div>
@@ -146,6 +125,7 @@ export default function AnsweredQuestionList() {
               </div>
             );
           })}
+
           {isError && (
             <p className="text-red-500 text-sm mt-2">
               Something went wrong, please try again.
@@ -153,10 +133,9 @@ export default function AnsweredQuestionList() {
           )}
         </div>
 
-        <Button onClick={onSubmitInterview} className="mt-4" disabled={isLoading}>
-          {isLoading ? "Submitting..." : "Save and Finish"}
+        <Button onClick={onSubmitInterview} className="mt-4" disabled={isPending}>
+          {isPending ? 'Submitting...' : 'Save and Finish'}
         </Button>
-
       </InterviewLayout>
 
       <div className="flex flex-col items-center justify-center mt-10 text-center">
@@ -164,20 +143,19 @@ export default function AnsweredQuestionList() {
           Help Us Improve Your Experience
         </h1>
         <p className="text-[#6F6C90] font-[roboto] text-[18px] font-normal leading-[30px] mt-4">
-          Share your feedback on the interview process to help us enhance future
-          experiences.
+          Share your feedback on the interview process to help us enhance future experiences.
         </p>
 
         <EmojiRatingSlider />
 
-        <div className="items-center justify-center flex mt-4">
+        <form ref={feedback} className="items-center justify-center flex mt-4">
           <Textarea
             name="feedback"
             placeholder="What is the main reason for Your rating? (Optional)"
             className="w-xl h-40 rounded-xl"
           />
-        </div>
-        <Button onClick={onSubmitFeedback} className="mt-6 ">
+        </form>
+        <Button onClick={onSubmitFeedback} className="mt-6">
           Submit Feedback
         </Button>
       </div>

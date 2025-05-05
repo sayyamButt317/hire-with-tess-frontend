@@ -1,7 +1,7 @@
 'use client';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import { Card } from '@/components/ui/card';
-import {  FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import CustomInputForm from '@/app/interview/component/customformInput';
 import React, { useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -34,7 +34,7 @@ export default function CandidatesDetails() {
       job_id: jobId,
     },
   });
-  const UserImageRef = form.register("image");
+  const UserImageRef = form.register('image');
 
   const mutation = RegeisterCandidatehook();
 
@@ -45,7 +45,7 @@ export default function CandidatesDetails() {
     formData.append('email', data.email);
     formData.append('phone', data.phone);
     formData.append('image', data.image);
-  
+
     mutation.mutate(formData, {
       onSuccess: () => {
         toast.success(`${data.candidate_name} registered successfully`);
@@ -71,7 +71,6 @@ export default function CandidatesDetails() {
     const input = document.getElementById('image-upload') as HTMLInputElement;
     if (input) input.value = '';
   };
-  
 
   return (
     <InterviewLayout
@@ -81,11 +80,7 @@ export default function CandidatesDetails() {
       description="Please fill out your details before starting your Interview"
     >
       <FormProvider {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          ref={ref}
-          className="space-y-8 px-4"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} ref={ref} className="space-y-8 px-4">
           <FormField
             control={form.control}
             name="image"
@@ -112,13 +107,16 @@ export default function CandidatesDetails() {
                       </div>
                     </div>
                   ) : (
-                    <FormLabel className="text-[#1E4B8E] border h-10 p-1 rounded ">Upload Profile Picture</FormLabel>
+                    <FormLabel className="text-[#1E4B8E] border h-10 p-1 rounded ">
+                      Upload Profile Picture
+                    </FormLabel>
                   )}
 
                   <Input
                     id="image-upload"
                     type="file"
-                    accept="image/*" {...UserImageRef}
+                    accept="image/*"
+                    {...UserImageRef}
                     className="hidden"
                     onChange={handleFileChange}
                   />
@@ -127,7 +125,6 @@ export default function CandidatesDetails() {
               </FormItem>
             )}
           />
-
 
           <FormField
             control={form.control}
@@ -155,7 +152,7 @@ export default function CandidatesDetails() {
                 <CustomInputForm
                   {...field}
                   label="Phone Number"
-                  placeholder="Phone Number"
+                  placeholder="+923000000000"
                 />
               </FormItem>
             )}

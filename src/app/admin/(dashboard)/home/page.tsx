@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogClose } from '@/components/u
 import { useState } from 'react';
 import UserProfile from '@/app/employer/(dashboard)/components/candiateprofile';
 
-
 export default function AdminDashboardHome() {
   const TITLE = [
     'Action',
@@ -23,14 +22,16 @@ export default function AdminDashboardHome() {
 
   const { data: interviewCardData } = UseDashboardCardStats();
   const { data: DashboardTableData } = UseGetAllInterview();
-  console.log("Interview Dashboard Table Data:", DashboardTableData)
+  console.log('Interview Dashboard Table Data:', DashboardTableData);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const DATA = [
     [
-      <Eye onClick={() => setIsDialogOpen(true)}
-       key={DashboardTableData?.id} 
-       className="w-5 h-5 text-gray-600 cursor-pointer" />,
+      <Eye
+        onClick={() => setIsDialogOpen(true)}
+        key={DashboardTableData?.id}
+        className="w-5 h-5 text-gray-600 cursor-pointer"
+      />,
       DashboardTableData?.candidate_name,
       DashboardTableData?.job_title,
       DashboardTableData?.created_at,
@@ -45,11 +46,9 @@ export default function AdminDashboardHome() {
     <>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
-          <DialogHeader>
-          </DialogHeader>
+          <DialogHeader></DialogHeader>
           <UserProfile />
-          <DialogClose asChild>
-          </DialogClose>
+          <DialogClose asChild></DialogClose>
         </DialogContent>
       </Dialog>
       <div>
@@ -88,8 +87,6 @@ export default function AdminDashboardHome() {
             paginationstart={DashboardTableData?.current_page}
             paginationend={DashboardTableData?.total}
           />
-
-
         </div>
       </div>
     </>

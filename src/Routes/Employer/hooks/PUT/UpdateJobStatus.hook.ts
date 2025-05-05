@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UpdateJobStatusByID } from "../../Api/employer.route";
-import { toast } from "sonner";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { UpdateJobStatusByID } from '../../Api/employer.route';
+import { toast } from 'sonner';
 
 export default function UseUpdateJobStatus() {
   const queryClient = useQueryClient();
@@ -14,7 +14,7 @@ export default function UseUpdateJobStatus() {
     },
 
     onError: () => {
-      toast.error("Unable to update status");
-    }
+      toast.error('Unable to update status');
+    },
   });
 }

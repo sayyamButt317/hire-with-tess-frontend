@@ -5,10 +5,16 @@ import TableComponent from '../components/table';
 import { Badge } from '@/components/ui/badge';
 import UseDashboardCardStats from '@/Routes/Employer/hooks/GET/GetOverviewCardStats.hook';
 import UseGetAllInterview from '@/Routes/Employer/hooks/GET/GetAllInterview.hook';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@/components/ui/dialog';
 import { useState } from 'react';
 import UserProfile from '../components/candiateprofile';
-
 
 export default function DashboardHome() {
   const TITLE = [
@@ -23,33 +29,39 @@ export default function DashboardHome() {
 
   const { data: interviewCardData } = UseDashboardCardStats();
   const { data: DashboardTableData } = UseGetAllInterview();
-  console.log("Interview Dashboard Table Data:", DashboardTableData)
+  console.log('Interview Dashboard Table Data:', DashboardTableData);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
 
-  const DATA = [
-    [
-      <Eye onClick={() => setIsDialogOpen(true)}
-       key={DashboardTableData?.id} 
-       className="w-5 h-5 text-gray-600 cursor-pointer" />,
-      DashboardTableData?.candidate_name,
-      DashboardTableData?.job_title,
-      DashboardTableData?.created_at,
-      <Badge key={'status'} className="bg-green-100 text-green-800">
-        {DashboardTableData?.status}
-      </Badge>,
-      '81%',
-    ],
-  ];
+
+  const DATA =
+  DashboardTableData?.items?.map((item) => [
+    <Eye
+    onClick={() => {
+      setSelectedCandidate(item);
+      setIsDialogOpen(true);
+    }}
+    
+      key={item.id}
+      className="w-5 h-5 text-gray-600 cursor-pointer"
+    />,
+    item.candidate_name,
+    item.job_title,
+    new Date(item.created_at).toLocaleDateString(),
+    <Badge key={item.status} className="bg-green-100 text-green-800">
+      {item.status}
+    </Badge>,
+    '81%',
+  ]) || [];
+
 
   return (
     <>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
-          <DialogHeader>
-          </DialogHeader>
-          <UserProfile />
-          <DialogClose asChild>
-          </DialogClose>
+          <DialogHeader></DialogHeader>
+          <UserProfile data={selectedCandidate} />
+          <DialogClose asChild></DialogClose>
         </DialogContent>
       </Dialog>
       <div>
@@ -88,8 +100,6 @@ export default function DashboardHome() {
             paginationstart={DashboardTableData?.current_page}
             paginationend={DashboardTableData?.total}
           />
-
-
         </div>
       </div>
     </>

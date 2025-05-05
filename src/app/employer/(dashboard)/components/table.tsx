@@ -43,10 +43,7 @@ export default function TableComponent({
             {subheader.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <TableCell
-                    key={cellIndex}
-                    className="font-normal whitespace-nowrap"
-                  >
+                  <TableCell key={cellIndex} className="font-normal whitespace-nowrap">
                     {cell}
                   </TableCell>
                 ))}

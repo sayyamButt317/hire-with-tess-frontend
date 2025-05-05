@@ -9,6 +9,7 @@ import Stepper from '@/app/interview/component/stepper';
 import SpeechRecordingInput from '@/app/interview/component/SpeechToTextInput';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRecordingStore } from '@/store/candidate/Recording.store';
+import useUploadFileMutation from '@/Routes/Client/hook/POST/UploadFilehook';
 
 export default function InterviewQuestionPage() {
   const params = useParams();
@@ -21,7 +22,7 @@ export default function InterviewQuestionPage() {
   const { data } = FetchQuestions(jobId);
   const totalSteps = data?.questions?.length ?? 0;
   const currentQuestion = data?.questions?.[currentStep - 1];
-
+   
   const handleSaveAndContinue = () => {
     const nextStep = currentStep + 1;
 
@@ -38,8 +39,7 @@ export default function InterviewQuestionPage() {
       useRecordingStore.getState().setCurrentQuestion(currentQuestion.text);
     }
   }, [currentQuestion]);
-  
-  
+
   return (
     <div className="min-h-screen flex flex-col items-center p-6">
       <h1 className="text-center text-[30px] mt-6 font-normal text-black leading-[28px] font-spaceGrotesk">

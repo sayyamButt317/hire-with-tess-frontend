@@ -9,7 +9,6 @@ import UseGetAllJob from '@/Routes/Employer/hooks/GET/GetAllJobs.hook';
 import { ChartComponent } from '../component/chart';
 import { PieChartComponent } from '../component/piechart';
 
-
 export default function Analytics() {
   const TITLE = [
     'Action',
@@ -19,12 +18,11 @@ export default function Analytics() {
     'Status',
     'Start Date',
     'Expiry Date',
-
   ];
 
-  const {data:jobdata} = UseDashboardJobCardStats();
-  const{data:JobTableData} = UseGetAllJob();
-  console.log("All Job Data:", JobTableData)
+  const { data: jobdata } = UseDashboardJobCardStats();
+  const { data: JobTableData } = UseGetAllJob();
+  console.log('All Job Data:', JobTableData);
 
   const DATA = [
     [
@@ -43,7 +41,9 @@ export default function Analytics() {
 
   return (
     <div>
-      <h1 className="text-[24px] font-[open sans] font-semibold ml-2 mb-4">Subscriptions</h1>
+      <h1 className="text-[24px] font-[open sans] font-semibold ml-2 mb-4">
+        Subscriptions
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
         <CardComponent
           heading=" Total Job Posting "
@@ -66,7 +66,7 @@ export default function Analytics() {
           subheading={jobdata?.total_candidates}
           icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
-         <CardComponent
+        <CardComponent
           heading=" Shortlisted Candidates "
           subheading={jobdata?.total_jobs}
           icon={<Users className="text-[#f7941D]" />}
@@ -88,10 +88,12 @@ export default function Analytics() {
           icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
       </div>
-      <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mt-6"> Job Market Insights</h1>
+      <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mt-6">
+        {' '}
+        Job Market Insights
+      </h1>
       <div className="mt-6 flex flex-row gap-4">
-
-        <ChartComponent  />
+        <ChartComponent />
         <PieChartComponent />
       </div>
     </div>

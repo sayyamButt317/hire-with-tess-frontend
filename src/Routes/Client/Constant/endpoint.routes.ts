@@ -15,9 +15,10 @@ export const APIEndpoint = {
   INTERVIEW: (job_id: string) => `/api/v1/interview/${job_id}`,
   INTERVIEW_ANALYZER: (interview_id: string) => `/api/v1/analyze/${interview_id}`,
 
-  SUBMIT_INTERVIEW:(interview_id: string) => `/api/v1/submit-answers/${interview_id}`,
+  UPLOAD_FILE: (interview_id: string) => `/api/v1/upload-files/${interview_id}`,
+  SUBMIT_INTERVIEW: (interview_id: string) => `/api/v1/submit-answers-dashboard/${interview_id}`,
 
-  REGISTER_CANDIDATE:`/api/v1/candidate-form/`,
+  REGISTER_CANDIDATE: `/api/v1/candidate-form/`,
 
   // Authentication
   SIGNUP: `/api/v1/auth/signup`,

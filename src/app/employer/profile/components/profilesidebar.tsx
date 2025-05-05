@@ -9,21 +9,19 @@ import { cn } from '@/lib/utils';
 import { sidebarProfileItem } from '@/app/employer/profile/Constants/profileitem';
 import { useEffect, useState } from 'react';
 
-
-
 export default function ProfileSidebar() {
-   const pathname = usePathname();
-    const router = useRouter();
-    const [activePath, setActivePath] = useState(pathname);
-  
-    useEffect(() => {
-      setActivePath(pathname);
-    }, [pathname]);
-  
-    const handleClick = (route: string) => {
-      setActivePath(route);  
-      router.push(route);    
-    };
+  const pathname = usePathname();
+  const router = useRouter();
+  const [activePath, setActivePath] = useState(pathname);
+
+  useEffect(() => {
+    setActivePath(pathname);
+  }, [pathname]);
+
+  const handleClick = (route: string) => {
+    setActivePath(route);
+    router.push(route);
+  };
 
   return (
     <div className={`bg-white border-r md:block w-[250px] rounded-xl p-6`}>
@@ -42,27 +40,32 @@ export default function ProfileSidebar() {
         {sidebarProfileItem.map((link) => {
           const isSelected =
             link.route === activePath ||
-            (link.route !== '/login' && link.route.length > 1 && activePath.includes(link.route));
+            (link.route !== '/login' &&
+              link.route.length > 1 &&
+              activePath.includes(link.route));
           return (
-            <Link href={link.route}
-             key={link.route}
-             onClick={() => handleClick(link.route)}
-             >
+            <Link
+              href={link.route}
+              key={link.route}
+              onClick={() => handleClick(link.route)}
+            >
               <div
                 className={cn(
-                  " flex items-center gap-2 p-2 rounded-lg transition-colors cursor-pointer",
-                  isSelected && "bg-[#f7941D] text-white"
+                  ' flex items-center gap-2 p-2 rounded-lg transition-colors cursor-pointer',
+                  isSelected && 'bg-[#f7941D] text-white',
                 )}
               >
                 <div className="relative w-6 h-6">
                   <Image
                     src={link.img}
-                    alt='icon'
+                    alt="icon"
                     fill
-                    className={`${isSelected ? "brightness-0 invert" : ''} object-contain`}
+                    className={`${isSelected ? 'brightness-0 invert' : ''} object-contain`}
                   />
                 </div>
-                <p className={cn(isSelected ? "text-white" : "text-dark")}>{link.label}</p>
+                <p className={cn(isSelected ? 'text-white' : 'text-dark')}>
+                  {link.label}
+                </p>
               </div>
             </Link>
           );

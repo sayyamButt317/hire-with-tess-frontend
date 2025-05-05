@@ -6,12 +6,14 @@ import { Copy, Download, Share2 } from 'lucide-react';
 import useFetchInterviewLink from '@/hooks/FetchInterviewLink.hook';
 import { toast } from 'sonner';
 import SocialShare from '@/app/interview/component/share';
-import useHomeStore from '@/store/Employee/home.store';
 import { useToggleStore } from '@/store/Employee/Toggle.store';
 import QRCode from 'react-qr-code';
+import { useParams } from 'next/navigation';
 
 export default function GenerateLink() {
-  const { jobId } = useHomeStore();
+ 
+  const params = useParams();
+  const jobId = params?.jobId as string;
   const { data: InterviewData } = useFetchInterviewLink();
 
   const {
@@ -22,8 +24,6 @@ export default function GenerateLink() {
     showQrSharedOptions,
     setShowQrSharedOptions,
   } = useToggleStore();
-
-
 
   const handleCopy = () => {
     if (!InterviewData?.interview_link) return;
