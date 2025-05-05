@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { GetJobDetails } from '@/Routes/api.routes';
+import { GetJobDetails } from '@/Routes/Client/Api/api.routes';
 
 export default function useFetchJobDetails(jobId?: string) {
   return useQuery({

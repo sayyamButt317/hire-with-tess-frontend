@@ -1,4 +1,4 @@
-import { GenerateQuestion } from '@/Routes/api.routes';
+import { GenerateQuestion } from '@/Routes/Client/Api/api.routes';
 import { useMutation } from '@tanstack/react-query';
 
 export default function GenerateQuestionResponse() {

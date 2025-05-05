@@ -1,6 +1,6 @@
 'use client';
 
-import { useRecordingStore } from '@/store/Recording.store';
+import { useRecordingStore } from '@/store/candidate/Recording.store';
 import FetchQuestions from '@/hooks/FetchQuestions.hook';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import { useParams } from 'next/navigation';
@@ -10,27 +10,56 @@ import { Check, X } from 'lucide-react';
 import EmojiRatingSlider from '@/app/interview/component/emojislider';
 import { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
+import useSubmitInterview from '@/Routes/Client/hook/POST/SubmitInterviewhook';
+import { SubmitInterviewPayload } from '@/Types/Employer/useresponse';
+import { useResponseStore } from '@/store/candidate/responsestore';
 
 export default function AnsweredQuestionList() {
   const params = useParams();
   const jobId = params?.jobId as string;
-  const { data } = FetchQuestions(jobId);
-  const storedResponses = useRecordingStore((state) => state.storedResponses);
-  const feedback = useRef<HTMLFormElement>(null);
 
-  const onSubmit = async () => {
-    console.log(feedback.current);
+  const { data } = FetchQuestions(jobId);
+  const interview_id = useRecordingStore((state) => state.interviewId);
+  const savedResponses = useResponseStore((state) => state.savedResponses);
+  console.log('savedResponses', savedResponses);
+
+  const feedback = useRef<HTMLFormElement>(null);
+  const { mutate, isPending, isError } = useSubmitInterview();
+
+  const onSubmitFeedback = async () => {
+    const form = feedback.current;
+    if (form) {
+      const formData = new FormData(form);
+      const feedbackText = formData.get('feedback');
+      console.log('User Feedback:', feedbackText);
+    }
   };
 
+  const onSubmitInterview = async () => {
+    const interviewId = useRecordingStore.getState().interviewId;
 
-
-  const Userresponse = storedResponses.reduce((acc, item) => {
-    if (!acc[item.questionId]) {
-      acc[item.questionId] = [];
+    if (!interviewId) {
+      console.error('Interview ID is missing!');
+      return;
     }
-    acc[item.questionId].push(item.response);
-    return acc;
-  }, {} as Record<string, { transcript: string; type: string; url: string }[]>);
+
+    if (!savedResponses.length) {
+      console.warn('No saved responses found in localStorage.');
+      return;
+    }
+
+    const questions_data = savedResponses.reduce((acc, item) => {
+      acc[item.question_text] = item.temp_url;
+      return acc;
+    }, {} as Record<string, string>);
+
+    const payload: SubmitInterviewPayload = {
+      interview_id: interview_id,
+      data: questions_data,
+    };
+        
+    mutate(payload);
+  };
 
   return (
     <>
@@ -41,12 +70,16 @@ export default function AnsweredQuestionList() {
         description="Great job! Your responses have been recorded successfully"
       >
         <div>
-          <div className="flex font-[roboto] text-[24px] font-semibold mb-6">Interview Questions</div>
+          <div className="flex font-[roboto] text-[24px] font-semibold mb-6">
+            Interview Questions
+          </div>
 
-          {data?.questions.map((question: string, index: number) => {
-            const questionId = `${jobId}-q${index + 1}`;
-            const responses = Userresponse[questionId] || [];
-            const hasResponse = responses.length > 0;
+          {data?.questions.map((question: any, index: number) => {
+            const matchedResponse = savedResponses.find(
+              (res) => res.question_text.trim().toLowerCase() === question.text.trim().toLowerCase()
+            );
+
+            const hasResponse = !!matchedResponse;
 
             return (
               <div key={index} className="mb-6 p-4 border rounded-md shadow">
@@ -56,54 +89,54 @@ export default function AnsweredQuestionList() {
                   ) : (
                     <X className="w-5 h-5 text-[#f7941D]" />
                   )}
-                  <span>{question}</span>
+                  <span>{question?.text}</span>
                 </div>
 
                 {hasResponse ? (
-                  responses.map((response, idx) => (
-                    <div key={idx} className="mb-4 space-y-2">
-                      {response.type === 'audio' && (
-                        <div className="rounded-full p-3 border">
-                          <Waveform
-                            recordedVoiceURL={response.url}
-                            seconds={response.transcript.length}
-                          />
-                        </div>
-                      )}
-                      {response.type === 'video' && (
-                        <div className='items-center justify-center flex p-4'>
-                          <video
-                            controls
-                            width={400}
-                            src={response.url}
-                            className="z-10 transition-all duration-300 ease-in-out transform group-hover:scale-105 rounded-2xl"
-                          />
-                        </div>
-                      )}
-                      {response.type === 'screen' && (
-                        <div className='items-center justify-center flex p-4'>
-                          <video controls width={400} src={response.url} />
-                        </div>
-                      )}
-                      {response.transcript && (
-                        <div className="mt-1 text-sm text-gray-700">
-                          <p className="font-medium">📝 Transcript:</p>
-                          <p>{response.transcript}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))
+                  <div className="mb-4 space-y-2">
+                    {matchedResponse.content_type.startsWith('audio') && (
+                      <div className="rounded-full p-3 border">
+                        <Waveform
+                          recordedVoiceURL={matchedResponse.temp_url}
+                          seconds={matchedResponse.length || 0}
+                        />
+                      </div>
+                    )}
+                    {matchedResponse.content_type.startsWith('video') && (
+                      <div className="items-center justify-center flex p-4">
+                        <video
+                          controls
+                          width={400}
+                          className="z-10 transition-all duration-300 ease-in-out transform group-hover:scale-105 rounded-2xl"
+                        />
+                      </div>
+                    )}
+                    {matchedResponse.content_type.startsWith('screen') && (
+                      <div className="items-center justify-center flex p-4">
+                        <video controls width={400} src={matchedResponse.temp_url} />
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <p className="text-sm italic text-gray-500 ml-7">No response recorded.</p>
+                  <p className="text-sm italic text-gray-500 ml-7">
+                    No response recorded.
+                  </p>
                 )}
               </div>
             );
           })}
+
+          {isError && (
+            <p className="text-red-500 text-sm mt-2">
+              Something went wrong, please try again.
+            </p>
+          )}
         </div>
 
-        <Button className="mt-4">Save and Finish</Button>
+        <Button onClick={onSubmitInterview} className="mt-4" disabled={isPending}>
+          {isPending ? 'Submitting...' : 'Save and Finish'}
+        </Button>
       </InterviewLayout>
-
 
       <div className="flex flex-col items-center justify-center mt-10 text-center">
         <h1 className="font-[roboto] text-[#170F49] text-[34px] leading-[34px] font-bold">
@@ -112,16 +145,17 @@ export default function AnsweredQuestionList() {
         <p className="text-[#6F6C90] font-[roboto] text-[18px] font-normal leading-[30px] mt-4">
           Share your feedback on the interview process to help us enhance future experiences.
         </p>
-        <p className="font-[open sans] font-normal text-[18px] leading-[30px] text-[#6F6C90] mt-10">
-          Share Your Experience Through Expressions
-        </p>
 
         <EmojiRatingSlider />
 
-        <div className='items-center justify-center flex mt-4'>
-          <Textarea placeholder='What is the main reason for Your rating? (Optional)' className=' w-xl h-40 rounded-xl' />
-        </div>
-        <Button onClick={onSubmit} className="mt-6 ">
+        <form ref={feedback} className="items-center justify-center flex mt-4">
+          <Textarea
+            name="feedback"
+            placeholder="What is the main reason for Your rating? (Optional)"
+            className="w-xl h-40 rounded-xl"
+          />
+        </form>
+        <Button onClick={onSubmitFeedback} className="mt-6">
           Submit Feedback
         </Button>
       </div>

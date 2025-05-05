@@ -21,9 +21,7 @@ const RecordingControls: React.FC<RecordingControlsProps> = ({
       >
         {recordAgainLabel}
       </Button>
-      <Button onClick={onSaveAndContinue}>
-        Save and Continue
-      </Button>
+      <Button onClick={onSaveAndContinue}>Save and Continue</Button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import EmployerLayout from '@/components/layout/EmployerLayout';
-import useHomeStore from '@/store/home.store';
+import useHomeStore from '@/store/Employee/home.store';
 import { useRouter } from 'next/navigation';
 import Placeholder from './interview/component/placeholder';
 import React from 'react';

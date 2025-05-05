@@ -1,134 +1,128 @@
-import { useState, useRef, useCallback, useEffect } from "react";
-import { toast } from "sonner";
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface ScreenShareOptions {
-    video: {
-        displaySurface: 'browser';
-    };
-    audio: {
-        echoCancellation: boolean;
-        noiseSuppression: boolean;
-        sampleRate: number;
-        suppressLocalAudioPlayback: boolean;
-    };
-    preferCurrentTab: boolean;
-    selfBrowserSurface: 'include' | 'exclude' | 'auto';
-    systemAudio: 'include' | 'exclude' | 'auto';
-    surfaceSwitching: 'include' | 'exclude' | 'auto';
-    monitorTypeSurfaces: 'include' | 'exclude' | 'auto';
+  video: {
+    displaySurface: 'browser';
+  };
+  audio: {
+    echoCancellation: boolean;
+    noiseSuppression: boolean;
+    sampleRate: number;
+    suppressLocalAudioPlayback: boolean;
+  };
+  preferCurrentTab: boolean;
+  selfBrowserSurface: 'include' | 'exclude' | 'auto';
+  systemAudio: 'include' | 'exclude' | 'auto';
+  surfaceSwitching: 'include' | 'exclude' | 'auto';
+  monitorTypeSurfaces: 'include' | 'exclude' | 'auto';
 }
 
 const defaultScreenShareOptions: ScreenShareOptions = {
-    video: {
-        displaySurface: 'browser',
-    },
-    audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44100,
-        suppressLocalAudioPlayback: true,
-    },
-    preferCurrentTab: false,
-    selfBrowserSurface: 'exclude',
-    systemAudio: 'include',
-    surfaceSwitching: 'include',
-    monitorTypeSurfaces: 'include',
+  video: {
+    displaySurface: 'browser',
+  },
+  audio: {
+    echoCancellation: true,
+    noiseSuppression: true,
+    sampleRate: 44100,
+    suppressLocalAudioPlayback: true,
+  },
+  preferCurrentTab: false,
+  selfBrowserSurface: 'exclude',
+  systemAudio: 'include',
+  surfaceSwitching: 'include',
+  monitorTypeSurfaces: 'include',
 };
 
 const useScreenSharing = (options: Partial<ScreenShareOptions> = {}) => {
-    const [isSharingScreen, setIsSharingScreen] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
-    const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
-    const mediaStreamRef = useRef<MediaStream | null>(null);
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    const recordedChunksRef = useRef<Blob[]>([]);
-    const previewVideoRef = useRef<HTMLVideoElement | null>(null);
-    const [error, setError] = useState<Error | null>(null)
+  const [isSharingScreen, setIsSharingScreen] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordedBlobUrl, setRecordedBlobUrl] = useState<string | null>(null);
 
-    const screenShareOptions = {
-        ...defaultScreenShareOptions,
-        ...options
-    };
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordedChunksRef = useRef<Blob[]>([]);
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
+  const [error] = useState<Error | null>(null);
 
-    const startSharing = useCallback(async () => {
-        try {
-            const stream = await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
-            mediaStreamRef.current = stream;
+  const screenShareOptions = {
+    ...defaultScreenShareOptions,
+    ...options,
+  };
 
-            if (previewVideoRef.current) {
-                previewVideoRef.current.srcObject = stream;
-            }
+  const startScreenShare = async (): Promise<MediaStream | null> => {
+    try {
+      return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+  const startSharing = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
+      mediaStreamRef.current = stream;
 
-            recordedChunksRef.current = [];
-            mediaRecorderRef.current = new MediaRecorder(stream);
-            setIsSharingScreen(true);
-            setIsRecording(true);
+      if (previewVideoRef.current) {
+        previewVideoRef.current.srcObject = stream;
+      }
 
-            mediaRecorderRef.current.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    recordedChunksRef.current.push(event.data);
-                }
-            };
+      recordedChunksRef.current = [];
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      setIsSharingScreen(true);
+      setIsRecording(true);
 
-            mediaRecorderRef.current.onstop = () => {
-                setIsRecording(false);
-                const videoBlob = new Blob(recordedChunksRef.current, {
-                    type: 'video/webm',
-                });
-                setRecordedBlobUrl(URL.createObjectURL(videoBlob));
-                setIsSharingScreen(false);
-            };
-
-            mediaRecorderRef.current.start();
-
-        } catch (error) {
-            console.error("Screen share error:", error);
-            setError(error)
-            toast.error(`Failed to start screen sharing: ${error.message}`);
-            setIsSharingScreen(false);
-            setIsRecording(false);
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
         }
-    }, [screenShareOptions]);
+      };
 
-    const stopSharing = useCallback(() => {
-        try {
-            if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-                mediaRecorderRef.current.stop();
-            }
+      mediaRecorderRef.current.onstop = () => {
+        setIsRecording(false);
+        const videoBlob = new Blob(recordedChunksRef.current, {
+          type: 'video/webm',
+        });
+        setRecordedBlobUrl(URL.createObjectURL(videoBlob));
+        setIsSharingScreen(false);
+      };
 
-            if (mediaStreamRef.current) {
-                mediaStreamRef.current.getTracks().forEach(track => track.stop());
-            }
+      mediaRecorderRef.current.start();
+    } catch (error) {
+      toast.error(`Failed to start screen sharing`);
+      setIsSharingScreen(false);
+      setIsRecording(false);
+    }
+  }, [screenShareOptions]);
 
-            if (previewVideoRef.current && previewVideoRef.current.srcObject) {
-                previewVideoRef.current.srcObject = null;
-            }
-            setIsSharingScreen(false);
-            setIsRecording(false);
-            setRecordedBlobUrl(null)
-        } catch (error) {
-            console.error("Error stopping screen sharing:", error);
-            setError(error)
-            toast.error(`Failed to stop screen sharing: ${error.message}`);
-        }
-    }, []);
+    const startScreenRecording = async () => {
+    const screenStream = await startScreenShare();
 
-    useEffect(() => {
-        return () => {
-        
-            stopSharing();
-        };
-    }, [stopSharing]);
+    if (!screenStream) {
+      resetAllState();
+      return;
+    }
+    if (previewVideoRef.current) {
+      previewVideoRef.current.srcObject = screenStream;
+    }
 
-    return {
-        isSharingScreen,
-        isRecording,
-        recordedBlobUrl,
-        startSharing,
-        stopSharing,
-        previewVideoRef,
-        error,
-    };
+    recordedChunksRef.current = [];
+    setupMediaRecorder(screenStream);
+    setIsRecordingStream(true);
+  };
+  
+ 
+
+  return {
+    isSharingScreen,
+    isRecording,
+    recordedBlobUrl,
+    startSharing,
+    previewVideoRef,
+    startScreenShare,
+    error,
+  };
 };
 
 export default useScreenSharing;

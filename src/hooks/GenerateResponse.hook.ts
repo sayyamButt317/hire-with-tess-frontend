@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { GenerateJobDetails } from '@/Routes/api.routes';
+import { GenerateJobDetails } from '@/Routes/Client/Api/api.routes';
 import { useRouter } from 'next/navigation';
-import useHomeStore from '@/store/home.store';
+import useHomeStore from '@/store/Employee/home.store';
 import { toast } from 'sonner';
 
 export default function useGenerateResponse() {

@@ -35,19 +35,14 @@ export default function CandidateInstructions() {
               Interview Instructions:
             </h1>
             <div className="list-disc pl-5 font-openSans text-[14px] leading-[26px] text-black">
+              <li>You will answer 4 questions, each requiring an audio response.</li>
+              <li>You can redo your responses before submitting your final answer.</li>
               <li>
-                You will answer 4 questions, each requiring an audio response.
+                Each question has a time limit, so be mindful of your response time.
               </li>
               <li>
-                You can redo your responses before submitting your final answer.
-              </li>
-              <li>
-                Each question has a time limit, so be mindful of your response
-                time.
-              </li>
-              <li>
-                Ensure a quiet environment and a stable internet connection for
-                the best experience.
+                Ensure a quiet environment and a stable internet connection for the best
+                experience.
               </li>
               <li>Once you're ready, click "Continue" to begin!</li>
             </div>
@@ -56,9 +51,7 @@ export default function CandidateInstructions() {
 
         <div className="py-8 w-full flex justify-center">
           <Link href={`/interview/details/${jobId}`}>
-            <Button className="w-full sm:w-[351px] h-[50px] rounded-md">
-              Continue
-            </Button>
+            <Button className="w-full sm:w-[351px] h-[50px] rounded-md">Continue</Button>
           </Link>
         </div>
 
@@ -67,8 +60,8 @@ export default function CandidateInstructions() {
             Tip:
           </p>
           <p className="font-openSans font-normal text-[14px] sm:text-[16px] text-[#6F6C90]">
-            Speak clearly and naturally, as if you're having a conversation.
-            Confidence goes a long way!
+            Speak clearly and naturally, as if you're having a conversation. Confidence
+            goes a long way!
           </p>
         </div>
       </div>

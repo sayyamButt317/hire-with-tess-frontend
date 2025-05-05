@@ -13,10 +13,7 @@ const formatTime = (totalSeconds: number): string => {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
 
-const Waveform: React.FC<WaveformProps> = ({
-  recordedVoiceURL,
-  seconds = 0,
-}) => {
+const Waveform: React.FC<WaveformProps> = ({ recordedVoiceURL, seconds = 0 }) => {
   const waveformRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -68,8 +65,8 @@ const Waveform: React.FC<WaveformProps> = ({
       <span className="text-[#1e4b8e] min-w-[50px] text-center">
         {formatTime(duration)}
       </span>
-      <button 
-        onClick={togglePlayback} 
+      <button
+        onClick={togglePlayback}
         className="p-1"
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >

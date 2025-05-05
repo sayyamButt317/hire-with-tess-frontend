@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { GoogleLoginIn } from '@/Routes/api.routes';
+import { GoogleLoginIn } from '@/Routes/Client/Api/api.routes';
 
 export default function useGoogleLoginHook() {
   return useMutation({

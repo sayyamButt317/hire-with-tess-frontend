@@ -7,22 +7,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { customformSchema, FormValidator } from '@/schema/customform.schema';
 import Image from 'next/image';
-import useHomeStore from '@/store/home.store';
+import useHomeStore from '@/store/Employee/home.store';
 import Link from 'next/link';
 import OutputCard from './component/outputCard';
 import NoQuestion from './component/emptycard';
 import GenerateResponse from '@/hooks/GenerateResponse.hook';
 import InterviewLayout from '@/components/layout/InterviewLayout';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import { Check, Pencil, } from 'lucide-react';
-import { useSkillStore } from '@/store/InputStore';
+import { Check, Pencil } from 'lucide-react';
+import { useSkillStore } from '@/store/Employee/InputStore';
 
 export default function InterviewForm() {
   const { jobDescription, jobTitle, jobType, companyName, location, salary } =
     useHomeStore();
-    const jobId = useHomeStore((state) => state.jobId);
+  const jobId = useHomeStore((state) => state.jobId);
 
-  const {  isEditDescription,setIsEditableDescription} = useSkillStore();
+  const { isEditDescription, setIsEditableDescription } = useSkillStore();
   const form = useForm<FormValidator>({
     resolver: zodResolver(customformSchema),
     defaultValues: {
@@ -227,7 +227,7 @@ export default function InterviewForm() {
               Cancel
             </Button>
           </Link>
-          <Link href={`/interview/question`}>
+          <Link href={`/interview/generate-questions/${jobId}`}>
             <Button type="submit" className="w-full sm:w-auto cursor-pointer">
               Next Step
             </Button>

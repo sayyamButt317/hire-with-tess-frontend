@@ -21,7 +21,9 @@ export default function EmployerLayout({
               <Link
                 href={'/signup'}
                 className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700"
-              >Sign up</Link>
+              >
+                Sign up
+              </Link>
             )}
           </nav>
         </div>
