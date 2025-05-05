@@ -29,14 +29,14 @@ export default function Home() {
           </h2>
         </div>
 
-        <p className="text-black font-normal text-center mb-12 mt-8 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
+        <p className="text-black font-open-sans  text-center mb-12 mt-8 sm:mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
           Easily generate a shareable link for candidates to complete their AI-powered
           interview anytime, anywhere. No scheduling required.
         </p>
 
-        <div className="w-full text-gray-700 mt-12">
-          <Placeholder onChange={handleChange} onSubmit={onSubmit} />
-        </div>
+        <div className="w-full max-w-2xl mx-auto">
+            <Placeholder onChange={handleChange} onSubmit={onSubmit} />
+          </div>
       </div>
     </EmployerLayout>
   );
