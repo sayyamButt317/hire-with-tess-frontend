@@ -24,7 +24,7 @@ export default function JobPosting() {
   console.log('Job Posting Table Data:', JobPostedTableData);
 
   const DATA = 
-  (JobPostedTableData?.items || []).map((item: any) => [
+  (JobPostedTableData?.items ?? []).map((item: any) => [
     <Eye key={item?.id} className="w-5 h-5 text-gray-600" />,
     item?.job_title,
     <Badge key={'status'} className="bg-tess-green/10 text-tess-green">
