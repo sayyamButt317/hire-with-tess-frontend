@@ -9,10 +9,11 @@ import {
   AccountFormValidator,
 } from '@/schema/accountDetail.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef } from 'react';
+import { UserRoundPen } from 'lucide-react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function UserAccountDetail() {
+export default function AdminAccountDetail() {
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -26,16 +27,6 @@ export default function UserAccountDetail() {
 
   const SignInMutation = LoginInMutation();
   const ref = useRef<HTMLFormElement>(null);
-  const { data, isLoading, isError } = UseProfileInfo();
-
-  useEffect(() => {
-    if (data) {
-      form.setValue('firstname', data.first_name || '');
-      form.setValue('lastname', data.last_name || '');
-      form.setValue('organization', data.organization_name || '');
-      form.setValue('email', data.email || '');
-    }
-  }, [data, form]);
 
   const onSubmit = async (data: AccountFormValidator) => {
     SignInMutation.mutate({
@@ -46,9 +37,15 @@ export default function UserAccountDetail() {
       password: data.password,
     });
   };
+
+  const {data} = UseProfileInfo();
   return (
     <div>
-      <h1 className=" text-24 font-semibold">Account Details</h1>
+  <div className="flex items-center justify-between mb-4">
+  <h1 className="text-xl font-semibold text-gray-900">Account Details</h1>
+  <UserRoundPen className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
+</div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -64,7 +61,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-
+                      name={data.first_name}
                       type="text"
                       label="First Name"
                       placeholder="John"
@@ -81,7 +78,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-
+                      name={data.last_name}
                       type="text"
                       label="Last Name"
                       placeholder="Doe"
@@ -101,7 +98,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-
+                      name={data.organization_name}
                       label="Organization Name"
                       placeholder="King Palm"
                     />
@@ -117,7 +114,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-
+                      name={data.email}
                       type="email"
                       label="Email"
                       placeholder="john.doe@gmail.com"
@@ -137,7 +134,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-
+                      name="password"
                       type="text"
                       label="Password"
                       placeholder="******"
@@ -152,7 +149,7 @@ export default function UserAccountDetail() {
             <Button
               type="submit"
               className=" leading-[20px] font-roboto cursor-pointer "
-            // disabled={signupMutation.isPending}
+              // disabled={signupMutation.isPending}
             >
               Update Profile
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}
@@ -161,7 +158,7 @@ export default function UserAccountDetail() {
               type="reset"
               variant="ghost"
               className="leading-[20px] font-roboto cursor-pointer "
-            // disabled={signupMutation.isPending}
+              // disabled={signupMutation.isPending}
             >
               Reset
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}
