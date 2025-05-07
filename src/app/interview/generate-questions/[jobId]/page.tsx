@@ -41,7 +41,7 @@ export default function Questionnaire() {
             />
           )}
 
-          <div className="mt-auto flex justify-center  ">
+          <div className="mt-auto flex justify-center mb-2   ">
             {response.length > 0 ? (
               <Button
                 onClick={onSubmit}

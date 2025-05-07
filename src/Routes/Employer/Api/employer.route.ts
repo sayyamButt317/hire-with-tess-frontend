@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { EMPLOYERAPI } from '../Constant/employer-endpoint.route';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { clearAuthToken, getAuthToken } from '@/Utils/Providers/auth';
+import { clearAuthToken } from '@/Utils/Providers/auth';
+import { ProfileInfoType } from '@/Types/Employer/profileinfo';
 
 
 const api = axios.create({
@@ -14,7 +14,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
 const token = localStorage.getItem('accessToken');
-console.log("Token before request",token);
   // const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -24,26 +23,24 @@ console.log("Token before request",token);
   (error) => Promise.reject(error)
 );
 
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response?.status === 401) {  
-//       window.location.href = '/login'; // Redirect unauthorized users  
-//     }  
-//     // if (error.response && error.response.status === 401) {
-//     //  clearAuthToken();
-//     //  if (error.response?.status === 403) {
-//     //   toast.error('Unauthorized access');
-//     // }
-//     // if (error.response?.status === 500) {
-//     //   toast.error('Server error');
-//     // }else{
-//     //   toast.error('Session expired. Please login again.');
-//     // }
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+     clearAuthToken();
+     if (error.response?.status === 403) {
+      toast.error('Unauthorized access');
+    }
+    if (error.response?.status === 500) {
+      toast.error('Server error');
+    }else{
+      toast.error('Session expired. Please login again.');
+    }
       
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+}
+);
 
 //Get All Jobs
 export const GetAllJob = async () => {
@@ -139,6 +136,18 @@ export const FilteredJob = async () => {
 //Filter Interview
 export const FilterInterview = async () => {
   const response = await api.get(EMPLOYERAPI.FILTER_INTERVIEW);
+  return response.data;
+};
+
+//Profile Info
+export const ProfileInfo = async () => {
+  const response = await api.get(EMPLOYERAPI.ADMIN_PROFILE);
+  return response.data;
+};
+
+//update profile
+export const UpdateProfile = async (data: ProfileInfoType) => {
+  const response = await api.put(EMPLOYERAPI.UPDATE_PROFILE, data);
   return response.data;
 };
 

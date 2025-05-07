@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 export default function UseDashboardCardStats() {
   return useQuery({
     queryKey: ['overiewstats'],
-    queryFn: () => DashboardCardStats(),
+    queryFn: DashboardCardStats,
+    refetchOnWindowFocus: true,
+    refetchInterval: 10000,
   });
 }

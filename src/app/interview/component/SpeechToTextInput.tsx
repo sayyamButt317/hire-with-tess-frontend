@@ -25,7 +25,7 @@ type SpeechRecordingInputProps = {
 
 const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
   placeholder = 'Your response will appear here as you speak...',
-  onSaveAndContinue, jobId, index,
+  onSaveAndContinue, 
 }) => {
   const { hasRecorded, setIsPlaying } = useRecordingStore();
 
@@ -79,7 +79,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       };
       mediaRecorderRef.current.start();
     } catch (error) {
-      console.log(error);
+      toast.error("Error starting voice recording");
     }
   };
   const stopVoiceRecording = () => {
@@ -104,7 +104,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
 
   const startUserCamera = async (): Promise<MediaStream | null> => {
     try {
-      console.log('Starting user camera...');
       const constraints: MediaStreamConstraints = {
         video: {
           width: { ideal: 1280 },
@@ -126,7 +125,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       setIsRecordingStream(true);
       return userStream;
     } catch (error) {
-      console.error('Camera access error:', error);
       toast.error('Could not access camera/microphone');
       return null;
     }
@@ -177,12 +175,10 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
         const videoURL = URL.createObjectURL(videoBlob);
         setRecordedVideoURL(videoURL);
         useRecordingStore.getState().setVideoURL(videoURL);
-        console.log('Recording complete. Video URL:', videoURL);
       };
 
       mediaRecorderRef.current.start();
     } catch (error) {
-      console.log(error);
       toast.error('Error starting video recording');
     }
   };
@@ -194,9 +190,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       setActiveTool(null);
     } else {
       setActiveTool('video');
-      // Explicitly cast the result to MediaStream | null to satisfy TypeScript
       const stream = await startUserCamera() as MediaStream | null;
-      // Now TypeScript knows that stream is MediaStream | null and can be checked
       if (stream) {
         await startVideoRecording();
       }
@@ -222,7 +216,6 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
     try {
       return await navigator.mediaDevices.getDisplayMedia(screenShareOptions);
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -241,7 +234,7 @@ const SpeechRecordingInput: React.FC<SpeechRecordingInputProps> = ({
       const screenURL = URL.createObjectURL(videoBlob);
       setRecordedBlobUrl(screenURL);
       useRecordingStore.getState().setScreenURL(screenURL);
-      recordedChunksRef.current = []; // Clear chunks
+      recordedChunksRef.current = [];
     };
 
     recorder.start();

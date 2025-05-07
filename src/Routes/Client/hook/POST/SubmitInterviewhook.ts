@@ -12,7 +12,6 @@ export default function useSubmitInterview() {
       interview_id: string;
       data: SubmitInterviewPayload;
     }) => SubmitInterview(interview_id, data),
-
     onSuccess: () => {
       toast.success('Interview submitted successfully');
     },

@@ -4,8 +4,8 @@ import CardComponent from '@/app/employer/(dashboard)/components/card';
 import TableComponent from '@/app/employer/(dashboard)/components/table';
 import { Badge } from '@/components/ui/badge';
 import Searchbar from '@/app/employer/(dashboard)/components/searchbar';
-import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/GetCandidateCardstats.hook';
-import UseGetAllInterview from '@/Routes/Employer/hooks/GET/GetAllInterview.hook';
+import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/candidates/GetCandidateCardstats.hook';
+import UseGetAllInterview from '@/Routes/Employer/hooks/GET/Overview/GetAllInterview.hook';
 
 export default function AdminCandidatePage() {
   const TITLE = [

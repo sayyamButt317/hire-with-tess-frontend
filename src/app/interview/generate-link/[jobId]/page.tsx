@@ -15,8 +15,10 @@ export default function GenerateLink() {
 
   const params = useParams();
   const jobId = params?.jobId as string;
+
   const { data: InterviewData, isLoading } = useFetchInterviewLink(jobId);
   console.log("Link", InterviewData?.interview_link);
+
 
   const {
     copied,
@@ -88,7 +90,6 @@ export default function GenerateLink() {
             )}
           />
 
-
           <Button
             type="button"
             variant="ghost"
@@ -128,6 +129,7 @@ export default function GenerateLink() {
             Candidates can scan this QR Code to access the interview
           </p>
 
+
           {/* QR Code Image */}
           {isLoading ? (
             <div className="w-[200px] h-[200px] bg-gray-100 animate-pulse rounded-md mt-4 mx-auto" />
@@ -143,6 +145,7 @@ export default function GenerateLink() {
                 />
               </div>
             )
+
           )}
 
 

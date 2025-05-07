@@ -6,25 +6,31 @@ import InterviewLayout from '@/components/layout/InterviewLayout';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Waveform from '@/app/interview/component/Waveform';
-import { Check, X } from 'lucide-react';
+import { Check, CirclePlay, DivideIcon, Play, X } from 'lucide-react';
 import EmojiRatingSlider from '@/app/interview/component/emojislider';
 import { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import useSubmitInterview from '@/Routes/Client/hook/POST/SubmitInterviewhook';
 import { SubmitInterviewPayload } from '@/Types/Employer/useresponse';
 import { useResponseStore } from '@/store/candidate/responsestore';
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import router from 'next/router';
+
 
 export default function AnsweredQuestionList() {
   const params = useParams();
   const jobId = params?.jobId as string;
 
   const { data } = FetchQuestions(jobId);
+
   const interview_id = useRecordingStore((state) => state.interviewId);
   const savedResponses = useResponseStore((state) => state.savedResponses);
-  console.log('savedResponses', savedResponses);
 
   const feedback = useRef<HTMLFormElement>(null);
   const { mutate, isPending, isError } = useSubmitInterview();
+  const [openVideoURL, setOpenVideoURL] = useState<string | null>(null);
+
 
   const onSubmitFeedback = async () => {
     const form = feedback.current;
@@ -56,8 +62,11 @@ export default function AnsweredQuestionList() {
     const payload: SubmitInterviewPayload = {
       interview_id: interview_id,
       data: questions_data,
+      onsuccess: () => {
+        router.push('/interview/finished');
+      }
     };
-        
+
     mutate(payload);
   };
 
@@ -103,20 +112,26 @@ export default function AnsweredQuestionList() {
                       </div>
                     )}
                     {matchedResponse.content_type.startsWith('video') && (
-                      <div className="items-center justify-center flex p-4">
-                        <video
-                          controls
-                          width={400}
-                          className="z-10 transition-all duration-300 ease-in-out transform group-hover:scale-105 rounded-2xl"
-                        />
+                      <div className="flex items-center justify-between p-4 border rounded-full">
+                        <span className="text-sm font-medium text-gray-700 text-[#1E4B8E] ">
+                          Camera Recorded Video
+                        </span>
+                        <div
+                          onClick={() => setOpenVideoURL(matchedResponse.temp_url)}
+                        >
+                         <CirclePlay className="w-10 h-8" color="#1e4b8e" /> 
+                        </div>
+                       
                       </div>
                     )}
+
                     {matchedResponse.content_type.startsWith('screen') && (
                       <div className="items-center justify-center flex p-4">
                         <video controls width={400} src={matchedResponse.temp_url} />
                       </div>
                     )}
                   </div>
+
                 ) : (
                   <p className="text-sm italic text-gray-500 ml-7">
                     No response recorded.
@@ -131,6 +146,20 @@ export default function AnsweredQuestionList() {
               Something went wrong, please try again.
             </p>
           )}
+          <Dialog open={!!openVideoURL} onOpenChange={() => setOpenVideoURL(null)}>
+            <DialogContent className="max-w-3xl w-full p-0 overflow-hidden">
+              {openVideoURL && (
+                <video
+                  src={openVideoURL}
+                  controls
+                  autoPlay
+                  className="w-full h-auto rounded-md"
+                />
+              )}
+            </DialogContent>
+
+          </Dialog>
+
         </div>
 
         <Button onClick={onSubmitInterview} className="mt-4" disabled={isPending}>

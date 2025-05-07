@@ -12,7 +12,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
-//Post Job Details
+
 export const GenerateJobDetails = async (data: {
   job_description: string;
   job_title: string;
@@ -25,12 +25,12 @@ export const GenerateJobDetails = async (data: {
   const response = await api.post(APIEndpoint.GENERATE_JOB_DETAILS, data);
   return response.data;
 };
-//Get Job Details
+
 export const GetJobDetails = async (job_id: string) => {
   const response = await api.get(APIEndpoint.GET_JOB_DETAILS(job_id));
   return response.data;
 };
-//Update Job Details
+
 export const updateJobDetails = async (
   job_id: string,
   data: {
@@ -46,18 +46,18 @@ export const updateJobDetails = async (
   const response = await api.put(APIEndpoint.UPDATE_JOB_DETAILS(job_id), data);
   return response.data;
 };
-//Get Interview Questions
+
 export const GetQuestionById = async (job_id: string) => {
   const response = await api.get(APIEndpoint.INTERVIEW(job_id));
   return response.data;
 };
-//Post Interview Questions
+
 export const GenerateQuestion = async (job_id: string) => {
   const response = await api.post(APIEndpoint.GENERATE_QUESTION(job_id), { job_id });
   return response.data.questions;
 };
 
-//Update Interview Questions
+
 export const updateJobQuestions = async (job_id: string, questions: string[]) => {
   const response = await api.put(APIEndpoint.UPDATE_JOB_QUESTIONS(job_id), { questions });
   return response.data;
@@ -98,18 +98,14 @@ export const SignUp = async (data: {
 };
 
 //googleLogin
-export const GoogleLoginIn = async (accessToken: string) => {
-  const response = await api.post(
-    APIEndpoint.GOOGLE_LOGIN,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-  );
+export const GoogleLoginIn = async (code: string) => {
+  const response = await api.post(APIEndpoint.GOOGLE_LOGIN, {
+    code:code,
+  });
   return response.data;
 };
+
+
 //Get Generate Interview link
 export const GenerateInterviewLink = async (
   job_id: string,
@@ -126,7 +122,6 @@ export const GenerateInterviewLink = async (
   return response.data;
 };
 
-//Post Candidate Details
 export const RegisterCandidate = async (data: FormData) => {
   const response = await api.post(APIEndpoint.REGISTER_CANDIDATE, data, {
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -137,7 +132,7 @@ export const RegisterCandidate = async (data: FormData) => {
   return response;
 };
 
-//Upload File
+
 export const UploadFile = async (
   interview_id: string,
   data: FormData,
@@ -148,7 +143,7 @@ export const UploadFile = async (
   return response.data;
 };
 
-//submit Interview
+
 export const SubmitInterview = async (
   interview_id: string,
   data: SubmitInterviewPayload,

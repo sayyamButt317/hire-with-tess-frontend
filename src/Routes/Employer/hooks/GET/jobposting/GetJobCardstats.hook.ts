@@ -4,6 +4,8 @@ import { JobCardStats } from '@/Routes/Employer/Api/employer.route';
 export default function UseDashboardJobCardStats() {
   return useQuery({
     queryKey: ['jobstats'],
-    queryFn: () => JobCardStats(),
+    queryFn: JobCardStats,
+    refetchOnWindowFocus: true,
+    refetchInterval: 10000,
   });
 }

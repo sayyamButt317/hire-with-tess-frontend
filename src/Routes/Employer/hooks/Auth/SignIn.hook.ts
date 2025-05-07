@@ -21,11 +21,9 @@ export default function LoginInMutation() {
         return;
       }
       setAuthToken(data.access_token);
-
       toast.success('Sign in successful', {
         description: 'Welcome back!',
       });
-      
       router.push('/employer/home');
     },    
     onError: (error) => {

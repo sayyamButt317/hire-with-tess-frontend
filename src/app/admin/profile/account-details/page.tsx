@@ -2,7 +2,7 @@
 import CustomInputForm from '@/app/interview/component/customformInput';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, Form } from '@/components/ui/form';
-import LoginInMutation from '@/Routes/Employer/hooks/Auth/SignIn.hook';
+
 import {
   AccountDetailformSchema,
   AccountFormValidator,
@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function AdminAccountDetail() {
+export default function UserAccountDetail() {
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -23,17 +23,17 @@ export default function AdminAccountDetail() {
     },
   });
 
-  const SignInMutation = LoginInMutation();
   const ref = useRef<HTMLFormElement>(null);
 
   const onSubmit = async (data: AccountFormValidator) => {
-    SignInMutation.mutate({
-      first_name: data.firstname,
-      last_name: data.lastname,
-      organization_name: data.organization,
-      email: data.email,
-      password: data.password,
-    });
+    console.log("Profile data",data)
+    // SignInMutation.mutate({
+    //   first_name: data.firstname,
+    //   last_name: data.lastname,
+    //   organization_name: data.organization,
+    //   email: data.email,
+    //   password: data.password,
+    // });
   };
   return (
     <div>

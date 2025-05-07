@@ -3,7 +3,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -31,7 +30,7 @@ export default function TableComponent({
               {header.map((head, index) => (
                 <TableHead
                   key={index}
-                  className="text-left font-[roboto] font-medium text-[#535862] whitespace-nowrap"
+                  className="text-left font-roboto font-medium text-[#535862] whitespace-nowrap"
                 >
                   {head}
                 </TableHead>
@@ -43,7 +42,7 @@ export default function TableComponent({
             {subheader.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <TableCell key={cellIndex} className="font-normal whitespace-nowrap">
+                  <TableCell key={cellIndex} className="font-normal font-open-sans whitespace-nowrap">
                     {cell}
                   </TableCell>
                 ))}
@@ -52,7 +51,6 @@ export default function TableComponent({
           </TableBody>
         </Table>
 
-        {/* Pagination */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-4 border-t mt-6 gap-2 sm:gap-0">
           <div className="flex space-x-2">
             <Button variant="outline">Previous</Button>

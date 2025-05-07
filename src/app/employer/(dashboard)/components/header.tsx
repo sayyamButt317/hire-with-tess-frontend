@@ -1,6 +1,6 @@
 'use client';
 
-import { redirect, useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import { BellIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -25,14 +25,14 @@ export default function Header() {
         </div>
 
         {/* Notification */}
-        <div className="bg-[#A2A1A81A] w-[50px] h-[50px] rounded-xl flex items-center justify-center">
+        <div className="bg-[#A2A1A81A] w-[50px] h-12 rounded-xl flex items-center justify-center">
           <BellIcon />
         </div>
 
         {/* Profile */}
         <div
           onClick={() => router.push('/employer/profile/account-details')}
-          className="flex w-full sm:w-[184px] h-[50px] border rounded-xl items-center cursor-pointer hover:bg-gray-100 transition"
+          className="flex w-full sm:w-[184px] h-[50px] border rounded-lg items-center cursor-pointer hover:bg-gray-100 transition"
         >
           <div className="p-2">
             <Avatar className="w-10 h-10">

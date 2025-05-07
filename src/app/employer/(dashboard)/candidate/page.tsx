@@ -4,8 +4,11 @@ import CardComponent from '../components/card';
 import TableComponent from '../components/table';
 import { Badge } from '@/components/ui/badge';
 import Searchbar from '../components/searchbar';
-import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/GetCandidateCardstats.hook';
-import UseGetAllInterview from '@/Routes/Employer/hooks/GET/GetAllInterview.hook';
+import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/candidates/GetCandidateCardstats.hook';
+import UseGetAllInterview from '@/Routes/Employer/hooks/GET/Overview/GetAllInterview.hook';
+import { useState } from 'react';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import UserProfile from '../components/candiateprofile';
 
 export default function CandidatePage() {
   const TITLE = [
@@ -14,33 +17,55 @@ export default function CandidatePage() {
     'Job Applied For',
     'Interview Date',
     'Interview Status',
-    'Status',
     'Ai Score',
   ];
 
   const { data: candidatestats } = UseDashboardCandidateCardStats();
   const { data: CandidateTableData } = UseGetAllInterview();
-  console.log('Interview Candidate Table Data:', CandidateTableData);
-  const DATA = [
-    [
-      <Eye key={CandidateTableData?.id} className="w-5 h-5 text-gray-600" />,
-      CandidateTableData?.candidate_name,
-      CandidateTableData?.job_title,
-      CandidateTableData?.created_at,
-      <Badge key={'status'} className="bg-green-100 text-green-800">
-        {CandidateTableData?.status}
+  console.log('CandidateTableData', CandidateTableData);
+ 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedCandidate, setSelectedCandidate] = useState(null);
+  
+
+  const DATA = (CandidateTableData?.items ?? []).map((item: any) => [
+      <Eye
+        onClick={() => {
+          setSelectedCandidate(item);
+          setIsDialogOpen(true);
+        }}
+
+        key={item.id}
+        className="w-5 h-5 text-tess-gray cursor-pointer"
+      />,
+      item?.candidate_name,
+      item?.job_title,
+      item?.created_at,
+      <Badge key={'status'} className="bg-tess-green/10 text-tess-green">
+        {item?.status}
       </Badge>,
-      '81%',
-    ],
-  ];
+      item?.ai_score,
+  ]);
   return (
+    <>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Candidates Details</DialogTitle>
+          <DialogDescription>
+          </DialogDescription>
+        </DialogHeader>
+        <UserProfile data={selectedCandidate} />
+        <DialogClose asChild></DialogClose>
+      </DialogContent>
+    </Dialog>
     <div>
-      <h1 className="text-[24px] font-[open sans] font-semibold ml-2 mb-4">Overview</h1>
+      <h1 className="text-2xl font-open-sans font-semibold ml-2 mb-4">Overview</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
         <CardComponent
           heading="Total Candidates"
           subheading={candidatestats?.total_candidates}
-          icon={<Users className="text-[#f7941D]" />}
+          icon={<Users size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
         <CardComponent
           heading="New Candidates"
@@ -51,7 +76,7 @@ export default function CandidatePage() {
         <CardComponent
           heading="Shortlisted Candidates"
           subheading={candidatestats?.shortlisted}
-          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D" />}
+          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D"  />}
         ></CardComponent>
         <CardComponent
           heading="Rejected Candidates"
@@ -60,8 +85,7 @@ export default function CandidatePage() {
         ></CardComponent>
       </div>
       <div className="mt-10">
-        <h1 className="font-[roboto] text-[24px] font-bold leading-[30px] mb-4">
-          {' '}
+        <h1 className="font-roboto text-2xl font-bold leading-[30px] mb-4">
           Candidates
         </h1>
         <Searchbar />
@@ -73,5 +97,6 @@ export default function CandidatePage() {
         />
       </div>
     </div>
+    </>
   );
 }
