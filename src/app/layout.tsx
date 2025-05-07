@@ -1,9 +1,10 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { Roboto, Open_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import ReactQueryProvider from '@/Utils/Providers/ReactQueryprovider';
 import React from 'react';
-import { Toaster } from 'sonner';
+import CustomToast from './employer/(dashboard)/components/customtoast';
 
 const roboto = Roboto({
   weight: ['400', '500', '600', '700'],
@@ -39,25 +40,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${roboto.variable} ${openSans.variable} ${spaceGrotesk.variable} font-sans antialiased`}
-        suppressHydrationWarning
       >
-        <Toaster
-          richColors
-          closeButton
-          toastOptions={{
-            unstyled: false,
-            classNames: {
-              toast: '!bg-background !text-foreground !border',
-              title: '!font-medium',
-              description: '!text-muted-foreground',
-            },
-          }}
-        />
+        <CustomToast/>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

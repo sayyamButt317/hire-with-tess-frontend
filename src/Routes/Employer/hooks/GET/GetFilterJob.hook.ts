@@ -4,6 +4,8 @@ import { FilteredJob } from '../../Api/employer.route';
 export default function UseGetFilteredJob() {
   return useQuery({
     queryKey: ['filteredjob'],
-    queryFn: () => FilteredJob(),
+    queryFn: FilteredJob,
+    refetchOnWindowFocus: true,
+    refetchInterval: 60000,
   });
 }

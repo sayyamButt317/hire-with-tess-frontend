@@ -4,6 +4,8 @@ import { GetAllJob } from '../../Api/employer.route';
 export default function UseGetAllJob() {
   return useQuery({
     queryKey: ['jobs'],
-    queryFn: () => GetAllJob(),
+    queryFn: GetAllJob,
+    refetchOnWindowFocus: true,
+    refetchInterval: 60000,
   });
 }

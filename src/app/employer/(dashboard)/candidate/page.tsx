@@ -14,25 +14,24 @@ export default function CandidatePage() {
     'Job Applied For',
     'Interview Date',
     'Interview Status',
-    'Status',
     'Ai Score',
   ];
 
   const { data: candidatestats } = UseDashboardCandidateCardStats();
   const { data: CandidateTableData } = UseGetAllInterview();
-  console.log('Interview Candidate Table Data:', CandidateTableData);
-  const DATA = [
-    [
-      <Eye key={CandidateTableData?.id} className="w-5 h-5 text-tess-gray" />,
-      CandidateTableData?.candidate_name,
-      CandidateTableData?.job_title,
-      CandidateTableData?.created_at,
+ 
+
+  const DATA = 
+  CandidateTableData?.items?.map((item: any) => [
+      <Eye key={item?.id} className="w-5 h-5 text-tess-gray" />,
+      item?.candidate_name,
+      item?.job_title,
+      item?.created_at,
       <Badge key={'status'} className="bg-tess-green/10 text-tess-green">
-        {CandidateTableData?.status}
+        {item?.status}
       </Badge>,
       '81%',
-    ],
-  ];
+  ]);
   return (
     <div>
       <h1 className="text-2xl font-open-sans font-semibold ml-2 mb-4">Overview</h1>
@@ -40,23 +39,23 @@ export default function CandidatePage() {
         <CardComponent
           heading="Total Candidates"
           subheading={candidatestats?.total_candidates}
-          icon={<Users className="text-tess-orange" />}
+          icon={<Users size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
         <CardComponent
           heading="New Candidates"
           subheading={candidatestats?.hired}
-          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} className="text-tess-orange" />}
+          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
 
         <CardComponent
           heading="Shortlisted Candidates"
           subheading={candidatestats?.shortlisted}
-          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} className="text-tess-orange" />}
+          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D"  />}
         ></CardComponent>
         <CardComponent
           heading="Rejected Candidates"
           subheading={candidatestats?.rejected}
-          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} className="text-tess-orange" />}
+          icon={<BriefcaseBusiness size={20} strokeWidth={1.5} color="#f7941D" />}
         ></CardComponent>
       </div>
       <div className="mt-10">

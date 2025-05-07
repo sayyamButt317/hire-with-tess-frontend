@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { EMPLOYERAPI } from '../Constant/employer-endpoint.route';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { clearAuthToken, getAuthToken } from '@/Utils/Providers/auth';
+import { clearAuthToken } from '@/Utils/Providers/auth';
 
 
 const api = axios.create({
@@ -14,7 +13,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
 const token = localStorage.getItem('accessToken');
-console.log("Token before request",token);
   // const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -24,26 +22,24 @@ console.log("Token before request",token);
   (error) => Promise.reject(error)
 );
 
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response?.status === 401) {  
-//       window.location.href = '/login'; // Redirect unauthorized users  
-//     }  
-//     // if (error.response && error.response.status === 401) {
-//     //  clearAuthToken();
-//     //  if (error.response?.status === 403) {
-//     //   toast.error('Unauthorized access');
-//     // }
-//     // if (error.response?.status === 500) {
-//     //   toast.error('Server error');
-//     // }else{
-//     //   toast.error('Session expired. Please login again.');
-//     // }
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+     clearAuthToken();
+     if (error.response?.status === 403) {
+      toast.error('Unauthorized access');
+    }
+    if (error.response?.status === 500) {
+      toast.error('Server error');
+    }else{
+      toast.error('Session expired. Please login again.');
+    }
       
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+}
+);
 
 //Get All Jobs
 export const GetAllJob = async () => {

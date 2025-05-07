@@ -4,7 +4,7 @@ import { GoogleLoginIn } from '@/Routes/Client/Api/api.routes';
 
 export default function useGoogleLoginHook() {
   return useMutation({
-    mutationFn: (accessToken: string) => GoogleLoginIn(accessToken),
+    mutationFn: (code: string) => GoogleLoginIn(code),
     onSuccess: async () => {
       toast.success('Login Successful', {
         position: 'bottom-right',
