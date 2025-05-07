@@ -11,10 +11,11 @@ import QRCode from 'react-qr-code';
 import { useParams } from 'next/navigation';
 
 export default function GenerateLink() {
- 
+
   const params = useParams();
   const jobId = params?.jobId as string;
-  const { data: InterviewData } = useFetchInterviewLink();
+  const { data: InterviewData, isLoading } = useFetchInterviewLink();
+  console.log("Geerate Interview LINK", InterviewData)
 
   const {
     copied,
@@ -69,17 +70,22 @@ export default function GenerateLink() {
         </p>
 
         <div className="flex flex-row gap-3 items-center w-full sm:w-[400px] mt-6 relative">
-          {/* Input Field */}
-          <Input
-            value={InterviewData?.interview_link}
-            readOnly
-            onClick={() => {
-              if (InterviewData?.interview_link) {
-                window.open(InterviewData?.interview_link, '_blank');
-              }
-            }}
-            className="text-[#4A3AFF] w-full h-[65px] underline cursor-pointer text-ellipsis overflow-hidden truncate border border-gray-300 rounded-[14px] px-4 pr-14" // Changed cursor-default to cursor-pointer
-          />
+          {isLoading ? (
+
+            <p>Generating Link...</p>
+
+          ) : (
+            <Input
+              value={InterviewData?.interview_link}
+              readOnly
+              onClick={() => {
+                if (InterviewData?.interview_link) {
+                  window.open(InterviewData?.interview_link, '_blank');
+                }
+              }}
+              className="text-[#4A3AFF] w-full h-[65px] underline cursor-pointer text-ellipsis overflow-hidden truncate border border-gray-300 rounded-[14px] px-4 pr-14" // Changed cursor-default to cursor-pointer
+            />
+          )}
 
           <Button
             type="button"
@@ -120,14 +126,12 @@ export default function GenerateLink() {
             Candidates can scan this QR Code to access the interview
           </p>
 
-          {/* QR Code Image */}
           {InterviewData?.qr_code_base64 && (
             <div className="w-[200px] h-[200px] bg-white flex items-center justify-center rounded-md mt-4 shadow-xl mx-auto">
               <QRCode
                 className="w-[200px] h-[200px] shadow-lg p-4"
                 width={216}
                 height={222}
-                // value={InterviewData.qr_code_base64 }
                 value={InterviewData?.interview_link || ''}
               />
             </div>

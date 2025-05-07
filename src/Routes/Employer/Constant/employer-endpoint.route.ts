@@ -24,6 +24,9 @@ export const EMPLOYERAPI = {
   FILTER_JOBS: `/api/v1/admin/jobs/filter/`,
   FILTER_INTERVIEW: `/api/v1/admin/interviews/filter/`,
 
+  //Profile
+  ADMIN_PROFILE:`/api/v1/admin/profile`,
+  UPDATE_PROFILE:`/api/v1/admin/profile`,
   DELETE_PROFILE: `/api/v1/admin/delete-profile`,
 
   //Notification

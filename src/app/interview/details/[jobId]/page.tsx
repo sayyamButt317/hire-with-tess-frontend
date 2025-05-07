@@ -161,8 +161,9 @@ export default function CandidatesDetails() {
           <Button
             type="submit"
             className="w-full sm:w-[381px] h-[64px] leading-[20px] font-roboto cursor-pointer rounded-2xl max-w-[90%]"
+            disabled={mutation.isPending}
           >
-            Start Interview
+             {mutation.isPending ? 'Submitting...' : 'Start Interview'}
           </Button>
         </form>
       </FormProvider>

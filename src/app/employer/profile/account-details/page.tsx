@@ -3,12 +3,13 @@ import CustomInputForm from '@/app/interview/component/customformInput';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, Form } from '@/components/ui/form';
 import LoginInMutation from '@/Routes/Employer/hooks/Auth/SignIn.hook';
+import UseProfileInfo from '@/Routes/Employer/hooks/GET/profile/profileinfohook';
 import {
   AccountDetailformSchema,
   AccountFormValidator,
 } from '@/schema/accountDetail.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function UserAccountDetail() {
@@ -25,6 +26,16 @@ export default function UserAccountDetail() {
 
   const SignInMutation = LoginInMutation();
   const ref = useRef<HTMLFormElement>(null);
+  const { data, isLoading, isError } = UseProfileInfo();
+
+  useEffect(() => {
+    if (data) {
+      form.setValue('firstname', data.first_name || '');
+      form.setValue('lastname', data.last_name || '');
+      form.setValue('organization', data.organization_name || '');
+      form.setValue('email', data.email || '');
+    }
+  }, [data, form]);
 
   const onSubmit = async (data: AccountFormValidator) => {
     SignInMutation.mutate({
@@ -53,7 +64,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name="firstname"
+
                       type="text"
                       label="First Name"
                       placeholder="John"
@@ -70,7 +81,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name="lastname"
+
                       type="text"
                       label="Last Name"
                       placeholder="Doe"
@@ -90,7 +101,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name="organization"
+
                       label="Organization Name"
                       placeholder="King Palm"
                     />
@@ -106,7 +117,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name="email"
+
                       type="email"
                       label="Email"
                       placeholder="john.doe@gmail.com"
@@ -126,7 +137,7 @@ export default function UserAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name="password"
+
                       type="text"
                       label="Password"
                       placeholder="******"
@@ -141,7 +152,7 @@ export default function UserAccountDetail() {
             <Button
               type="submit"
               className=" leading-[20px] font-roboto cursor-pointer "
-              // disabled={signupMutation.isPending}
+            // disabled={signupMutation.isPending}
             >
               Update Profile
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}
@@ -150,7 +161,7 @@ export default function UserAccountDetail() {
               type="reset"
               variant="ghost"
               className="leading-[20px] font-roboto cursor-pointer "
-              // disabled={signupMutation.isPending}
+            // disabled={signupMutation.isPending}
             >
               Reset
               {/* {signupMutation.isPending ? 'Signing Up...' : 'Sign Up to Continue'} */}

@@ -4,8 +4,8 @@ import CardComponent from '@/app/employer/(dashboard)/components/card';
 import { Badge } from '@/components/ui/badge';
 import TableComponent from '@/app/employer/(dashboard)/components/table';
 import Searchbar from '@/app/employer/(dashboard)/components/searchbar';
-import UseDashboardJobCardStats from '@/Routes/Employer/hooks/GET/GetJobCardstats.hook';
-import UseGetAllJob from '@/Routes/Employer/hooks/GET/GetAllJobs.hook';
+import UseDashboardJobCardStats from '@/Routes/Employer/hooks/GET/jobposting/GetJobCardstats.hook';
+import UseGetAllJob from '@/Routes/Employer/hooks/GET/jobposting/GetAllJobs.hook';
 
 export default function Subscriptions() {
   const TITLE = [

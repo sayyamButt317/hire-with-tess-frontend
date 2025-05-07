@@ -4,8 +4,11 @@ import CardComponent from '../components/card';
 import TableComponent from '../components/table';
 import { Badge } from '@/components/ui/badge';
 import Searchbar from '../components/searchbar';
-import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/GetCandidateCardstats.hook';
-import UseGetAllInterview from '@/Routes/Employer/hooks/GET/GetAllInterview.hook';
+import UseDashboardCandidateCardStats from '@/Routes/Employer/hooks/GET/candidates/GetCandidateCardstats.hook';
+import UseGetAllInterview from '@/Routes/Employer/hooks/GET/Overview/GetAllInterview.hook';
+import { useState } from 'react';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import UserProfile from '../components/candiateprofile';
 
 export default function CandidatePage() {
   const TITLE = [
@@ -19,19 +22,43 @@ export default function CandidatePage() {
 
   const { data: candidatestats } = UseDashboardCandidateCardStats();
   const { data: CandidateTableData } = UseGetAllInterview();
+  console.log('CandidateTableData', CandidateTableData);
  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedCandidate, setSelectedCandidate] = useState(null);
+  
 
   const DATA = (CandidateTableData?.items ?? []).map((item: any) => [
-      <Eye key={item?.id} className="w-5 h-5 text-tess-gray" />,
+      <Eye
+        onClick={() => {
+          setSelectedCandidate(item);
+          setIsDialogOpen(true);
+        }}
+
+        key={item.id}
+        className="w-5 h-5 text-tess-gray cursor-pointer"
+      />,
       item?.candidate_name,
       item?.job_title,
       item?.created_at,
       <Badge key={'status'} className="bg-tess-green/10 text-tess-green">
         {item?.status}
       </Badge>,
-      '81%',
+      item?.ai_score,
   ]);
   return (
+    <>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Candidates Details</DialogTitle>
+          <DialogDescription>
+          </DialogDescription>
+        </DialogHeader>
+        <UserProfile data={selectedCandidate} />
+        <DialogClose asChild></DialogClose>
+      </DialogContent>
+    </Dialog>
     <div>
       <h1 className="text-2xl font-open-sans font-semibold ml-2 mb-4">Overview</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
@@ -70,5 +97,6 @@ export default function CandidatePage() {
         />
       </div>
     </div>
+    </>
   );
 }

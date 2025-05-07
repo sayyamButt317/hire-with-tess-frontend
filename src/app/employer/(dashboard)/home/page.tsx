@@ -3,8 +3,8 @@ import { BriefcaseBusiness, Eye, Users } from 'lucide-react';
 import CardComponent from '../components/card';
 import TableComponent from '../components/table';
 import { Badge } from '@/components/ui/badge';
-import UseDashboardCardStats from '@/Routes/Employer/hooks/GET/GetOverviewCardStats.hook';
-import UseGetAllInterview from '@/Routes/Employer/hooks/GET/GetAllInterview.hook';
+import UseDashboardCardStats from '@/Routes/Employer/hooks/GET/Overview/GetOverviewCardStats.hook';
+import UseGetAllInterview from '@/Routes/Employer/hooks/GET/Overview/GetAllInterview.hook';
 import {
   Dialog,
   DialogContent,
@@ -28,7 +28,6 @@ export default function DashboardHome() {
 
   const { data: interviewCardData } = UseDashboardCardStats();
   const { data: DashboardTableData } = UseGetAllInterview();
-  console.log('Dashboard Table Data:', DashboardTableData);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);

@@ -63,14 +63,16 @@ export default function Question({ questions, showImage = true }: QuestionProps)
               )}
               <div className="relative w-full">
                 {isEditing ? (
-                  <Textarea
-                    value={question.text}
-                    onChange={(e) => handleTextChange(index, e.target.value)}
-                    className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white p-2"
-                    autoFocus
-                  />
+                <Textarea
+                value={question.text}
+                onChange={(e) => handleTextChange(index, e.target.value)}
+                className="w-full h-[68px] sm:h-[200px] rounded-[14px] border text-black bg-white p-2"
+                autoFocus
+              />
+              
                 ) : (
-                  <p className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white p-2 flex items-center">
+                  <p className="w-full h-[68px] rounded-[14px] border-1 text-black bg-white p-2 flex items-center 
+                  ">
                     {question.text}
                   </p>
                 )}

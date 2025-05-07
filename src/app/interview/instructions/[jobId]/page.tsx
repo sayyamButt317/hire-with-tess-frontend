@@ -35,7 +35,7 @@ export default function CandidateInstructions() {
               Interview Instructions:
             </h1>
             <div className="list-disc pl-5 font-openSans text-[14px] leading-[26px] text-black">
-              <li>You will answer 4 questions, each requiring an audio response.</li>
+              <li>You will answer few questions, each requiring an audio or video or screen sharing response.</li>
               <li>You can redo your responses before submitting your final answer.</li>
               <li>
                 Each question has a time limit, so be mindful of your response time.

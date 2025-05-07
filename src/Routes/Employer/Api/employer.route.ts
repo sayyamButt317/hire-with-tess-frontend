@@ -2,6 +2,7 @@ import axios from 'axios';
 import { EMPLOYERAPI } from '../Constant/employer-endpoint.route';
 import { toast } from 'sonner';
 import { clearAuthToken } from '@/Utils/Providers/auth';
+import { ProfileInfoType } from '@/Types/Employer/profileinfo';
 
 
 const api = axios.create({
@@ -135,6 +136,18 @@ export const FilteredJob = async () => {
 //Filter Interview
 export const FilterInterview = async () => {
   const response = await api.get(EMPLOYERAPI.FILTER_INTERVIEW);
+  return response.data;
+};
+
+//Profile Info
+export const ProfileInfo = async () => {
+  const response = await api.get(EMPLOYERAPI.ADMIN_PROFILE);
+  return response.data;
+};
+
+//update profile
+export const UpdateProfile = async (data: ProfileInfoType) => {
+  const response = await api.put(EMPLOYERAPI.UPDATE_PROFILE, data);
   return response.data;
 };
 
