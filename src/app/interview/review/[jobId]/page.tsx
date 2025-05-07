@@ -9,30 +9,35 @@ import { customformSchema } from '@/schema/customform.schema';
 import { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Signup from '@/app/signup/page';
 import CustomInputForm from '@/app/interview/component/customformInput';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
+import { getAuthCookie, getAuthToken } from '@/Utils/Providers/auth';
+
 
 export default function InterviewReview() {
- 
+
   const params = useParams();
   const jobId = params?.jobId as string;
 
   const access_token = EmployeeAuthStore.getState().accessToken;
+
   const jobDetailsQuery = FetchJobDetails(jobId);
-  
+
   const jobData = jobDetailsQuery?.data || {};
   const { data } = FetchQuestions(jobId);
 
   const form = useForm<z.infer<typeof customformSchema>>({});
   const { setValue } = form;
-  
+
   const ref = useRef<HTMLFormElement>(null);
   const router = useRouter();
+
+  const accessToken = getAuthToken() || getAuthCookie();
 
   useEffect(() => {
     if (jobData) {
@@ -189,22 +194,26 @@ export default function InterviewReview() {
               Back
             </Button>
           </div>
-          {access_token ? (
+
+
+          {accessToken ? (
             <Link href={`/interview/generate-link/${jobId}`}>
               <Button className="w-40">Generate Link</Button>
             </Link>
           ) : (
             <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-40">Sign up to Continue</Button>
-            </DialogTrigger>
-            <DialogContent className="items-center bg-white shadow-2xl rounded-lg w-5xl">
-              <Signup />
-            </DialogContent>
-          </Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-40">Sign up to Continue</Button>
+              </DialogTrigger>
+              <DialogContent className="items-center bg-white shadow-2xl rounded-lg w-5xl">
+                <DialogTitle></DialogTitle>
+                <Signup />
+              </DialogContent>
+            </Dialog>
           )}
 
-       
+
+
         </div>
       </div>
     </InterviewLayout>

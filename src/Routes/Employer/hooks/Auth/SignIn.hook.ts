@@ -20,10 +20,12 @@ export default function LoginInMutation() {
         toast.error('You are Not Authenticated');
         return;
       }
-      console.log("Before Login access_Token",data);
       setAuthToken(data.access_token);
-      console.log("After Login access_Token",data.access_token);
-      toast.success('SignIn successful!');
+
+      toast.success('Sign in successful', {
+        description: 'Welcome back!',
+      });
+      
       router.push('/employer/home');
     },    
     onError: (error) => {

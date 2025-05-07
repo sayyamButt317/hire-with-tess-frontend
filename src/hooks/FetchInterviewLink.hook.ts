@@ -3,8 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import useHomeStore from '@/store/Employee/home.store';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
 
-export default function useFetchInterviewLink() {
-  const job_id = useHomeStore((state) => state.jobId);
+export default function useFetchInterviewLink(job_id: string) {
   const { accessToken } = EmployeeAuthStore();
 
   return useQuery({

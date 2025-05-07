@@ -2,9 +2,10 @@ import EmployeeAuthStore from "@/store/Employee/auth.store";
 
 export const setAuthToken = (token: string) => {
   localStorage.setItem('accessToken', token);
-  document.cookie = `accessToken=${token}; path=/; max-age=${60 * 60 * 24}`;
+  document.cookie = `accessToken=${token}; path=/; max-age=${60 * 60 * 24}; secure; samesite=strict`;
   EmployeeAuthStore.getState().setAccessToken(token);
 };
+
 
 export const clearAuthToken = () => {
   localStorage.removeItem('accessToken');
