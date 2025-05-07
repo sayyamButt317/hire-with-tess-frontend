@@ -3,17 +3,15 @@ import CustomInputForm from '@/app/interview/component/customformInput';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, Form } from '@/components/ui/form';
 import LoginInMutation from '@/Routes/Employer/hooks/Auth/SignIn.hook';
-import UseProfileInfo from '@/Routes/Employer/hooks/GET/profile/profileinfohook';
 import {
   AccountDetailformSchema,
   AccountFormValidator,
 } from '@/schema/accountDetail.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserRoundPen } from 'lucide-react';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function AdminAccountDetail() {
+export default function UserAccountDetail() {
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -37,15 +35,9 @@ export default function AdminAccountDetail() {
       password: data.password,
     });
   };
-
-  const {data} = UseProfileInfo();
   return (
     <div>
-  <div className="flex items-center justify-between mb-4">
-  <h1 className="text-xl font-semibold text-gray-900">Account Details</h1>
-  <UserRoundPen className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
-</div>
-
+      <h1 className=" text-24 font-semibold">Account Details</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -61,7 +53,7 @@ export default function AdminAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name={data.first_name}
+                      name="firstname"
                       type="text"
                       label="First Name"
                       placeholder="John"
@@ -78,7 +70,7 @@ export default function AdminAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name={data.last_name}
+                      name="lastname"
                       type="text"
                       label="Last Name"
                       placeholder="Doe"
@@ -98,7 +90,7 @@ export default function AdminAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name={data.organization_name}
+                      name="organization"
                       label="Organization Name"
                       placeholder="King Palm"
                     />
@@ -114,7 +106,7 @@ export default function AdminAccountDetail() {
                   <FormControl>
                     <CustomInputForm
                       {...field}
-                      name={data.email}
+                      name="email"
                       type="email"
                       label="Email"
                       placeholder="john.doe@gmail.com"
