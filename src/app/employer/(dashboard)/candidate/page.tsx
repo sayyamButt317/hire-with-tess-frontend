@@ -21,8 +21,7 @@ export default function CandidatePage() {
   const { data: CandidateTableData } = UseGetAllInterview();
  
 
-  const DATA = 
-  CandidateTableData?.items?.map((item: any) => [
+  const DATA = CandidateTableData?.items?.map((item: any) => [
       <Eye key={item?.id} className="w-5 h-5 text-tess-gray" />,
       item?.candidate_name,
       item?.job_title,
