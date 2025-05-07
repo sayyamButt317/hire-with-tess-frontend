@@ -27,13 +27,13 @@ export default function UserAccountDetail() {
   const ref = useRef<HTMLFormElement>(null);
 
   const onSubmit = async (data: AccountFormValidator) => {
-    SignInMutation.mutate({
-      first_name: data.firstname,
-      last_name: data.lastname,
-      organization_name: data.organization,
-      email: data.email,
-      password: data.password,
-    });
+    // SignInMutation.mutate({
+    //   first_name: data.firstname,
+    //   last_name: data.lastname,
+    //   organization_name: data.organization,
+    //   email: data.email,
+    //   password: data.password,
+    // });
   };
   return (
     <div>
