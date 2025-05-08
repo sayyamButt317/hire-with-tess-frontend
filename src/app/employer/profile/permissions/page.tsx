@@ -1,7 +1,16 @@
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
+import { UpdateNotificationType } from '@/Routes/Employer/Api/employer.route';
+import UseProfilePermision from '@/Routes/Employer/hooks/GET/profile/permission';
+// import { useEffect } from 'react';
 
 export default function UserProfilePermission() {
+  // const {data:permission} = UseProfilePermision();
+  // useEffect(() => {
+  //   if (permission) {
+  //     console.log("Permission data", permission);
+  //   }
+  // }, [permission]);
   return (
     <>
       <div className="mb-4">
@@ -19,7 +28,9 @@ export default function UserProfilePermission() {
                 Get updates with candidates finish interviews{' '}
               </p>
             </div>
-            <Switch />
+            <Switch 
+            
+             />
           </div>
         </div>
 

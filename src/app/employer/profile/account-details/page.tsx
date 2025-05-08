@@ -2,16 +2,16 @@
 import CustomInputForm from '@/app/interview/component/customformInput';
 import { Button } from '@/components/ui/button';
 import { FormControl, FormField, FormItem, Form } from '@/components/ui/form';
-
-import {
-  AccountDetailformSchema,
-  AccountFormValidator,
-} from '@/schema/accountDetail.schema';
+import { AccountDetailformSchema, AccountFormValidator,} from '@/schema/accountDetail.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import UseProfileInfo from '@/Routes/Employer/hooks/GET/profile/profileinfohook';
 
 export default function UserAccountDetail() {
+  const {data:profileInfo}  = UseProfileInfo();
+
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -26,7 +26,6 @@ export default function UserAccountDetail() {
   const ref = useRef<HTMLFormElement>(null);
 
   const onSubmit = async (data: AccountFormValidator) => {
-    console.log("Profile data",data)
     // SignInMutation.mutate({
     //   first_name: data.firstname,
     //   last_name: data.lastname,
@@ -35,6 +34,20 @@ export default function UserAccountDetail() {
     //   password: data.password,
     // });
   };
+
+  const { setValue } = form;
+
+  useEffect(() => {
+  if (profileInfo) {
+    setValue('firstname', profileInfo.first_name || '');
+    setValue('lastname', profileInfo.last_name || '');
+    setValue('organization', profileInfo.organization_name || '');
+    setValue('email', profileInfo.email || '');
+    setValue('password', profileInfo.password || '');
+  }
+}, [profileInfo, setValue]);
+
+
   return (
     <div>
       <h1 className=" text-24 font-semibold">Account Details</h1>
@@ -57,6 +70,8 @@ export default function UserAccountDetail() {
                       type="text"
                       label="First Name"
                       placeholder="John"
+                      
+                      
                     />
                   </FormControl>
                 </FormItem>
@@ -150,6 +165,7 @@ export default function UserAccountDetail() {
               type="reset"
               variant="ghost"
               className="leading-[20px] font-roboto cursor-pointer "
+              onClick={() => form.reset()}
               // disabled={signupMutation.isPending}
             >
               Reset

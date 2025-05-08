@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { NotificationSetting } from '../../Api/employer.route';
+import { NotificationSetting } from '@/Routes/Employer/Api/employer.route';
 
 export default function UseGetSettingNotification() {
   return useQuery({
     queryKey: ['setting'],
-    queryFn: () => NotificationSetting(),
+    queryFn: NotificationSetting,
     enabled: true,
   });
 }

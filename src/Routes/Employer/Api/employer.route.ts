@@ -3,6 +3,7 @@ import { EMPLOYERAPI } from '../Constant/employer-endpoint.route';
 import { toast } from 'sonner';
 import { clearAuthToken } from '@/Utils/Providers/auth';
 import { ProfileInfoType } from '@/Types/Employer/profileinfo';
+import { JobFilterType } from '@/Types/Employer/jobfilter';
 
 
 const api = axios.create({
@@ -35,6 +36,7 @@ api.interceptors.response.use(
       toast.error('Server error');
     }else{
       toast.error('Session expired. Please login again.');
+      window.location.href='/login';
     }
       
     return Promise.reject(error);
@@ -128,8 +130,8 @@ export const JobCardStats = async () => {
 };
 
 //Filtered Job
-export const FilteredJob = async () => {
-  const response = await api.get(EMPLOYERAPI.FILTER_JOBS);
+export const FilteredJob = async (data:JobFilterType) => {
+  const response = await api.get(EMPLOYERAPI.FILTER_JOBS,{ params: data });
   return response.data;
 };
 
@@ -164,15 +166,15 @@ export const AdminNotification = async () => {
 };
 
 //Admin Notificaation Setting
-export const NotificationSetting = async () => {
-  const response = await api.get(EMPLOYERAPI.NOTIFICATION_SETTING);
+export const ProfileNotificationPermission = async () => {
+  const response = await api.get(EMPLOYERAPI.PROFILE_PERMISSION_NOTIFICATION_SETTING);
   return response.data;
 };
 
 //Update Notification Setting
 export const UpdateNotificationType = async (notification_type: string) => {
   const response = await api.put(
-    EMPLOYERAPI.UPDATE_ADMIN_NOTIFICATION(notification_type),
+    EMPLOYERAPI.UPDATE_PROFILE_NOTIFICATION(notification_type),
   );
   return response.data;
 };

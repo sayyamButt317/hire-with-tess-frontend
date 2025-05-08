@@ -5,7 +5,6 @@ export default function UseFilterInterview () {
   return useQuery({
     queryKey: ['filteredinterview'],
     queryFn: FilterInterview,
-    refetchOnWindowFocus: true,
-    refetchInterval: 10000,
   });
+  
 }
