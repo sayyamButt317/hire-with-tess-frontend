@@ -3,6 +3,7 @@ import { RegisterCandidate } from '@/Routes/Client/Api/api.routes';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 export default function RegeisterCandidatehook() {
   const params = useParams();
@@ -13,8 +14,12 @@ export default function RegeisterCandidatehook() {
     onSuccess: () => {
       router.push(`/interview/${jobId}/candidate-question/1`);
     },
-    onError: (error) => {
-      toast.error('Failed to register candidate');
-    },
+      onError: (error) => {
+          const axiosError = error as AxiosError<{ detail: string }>;
+          toast.error('Failed to register candidate', {
+            description:
+              axiosError.response?.data?.detail || 'An error occurred during Regeistered Candidate.',
+          });
+        },
   });
 }

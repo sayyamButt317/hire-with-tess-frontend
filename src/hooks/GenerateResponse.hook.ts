@@ -3,6 +3,7 @@ import { GenerateJobDetails } from '@/Routes/Client/Api/api.routes';
 import { useRouter } from 'next/navigation';
 import useHomeStore from '@/store/Employee/home.store';
 import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 export default function useGenerateResponse() {
   const router = useRouter();
@@ -15,10 +16,15 @@ export default function useGenerateResponse() {
         setJobId(data.id);
         router.push(`/interview?job_id=${data.id}`);
       } else {
-        toast('Error', {
-          description: 'Invalid job data received',
-        });
+        toast.error('Failed to generate response');
       }
     },
+    onError: async (error) => {
+      const axiosError = error as AxiosError<{ detail: string }>;
+      toast.error('Failed to generate response', {
+        description:
+          axiosError.response?.data?.detail || 'An error occurred during generating response.',
+        });
+      },
   });
 }
