@@ -10,6 +10,8 @@ import { useToggleStore } from '@/store/Employee/Toggle.store';
 import QRCode from 'react-qr-code';
 import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
+import EmployeeAuthStore from '@/store/Employee/auth.store';
 
 export default function GenerateLink() {
 
