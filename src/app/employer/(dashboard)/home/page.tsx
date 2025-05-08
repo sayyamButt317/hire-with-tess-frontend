@@ -28,6 +28,7 @@ export default function DashboardHome() {
 
   const { data: interviewCardData } = UseDashboardCardStats();
   const { data: DashboardTableData } = UseGetAllInterview();
+  console.log("DashboardTableData",DashboardTableData)
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);

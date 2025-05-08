@@ -5,7 +5,8 @@ export default function UseDashboardJobCardStats() {
   return useQuery({
     queryKey: ['jobstats'],
     queryFn: JobCardStats,
-    refetchOnWindowFocus: true,
-    refetchInterval: 10000,
+    refetchOnWindowFocus: true,          
+    refetchInterval: 90000,              
+    refetchIntervalInBackground: false,   
   });
 }

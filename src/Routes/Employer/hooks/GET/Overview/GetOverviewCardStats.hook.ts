@@ -6,6 +6,7 @@ export default function UseDashboardCardStats() {
     queryKey: ['overiewstats'],
     queryFn: DashboardCardStats,
     refetchOnWindowFocus: true,
-    refetchInterval: 10000,
+    refetchInterval: 90000,
+    refetchIntervalInBackground: false,
   });
 }

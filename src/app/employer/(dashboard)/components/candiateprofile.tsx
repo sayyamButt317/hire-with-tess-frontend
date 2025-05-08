@@ -9,7 +9,7 @@ export default function UserProfile({ data }: { data: any }) {
 
   const answers = data.answers;
   const questions = Object.keys(answers || {});
-  const url = answers?.[questions[0]]?.recorded_url || ''; 
+  const url = answers?.[questions[0]]?.url || ''; 
 
   return (
     <div>
@@ -67,8 +67,8 @@ export default function UserProfile({ data }: { data: any }) {
             <p className="w-full font-normal text-[14px]">{question}</p>
             <div className="rounded-full p-3 border mt-6 w-full">
               <div className="flex items-center gap-2 w-full">
-                {answers[question]?.recorded_url && (
-                  <Waveform recordedVoiceURL={answers[question].recorded_url} />
+                {answers[question]?.url && (
+                  <Waveform recordedVoiceURL={answers[question].url} />
                 )}
               </div>
             </div>

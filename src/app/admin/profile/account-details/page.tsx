@@ -10,8 +10,12 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import UseProfileInfo from '@/Routes/Employer/hooks/GET/profile/profileinfohook';
 
 export default function UserAccountDetail() {
+
+  const {data:profileInfo} = UseProfileInfo();
+
   const form = useForm<AccountFormValidator>({
     resolver: zodResolver(AccountDetailformSchema),
     defaultValues: {
@@ -20,6 +24,7 @@ export default function UserAccountDetail() {
       organization: '',
       email: '',
       password: '',
+      
     },
   });
 

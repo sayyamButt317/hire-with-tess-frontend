@@ -6,7 +6,9 @@ export default function UseProfileInfo() {
   return useQuery({
     queryKey: ['profileinfo'],
     queryFn: ProfileInfo,
-    refetchOnWindowFocus: true,
-    refetchInterval: 10000,
+    staleTime:Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+
   });
 }

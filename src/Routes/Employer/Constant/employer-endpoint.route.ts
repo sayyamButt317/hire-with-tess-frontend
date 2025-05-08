@@ -31,8 +31,8 @@ export const EMPLOYERAPI = {
 
   //Notification
   NOTIFICATION: `/api/v1/admin/notifications`,
-  NOTIFICATION_SETTING: `/api/v1/admin/notification-settings`,
-  UPDATE_ADMIN_NOTIFICATION: (notification_type: string) =>
+  PROFILE_PERMISSION_NOTIFICATION_SETTING: `/api/v1/admin/notification-settings`,
+  UPDATE_PROFILE_NOTIFICATION: (notification_type: string) =>
     `/api/v1/admin/notification-settings/${notification_type}`,
 
   //Auth
