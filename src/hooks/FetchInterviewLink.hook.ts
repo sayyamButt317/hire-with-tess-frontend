@@ -1,16 +1,17 @@
 import { GenerateInterviewLink } from '@/Routes/Client/Api/api.routes';
 import { useQuery } from '@tanstack/react-query';
-import useHomeStore from '@/store/Employee/home.store';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
 
 export default function useFetchInterviewLink(job_id: string) {
   const { accessToken } = EmployeeAuthStore();
 
   return useQuery({
-    queryKey: ['jobDetails', job_id],
+    queryKey: ['interviewLink', job_id], 
     queryFn: () => GenerateInterviewLink(job_id),
-    staleTime: 10000,
+    staleTime: Infinity, 
     retry: 2,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     enabled: !!job_id && !!accessToken,
   });
 }

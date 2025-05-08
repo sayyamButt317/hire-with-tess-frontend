@@ -17,6 +17,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import EmployeeAuthStore from '@/store/Employee/auth.store';
 import { getAuthCookie, getAuthToken } from '@/Utils/Providers/auth';
+import useFetchInterviewLink from '@/hooks/FetchInterviewLink.hook';
 
 
 export default function InterviewReview() {
@@ -38,6 +39,8 @@ export default function InterviewReview() {
   const router = useRouter();
 
   const accessToken = getAuthToken() || getAuthCookie();
+  const { data: InterviewData } = useFetchInterviewLink(jobId);
+ 
 
   useEffect(() => {
     if (jobData) {
@@ -56,6 +59,7 @@ export default function InterviewReview() {
       });
     }
   }, [data?.questions, setValue]);
+
 
   return (
     <InterviewLayout
