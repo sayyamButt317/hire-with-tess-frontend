@@ -37,7 +37,6 @@ export default function AnsweredQuestionList() {
     if (form) {
       const formData = new FormData(form);
       const feedbackText = formData.get('feedback');
-      console.log('User Feedback:', feedbackText);
     }
   };
 

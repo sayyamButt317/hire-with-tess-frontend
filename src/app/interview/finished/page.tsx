@@ -18,11 +18,11 @@ export default function Finished() {
         <p className="text-gray-500 mb-8">
           Our team is reviewing your responses. We’ll get back to you shortly with the next steps.
         </p>
-        <Link href="/dashboard">
+        {/* <Link href="/dashboard">
           <Button className="px-6 py-2 rounded-xl text-white bg-[#4f46e5] hover:bg-[#4338ca]">
             Go to Dashboard
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
