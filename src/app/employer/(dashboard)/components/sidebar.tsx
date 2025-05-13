@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -7,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { LogOut, Menu } from 'lucide-react';
+import LogoutDialogue from '@/app/employer/profile/components/logoutdialogue';
+import { useState } from 'react';
 
 export interface SidebarLink {
   label: string;
@@ -16,22 +17,17 @@ export interface SidebarLink {
 
 export interface SidebarProps {
   links: SidebarLink[];
-  onLogout?: () => void;
 }
 
-export default function Sidebar({ links, onLogout }: SidebarProps) {
+export default function Sidebar({ links }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isLogout, setIsLogout] = useState(false);
 
   const handleClick = (route: string) => {
     if (pathname !== route) {
       router.push(route);
     }
-  };
-
-  const handleLogout = () => {
-    onLogout?.();
-    router.push('/login');
   };
 
   const renderLink = (link: SidebarLink) => {
@@ -77,18 +73,14 @@ export default function Sidebar({ links, onLogout }: SidebarProps) {
       <aside className="hidden md:block w-[250px] p-6 bg-white rounded-2xl">
         <nav className="flex flex-col gap-2 text-sm font-light">
           {links.map(renderLink)}
-          {onLogout && (
-            <Button
-              onClick={handleLogout}
-              className="mt-6 w-full bg-red-50 text-red-700 hover:bg-red-100 transition-all duration-300"
-              variant="ghost"
-            >
+          <div className='flex flex-col gap-2 mt-2 items-start p-2'>
+            <div onClick={() => setIsLogout(true)} className='flex flex-row gap-4 pl-2 cursor-pointer'>
               <LogOut /> Logout
-            </Button>
-          )}
+            </div>
+          </div>
         </nav>
       </aside>
-
+      <LogoutDialogue open={isLogout} onOpenChange={setIsLogout} />
       {/* Mobile Sidebar */}
       <div className="md:hidden">
         <Sheet>
@@ -100,16 +92,13 @@ export default function Sidebar({ links, onLogout }: SidebarProps) {
           <SheetContent side="left" className="flex flex-col w-[250px] p-6 bg-white">
             <nav className="flex flex-col gap-2 text-sm font-light">
               {links.map(renderLink)}
-              {onLogout && (
-                <Button
-                  onClick={handleLogout}
-                  className="mt-6 w-full bg-red-50 text-red-700 hover:bg-red-100"
-                  variant="ghost"
-                >
-                  Logout
-                </Button>
-              )}
+              <div className='flex flex-col gap-2 mt-2 items-start p-2'>
+                <div onClick={() => setIsLogout(true)} className='flex flex-row gap-4 pl-2 cursor-pointer'>
+                  <LogOut /> Logout
+                </div>
+              </div>
             </nav>
+            <LogoutDialogue open={isLogout} onOpenChange={setIsLogout} />
           </SheetContent>
         </Sheet>
       </div>

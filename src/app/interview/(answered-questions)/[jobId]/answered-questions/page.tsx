@@ -6,7 +6,7 @@ import InterviewLayout from '@/components/layout/InterviewLayout';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Waveform from '@/app/interview/component/Waveform';
-import { Check, CirclePlay, DivideIcon, Play, X } from 'lucide-react';
+import { Check, CirclePlay, X } from 'lucide-react';
 import EmojiRatingSlider from '@/app/interview/component/emojislider';
 import { useRef } from 'react';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,7 +14,7 @@ import useSubmitInterview from '@/Routes/Client/hook/POST/SubmitInterviewhook';
 import { SubmitInterviewPayload } from '@/Types/Employer/useresponse';
 import { useResponseStore } from '@/store/candidate/responsestore';
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import router from 'next/router';
 
 
@@ -112,7 +112,7 @@ export default function AnsweredQuestionList() {
                     )}
                     {matchedResponse.content_type.startsWith('video') && (
                       <div className="flex items-center justify-between p-4 border rounded-full">
-                        <span className="text-sm font-medium text-gray-700 text-[#1E4B8E] ">
+                        <span className="text-sm font-medium text-[#1E4B8E] ">
                           Camera Recorded Video
                         </span>
                         <div

@@ -7,12 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Trash } from 'lucide-react';
 
 interface TableProps {
   header: string[];
   paginationstart: number;
   paginationend: number;
   subheader: (string | React.ReactNode)[][];
+  showTrashIcon?: boolean;
+  onDelete?: (rowIndex: number) => void; 
 }
 
 export default function TableComponent({
@@ -20,6 +23,8 @@ export default function TableComponent({
   paginationstart,
   paginationend,
   subheader,
+  showTrashIcon = false,
+  onDelete,
 }: TableProps) {
   return (
     <div className="w-full overflow-x-auto bg-white border rounded-md">
@@ -35,6 +40,11 @@ export default function TableComponent({
                   {head}
                 </TableHead>
               ))}
+              {showTrashIcon && (
+                <TableHead className="text-left font-roboto text-[#535862] whitespace-nowrap">
+                  Action
+                </TableHead>
+              )}
             </TableRow>
           </TableHeader>
 
@@ -42,10 +52,21 @@ export default function TableComponent({
             {subheader.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <TableCell key={cellIndex} className="font-normal font-open-sans whitespace-nowrap">
+                  <TableCell
+                    key={cellIndex}
+                    className="font-normal font-open-sans whitespace-nowrap"
+                  >
                     {cell}
                   </TableCell>
                 ))}
+                {showTrashIcon && (
+                  <TableCell>
+                    <Trash
+                      className="w-4 h-4 text-[#f7941D] cursor-pointer"
+                      onClick={() => onDelete?.(rowIndex)} 
+                    />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

@@ -4,18 +4,18 @@ import {  useRouter } from 'next/navigation';
 import { BellIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import UseProfileInfo from '@/Routes/Employer/hooks/GET/profile/profileinfohook';
 
 export default function Header() {
   const router = useRouter();
+  const {data:profileInfo}  = UseProfileInfo();
 
   return (
     <div className="bg-white flex justify-between h-18 mb-8 p-6">
-      {/*Title */}
       <div className="font-[Space Grotesk] text-[20px]">Hirewithtess</div>
 
       {/* Right Section */}
       <div className="flex gap-2 items-center">
-        {/* Search */}
         <div className="relative">
           <Input
             type="search"
@@ -24,7 +24,6 @@ export default function Header() {
           />
         </div>
 
-        {/* Notification */}
         <div className="bg-[#A2A1A81A] w-[50px] h-12 rounded-xl flex items-center justify-center">
           <BellIcon />
         </div>
@@ -37,12 +36,12 @@ export default function Header() {
           <div className="p-2">
             <Avatar className="w-10 h-10">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>{/* {(session?.user?.name || "IN")} */}</AvatarFallback>
+              <AvatarFallback> {(profileInfo?.firstname || "IN")} </AvatarFallback>
             </Avatar>
           </div>
           <div className="pl-2">
-            <h1 className="font-semibold">Name</h1>
-            <p className="text-sm text-[#A2A1A8]">Designation</p>
+            <h1 className="font-normal text-sm">{profileInfo?.first_name}</h1>
+            <p className="text-sm text-[#A2A1A8]">Employer</p>
           </div>
         </div>
       </div>

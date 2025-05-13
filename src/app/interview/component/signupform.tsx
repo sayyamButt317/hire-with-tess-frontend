@@ -9,8 +9,7 @@ import { z } from 'zod';
 import useSignupMutation from '@/hooks/SignUP.hook';
 import { Button } from '@/components/ui/button';
 import CustomInputForm from '@/app/interview/component/customformInput';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+
 
 export default function SignupForm() {
   const form = useForm<z.infer<typeof signupFormSchema>>({
@@ -26,8 +25,7 @@ export default function SignupForm() {
   });
   const ref = useRef<HTMLFormElement>(null);
   const signupMutation = useSignupMutation();
-  const params = useParams();
-  const jobId = params.jobId;
+
 
   const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
     const payload = {

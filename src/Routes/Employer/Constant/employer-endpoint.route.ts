@@ -35,6 +35,10 @@ export const EMPLOYERAPI = {
   UPDATE_PROFILE_NOTIFICATION: (notification_type: string) =>
     `/api/v1/admin/notification-settings/${notification_type}`,
 
+
+  //Analyze Interview
+  ANALYZE_INTERVIEW:(interview_id:string) => `/api/v1/analyze/${interview_id}`,
+
   //Auth
   EMPLOYER_LOGIN: `/api/v1/auth/login`,
 };
