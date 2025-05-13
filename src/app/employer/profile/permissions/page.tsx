@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { UpdateNotificationType } from '@/Routes/Employer/Api/employer.route';
 import UseProfilePermision from '@/Routes/Employer/hooks/GET/profile/permission';
+import RedirectToDashboard from '../components/breadcrumb';
 // import { useEffect } from 'react';
 
 export default function UserProfilePermission() {
@@ -12,9 +13,16 @@ export default function UserProfilePermission() {
   //   }
   // }, [permission]);
   return (
-    <>
-      <div className="mb-4">
-        <h1 className=" text-24 font-semibold ">Permissions</h1>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <RedirectToDashboard
+          DashboardTitle="Dashboard"
+          ProfileTitle="Profile"
+          PageTitle="Permissions"
+          DashboardUrl="/employer/home"
+          ProfileUrl="/employer/profile"
+        />
+        <h1 className="text-2xl font-semibold text-slate-800">Permissions</h1>
       </div>
       <Card className="p-4">
         {/* Permission 1 */}
@@ -66,6 +74,6 @@ export default function UserProfilePermission() {
           </div>
         </div>
       </Card>
-    </>
+    </div>
   );
 }

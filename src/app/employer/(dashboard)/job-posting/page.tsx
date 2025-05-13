@@ -8,56 +8,39 @@ import UseDashboardJobCardStats from '@/Routes/Employer/hooks/GET/jobposting/Get
 import UseGetAllJob from '@/Routes/Employer/hooks/GET/jobposting/GetAllJobs.hook';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import UserProfile from '../components/candiateprofile';
-import { useEffect, useMemo, useState } from 'react';
-import UseGetFilteredJob from '@/Routes/Employer/hooks/GET/jobposting/GetFilterJob.hook';
+import { useState } from 'react';
 import JobPostingTableTitle from '@/app/employer/(dashboard)/Constant/jobposting';
-import { JobFilterType } from '@/Types/Employer/jobfilter';
+import UseDeleteJobByID from '@/Routes/Employer/hooks/DELETE/DeleteJobById.hook';
 
 export default function JobPosting() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  // Debounce logic
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchQuery);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  // Filters for API call
-  const filters: JobFilterType = useMemo(() => ({
-    job_title: debouncedSearch,
-    job_type: '',
-    status: '',
-    shortlisted_count: '',
-    shortlisted_ratio: '',
-    shortlisted_operator: '',
-    page: 1,
-    limit: 10,
-  }), [debouncedSearch]);
-
   const { data: jobdata } = UseDashboardJobCardStats();
   const { data: JobPostedTableData } = UseGetAllJob();
-  const { data: FilteredJobData } = UseGetFilteredJob(filters);
+  const deleteJobMutation = UseDeleteJobByID();
 
-  const isFiltering = debouncedSearch.trim().length > 0;
 
-  const tableItems = isFiltering && FilteredJobData?.items
-    ? FilteredJobData.items
-    : JobPostedTableData?.items;
+  // const { data: FilteredJobData } = UseGetFilteredJob(filters);
 
-  const paginationStart = isFiltering && FilteredJobData?.current_page
-    ? FilteredJobData.current_page
-    : JobPostedTableData?.current_page;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [candidate, setSelectedCandidate] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const paginationEnd = isFiltering && FilteredJobData?.total
-    ? FilteredJobData.total
-    : JobPostedTableData?.total;
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
-  const DATA = (tableItems ?? []).map((item: any) => [
+  const filteredJobs = JobPostedTableData?.items?.filter((item: any) =>
+    item.job_title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const deleteJob =(rowIndex: number)=>{
+    const jobIds = filteredJobs?.map((item: any) => item.id) ?? [];
+    const jobId = jobIds[rowIndex];
+    deleteJobMutation.mutate(jobId);
+  }
+ 
+
+
+  const DATA = (filteredJobs ?? []).map((item: any) => [
     <Eye
       onClick={() => {
         setSelectedCandidate(item);
@@ -67,9 +50,9 @@ export default function JobPosting() {
       className="w-5 h-5 text-gray-600 cursor-pointer"
     />,
     item?.job_title,
-    <Badge key={'status'} className="bg-tess-green/10 text-tess-green">
-      {item?.status}
-    </Badge>,
+    <Badge
+      key={item.id}
+      className="bg-[#34D399]/10 text-[#027A48]">{item?.status}</Badge>,
     item?.shortlisted_stats?.shortlisted,
     item?.shortlisted_stats?.shortlist_ratio,
     item?.job_type,
@@ -79,18 +62,18 @@ export default function JobPosting() {
 
   return (
     <>
-      <Dialog
-       open={isDialogOpen}
-       onOpenChange={setIsDialogOpen}>
+      {/* <Dialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Posted Job Details</DialogTitle>
             <DialogDescription />
           </DialogHeader>
-          <UserProfile data={selectedCandidate} />
+          <UserProfile data={candidate} />
           <DialogClose asChild />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
 
       <div>
         <h1 className="text-2xl font-open-sans font-semibold ml-2 mb-4">Overview</h1>
@@ -120,14 +103,16 @@ export default function JobPosting() {
         <div className="mt-10">
           <h1 className="font-roboto text-2xl font-bold leading-[30px] mb-4">Jobs</h1>
           <Searchbar
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
           <TableComponent
             header={JobPostingTableTitle}
             subheader={DATA}
-            paginationstart={paginationStart}
-            paginationend={paginationEnd}
+            paginationstart={JobPostedTableData?.current_page}
+            paginationend={JobPostedTableData?.total}
+            showTrashIcon
+            onDelete={deleteJob}
           />
         </div>
       </div>

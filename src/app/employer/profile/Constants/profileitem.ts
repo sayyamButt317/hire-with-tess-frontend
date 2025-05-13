@@ -14,14 +14,5 @@ export const sidebarProfileItem = [
     label: 'Subscriptions',
     route: '/employer/profile/subscription',
   },
-  {
-    img: '/images/block.png',
-    label: 'Delete',
-    route: '/employer/profile/delete-account',
-  },
-  {
-    img: '/images/logout.png',
-    label: 'Log Out',
-    route: '/employer/profile/logout',
-  },
+
 ];

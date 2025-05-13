@@ -9,7 +9,7 @@ export default function Finished() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f8fafc] to-[#e2e8f0] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-xl text-center">
         <div className="flex justify-center mb-6">
-          <CheckCircle className="w-16 h-16 text-green-500" />
+          <CheckCircle className="w-16 h-16 text-[#f7941D]" />
         </div>
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Interview Completed</h1>
         <p className="text-gray-600 text-lg mb-6">
@@ -18,11 +18,6 @@ export default function Finished() {
         <p className="text-gray-500 mb-8">
           Our team is reviewing your responses. We’ll get back to you shortly with the next steps.
         </p>
-        {/* <Link href="/dashboard">
-          <Button className="px-6 py-2 rounded-xl text-white bg-[#4f46e5] hover:bg-[#4338ca]">
-            Go to Dashboard
-          </Button>
-        </Link> */}
       </div>
     </div>
   );

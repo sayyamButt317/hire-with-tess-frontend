@@ -27,22 +27,29 @@ const token = localStorage.getItem('accessToken');
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-     clearAuthToken();
-     if (error.response?.status === 403) {
-      toast.error('Unauthorized access');
+    const originalRequest = error.config;
+
+    const isLoginRequest =
+      originalRequest?.url?.includes(EMPLOYERAPI.EMPLOYER_LOGIN) &&
+      originalRequest?.method === 'post';
+
+    if (error.response && error.response.status === 401 && !isLoginRequest) {
+      clearAuthToken();
+
+      if (error.response?.status === 403) {
+        toast.error('Unauthorized access');
+      } else if (error.response?.status === 500) {
+        toast.error('Server error');
+      } else {
+        toast.error('Session expired. Please login again.');
+        window.location.href = '/login';
+      }
     }
-    if (error.response?.status === 500) {
-      toast.error('Server error');
-    }else{
-      toast.error('Session expired. Please login again.');
-      window.location.href='/login';
-    }
-      
+
     return Promise.reject(error);
   }
-}
 );
+
 
 //Get All Jobs
 export const GetAllJob = async () => {
@@ -58,9 +65,11 @@ export const UserJobByID = async (job_id: string) => {
 
 //Delete Job Details BYID
 export const DeleteJobByID = async (job_id: string) => {
-  const response = await api.delete(EMPLOYERAPI.DELETE_JOB_BYID(job_id));
-  return response.data;
+  await api.delete(EMPLOYERAPI.DELETE_JOB_BYID(job_id));
+  return job_id;
 };
+
+
 
 //Update Job Details BYID
 export const UpdateJobByID = async (
@@ -154,10 +163,7 @@ export const UpdateProfile = async (data: ProfileInfoType) => {
 };
 
 //Delete Profile
-export const DeleteProfile = async () => {
-  const response = await api.delete(EMPLOYERAPI.DELETE_PROFILE);
-  return response.data;
-};
+export const DeleteProfile = async () => await api.delete(EMPLOYERAPI.DELETE_PROFILE);
 
 //Admin Notification
 export const AdminNotification = async () => {
@@ -178,6 +184,13 @@ export const UpdateNotificationType = async (notification_type: string) => {
   );
   return response.data;
 };
+
+
+
+export const AnalyzeInterview = async(interview_id:string)=>{
+  const response = await api.post(EMPLOYERAPI.ANALYZE_INTERVIEW(interview_id));
+  return response.data;
+}
 
 //Employer Login
 export const EmployerLogin = async (data: { email: string; password: string }) => {

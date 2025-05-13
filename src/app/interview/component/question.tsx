@@ -18,7 +18,7 @@ interface QuestionProps {
 export default function Question({ questions, showImage = true }: QuestionProps) {
   const { editableQuestionIndex, setEditableQuestionIndex, setIsEditable } =
     useSkillStore();
-  const [edited, setEdited] = useState([...questions]);
+  const [editedQuestion, setEdited] = useState([...questions]);
   const { mutate } = useUpdateJobQuestion();
 
   const startEditing = (index: number) => {
@@ -33,8 +33,8 @@ export default function Question({ questions, showImage = true }: QuestionProps)
   };
 
   const saveChanges = () => {
-    if (JSON.stringify(edited) !== JSON.stringify(questions)) {
-      mutate({ questions: edited });
+    if (JSON.stringify(editedQuestion) !== JSON.stringify(questions)) {
+      mutate({ questions: editedQuestion.map(q => q.text) });
     }
     setEditableQuestionIndex(null);
     setIsEditable(false);
@@ -52,7 +52,7 @@ export default function Question({ questions, showImage = true }: QuestionProps)
     <div className="text-left space-y-2 w-full">
       <h2 className="text-lg font-semibold mt-4 mb-6">AI Powered Questions:</h2>
       <ul className="space-y-4 w-full">
-        {edited.map((question, index) => {
+        {editedQuestion.map((question, index) => {
           const isEditing = editableQuestionIndex === index;
           const hasChanged = question.text !== questions[index].text;
 

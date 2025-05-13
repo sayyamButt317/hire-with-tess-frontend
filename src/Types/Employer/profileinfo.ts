@@ -3,5 +3,4 @@ export interface ProfileInfoType {
     last_name: string; 
     organization_name: string; 
     email: string; 
-    password: string 
 }
