@@ -1,12 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import { Button } from '../ui/button';
 
 export default function EmployerLayout({
   children,
-  hideSignUp = false,
 }: {
   children: React.ReactNode;
-  hideSignUp?: boolean;
 }) {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f7941D] via-[#ffbfbf] to-[#1e4b8e]">
@@ -16,15 +15,16 @@ export default function EmployerLayout({
             <h1 className="text-xl font-semibold text-black">Hirewithtess</h1>
           </Link>
           <nav className="flex gap-4">
-            {/*Route sign up button to /signUp page when sing up page is completed */}
-            {!hideSignUp && (
-              <Link
-                href={'/signup'}
-                className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700"
-              >
+            <Link href={'/signup'}>
+              <Button className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700 cursor-pointer">
+                Login
+              </Button>
+            </Link>
+            <Link href={'/login'}>
+              <Button className="bg-tess-blue text-white px-4 py-2 rounded-md hover:bg-[#1E4B8E]-700 cursor-pointer">
                 Sign up
-              </Link>
-            )}
+              </Button>
+            </Link>
           </nav>
         </div>
       </header>

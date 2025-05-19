@@ -15,7 +15,6 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
 const token = localStorage.getItem('accessToken');
-  // const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } 
@@ -130,7 +129,7 @@ export const DashboardCardStats = async () => {
 export const CandidateCardStats = async () => {
   const response = await api.get(EMPLOYERAPI.CANDIDATE_CARD_STATS);
   return response.data;
-};
+};    
 
 //Job card stats
 export const JobCardStats = async () => {

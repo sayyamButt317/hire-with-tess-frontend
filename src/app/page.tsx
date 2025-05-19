@@ -5,18 +5,21 @@ import useHomeStore from '@/store/Employee/home.store';
 import { useRouter } from 'next/navigation';
 import Placeholder from './interview/component/placeholder';
 import React from 'react';
+import GenerateResponse from '@/hooks/GenerateResponse.hook';
 
 export default function Home() {
   const { jobDescription, setJobDescription } = useHomeStore();
   const router = useRouter();
+  const generateMutation = GenerateResponse();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJobDescription(e.target.value);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = (event:React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     if (!jobDescription.trim()) return;
+    generateMutation.mutate(handleChange)
     router.push('/interview');
   };
 
@@ -35,9 +38,13 @@ export default function Home() {
         </p>
 
         <div className="w-full max-w-2xl mx-auto">
-            <Placeholder onChange={handleChange} onSubmit={onSubmit} />
+            <Placeholder
+             onChange={handleChange}
+              onSubmit={onSubmit} />
           </div>
       </div>
     </EmployerLayout>
   );
 }
+
+

@@ -6,8 +6,8 @@ export default function Placeholder({
   onChange,
   onSubmit,
 }: {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }) {
   return (
     <div className="flex justify-center w-full px-4">
